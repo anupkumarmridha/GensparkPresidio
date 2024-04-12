@@ -1,0 +1,9 @@
+1) Create a Doctor class with details
+Id, Name, Age, Exp, Qualification, Speciality
+ 
+2) Create an array of doctors
+ 
+3) Print the array
+ 
+4) Given a speciality print the doctor details in it
+ 
