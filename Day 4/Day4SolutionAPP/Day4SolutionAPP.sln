@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnderstandingBasics", "UnderstandingBasics\UnderstandingBasics.csproj", "{9B017685-73BE-411D-A67A-0CAC3D78636E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnderstandingBasics", "UnderstandingBasics\UnderstandingBasics.csproj", "{9B017685-73BE-411D-A67A-0CAC3D78636E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorConsoleApp", "DoctorConsoleApp\DoctorConsoleApp.csproj", "{2745676F-C3CF-4301-8C0A-E64814E5489A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9B017685-73BE-411D-A67A-0CAC3D78636E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B017685-73BE-411D-A67A-0CAC3D78636E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B017685-73BE-411D-A67A-0CAC3D78636E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
