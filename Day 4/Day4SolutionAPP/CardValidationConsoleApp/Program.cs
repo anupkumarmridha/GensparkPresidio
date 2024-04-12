@@ -29,7 +29,12 @@
                     Console.WriteLine("Invalid input! Card number cannot be empty or whitespace.");
                     continue;
                 }
-
+                // Check if the input contains any negative digits
+                if (cardNumber.Contains('-'))
+                {
+                    Console.WriteLine("Invalid input! Card number cannot contain negative digits.");
+                    continue;
+                }
                 // Check if the input consists only of numeric characters
                 if (IsNumeric(cardNumber) && Is16Digit(cardNumber))
                 {
