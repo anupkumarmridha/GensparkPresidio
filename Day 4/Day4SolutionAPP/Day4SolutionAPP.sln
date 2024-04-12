@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnderstandingBasics", "Unde
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorConsoleApp", "DoctorConsoleApp\DoctorConsoleApp.csproj", "{2745676F-C3CF-4301-8C0A-E64814E5489A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardValidationConsoleApp", "CardValidationConsoleApp\CardValidationConsoleApp.csproj", "{3A5920A0-E6EB-42C8-BDF2-E8EAB7EA8171}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2745676F-C3CF-4301-8C0A-E64814E5489A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5920A0-E6EB-42C8-BDF2-E8EAB7EA8171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5920A0-E6EB-42C8-BDF2-E8EAB7EA8171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5920A0-E6EB-42C8-BDF2-E8EAB7EA8171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5920A0-E6EB-42C8-BDF2-E8EAB7EA8171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
