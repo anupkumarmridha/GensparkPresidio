@@ -75,6 +75,7 @@ namespace DoctorConsoleApp
             Doctor[] doctors = new Doctor[n];
             for (int i = 0; i < n; i++)
             {
+                Console.WriteLine($"Enter details for Doctor {i+1}");
                 doctors[i]=program.CreateDoctorByTakingDetailsFromConsole(100+i);
             }
 
