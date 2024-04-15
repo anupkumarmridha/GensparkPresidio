@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrackerApp", "Reques
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrackerModelLibery", "RequestTrackerModelLibery\RequestTrackerModelLibery.csproj", "{99BB3F09-CF89-4BD3-9EA5-136E766CC708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CowAndBullGame", "CowAndBullGame\CowAndBullGame.csproj", "{64C98ACA-5B83-4791-AFB0-C80DC52EF6A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{99BB3F09-CF89-4BD3-9EA5-136E766CC708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99BB3F09-CF89-4BD3-9EA5-136E766CC708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99BB3F09-CF89-4BD3-9EA5-136E766CC708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C98ACA-5B83-4791-AFB0-C80DC52EF6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C98ACA-5B83-4791-AFB0-C80DC52EF6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C98ACA-5B83-4791-AFB0-C80DC52EF6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C98ACA-5B83-4791-AFB0-C80DC52EF6A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

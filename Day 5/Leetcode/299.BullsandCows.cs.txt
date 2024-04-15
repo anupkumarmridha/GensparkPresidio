@@ -1,0 +1,30 @@
+public class Solution {
+    public string GetHint(string secret, string guess) {
+        int n = secret.Length;
+        int countB = 0;
+        int countC = 0;
+        string ans = "";
+
+        char[] guessArray = guess.ToCharArray();
+        char[] secretArray = secret.ToCharArray();
+
+        for (int i = 0; i < n; i++) {
+            if (secretArray[i] == guessArray[i]) {
+                countB++;
+                guessArray[i] = '-';
+                secretArray[i] = '-';
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            int index = Array.IndexOf(secretArray, guessArray[i]);
+            if (index != -1 && guessArray[i] != '-') {
+                countC++;
+                secretArray[index] = '-';
+            }
+        }
+
+        ans = countB + "A" + countC + "B";
+        return ans;
+    }
+}
