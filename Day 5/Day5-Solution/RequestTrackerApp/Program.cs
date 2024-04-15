@@ -120,6 +120,7 @@ namespace RequestTrackerApp
         //}
 
         Employee[] employees;
+        int count = 0;
         public Program()
         {
             employees = new Employee[3];
@@ -129,6 +130,8 @@ namespace RequestTrackerApp
             Console.WriteLine("1. Add Employee");
             Console.WriteLine("2. Print Employees");
             Console.WriteLine("3. Search Employee by ID");
+            Console.WriteLine("4. Update Employee by ID");
+            Console.WriteLine("5. Delete Employee by ID");
             Console.WriteLine("0. Exit");
         }
         void EmployeeInteraction()
@@ -152,6 +155,12 @@ namespace RequestTrackerApp
                         break;
                     case 3:
                         SearchAndPrintEmployee();
+                        break;
+                    case 4:
+                        UpdateEmployee();
+                        break;
+                    case 5:
+                        DeleteEmployee();
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Try again");
@@ -177,9 +186,9 @@ namespace RequestTrackerApp
         }
         void PrintAllEmployees()
         {
-            if (employees[0] == null)
+            if (count==0)
             {
-                Console.WriteLine("No Employees available");
+                Console.WriteLine("no employees available");
                 return;
             }
             for (int i = 0; i < employees.Length; i++)
@@ -193,6 +202,7 @@ namespace RequestTrackerApp
             Employee employee = new Employee();
             employee.Id = 101 + id;
             employee.BuildEmployeeFromConsole();
+            count++;
             return employee;
         }
 
@@ -238,6 +248,88 @@ namespace RequestTrackerApp
             }
             return employee;
         }
+
+        void UpdateName(Employee employee)
+        {
+            Console.WriteLine("Enter new Name:");
+            employee.Name = Console.ReadLine();
+        }
+        void UpdateDOB(Employee employee)
+        {
+            Console.WriteLine("Enter new Date of Birth:");
+            employee.DateOfBirth = Convert.ToDateTime(Console.ReadLine());
+        }
+        void UpdateSalary(Employee employee)
+        {
+            Console.WriteLine("Enter new Salary:");
+            employee.Salary = Convert.ToDouble(Console.ReadLine());
+        }
+
+        void UpdateEmployee()
+        {
+            Console.WriteLine("Update Employee");
+            int id= GetIdFromConsole();
+            Employee employee = SearchEmployeeById(id);
+            if (employee == null)
+            {
+                Console.WriteLine("No such employee present");
+                return;
+            }
+            Console.WriteLine("Current Employee Details:");
+            PrintEmployee(employee);
+
+            Console.WriteLine("Select what you want to update:");
+            Console.WriteLine("1. Name");
+            Console.WriteLine("2. Date of Birth");
+            Console.WriteLine("3. Salary");
+            Console.WriteLine("0. Exit");
+
+            int choice;
+            while(!int.TryParse(Console.ReadLine(), out choice) || choice<0 || choice > 3)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+
+            switch (choice)
+            {
+                case 0: 
+                    Console.WriteLine("Bye");
+                    break;
+                case 1: 
+                    Console.WriteLine("Update Name only");
+                    UpdateName(employee);
+                    break;
+                case 2: 
+                    Console.WriteLine("Update Date of Birth only");
+                    UpdateDOB(employee);
+                    break;
+                case 3: 
+                    UpdateSalary(employee);
+                    Console.WriteLine("Update Salary only");
+                    break;
+               
+
+            }
+        }
+
+        void DeleteEmployee()
+        {
+            Console.WriteLine("Delete Employee");
+            int id=GetIdFromConsole();
+            for(int i=0; i < employees.Length;i++)
+            {
+                if (employees[i] != null && employees[i].Id == id)
+                {
+                    employees[i] = null;
+                    count--;
+                    Console.WriteLine("Employee deleted successfully.");
+                    break;
+                }
+            }
+            PrintAllEmployees();
+        }
+
 
         static void Main(string[] args)
         {

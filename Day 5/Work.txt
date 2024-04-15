@@ -1,0 +1,47 @@
+[14:18] Gayathri Mahadevan
+Create the model
+
+Create methdos for CRUD
+
+---MEthods to build employee
+
+---Method to add all emploeyes(dependednt on Build employee)
+
+---Method to print EMployee
+
+---Method to iterate through all employee and print(Dependt on print employee)
+
+--Method to Get employee ID
+
+---MEthdo to search EMployee
+
+---Methdos to take id and search EMployee and printd(dependent on GetEmployeeID,SearchEmployee and PrintEmployee)
+
+---Method to Update Name(Dependent on GetEmnployeeId, SearchEmployee,PrintEmployee)
+
+---Methdo to delete employee(Note - Make the array reff as null)(Dependent on GetEmnployeeId, SearchEmployee,PrintEmployee)
+
+
+
+Create an application that will allow the user to play cow an bull(only for 4 char word)
+Same char same position - cow
+Same char diff position - bull
+Example - If the word is - golf
+Start the guess
+heap
+cows - 0, bulls - 0
+kite
+cows - 0, bulls -0
+girl
+cows - 1, bulls -1
+like
+cows -0, bulls 1
+milk
+cows -1, bull -0
+goat
+cows -2, bulls - 0
+gold
+cows -3, bulls-0
+golf
+cows -4, bulls -0
+Congrats!!! you won!!!!!
