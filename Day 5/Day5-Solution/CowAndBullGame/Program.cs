@@ -33,16 +33,16 @@
             DetermineWinner(totalCows, totalBulls);
         }
 
-        static string GenerateRandomWord()
+        static string GetInputFromUser()
         {
-            Random random = new Random();
-            const string chars = "abcdefghijklmnopqrstuvwxyz";
-            char[] word = new char[4];
-            for (int i = 0; i < 4; i++)
+            string secret;
+            do
             {
-                word[i] = chars[random.Next(chars.Length)];
-            }
-            return new string(word);
+                Console.WriteLine("Enter your secrect (exactly 4 characters):");
+                secret = Console.ReadLine().Trim().ToLower();
+            } while (secret.Length != 4);
+
+            return secret;
         }
 
         static string GetGuessFromUser()
@@ -95,7 +95,7 @@
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Cow and Bull game!");
-            string wordToGuess = GenerateRandomWord();
+            string wordToGuess = GetInputFromUser();
             Console.WriteLine($"Word to guess: {wordToGuess}");
 
             PlayGame(wordToGuess);
