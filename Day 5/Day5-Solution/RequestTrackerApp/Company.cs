@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RequestTrackerModelLibery;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace RequestTrackerApp
     {
         public void EmployeeClientVisit(IClientInteraction clientInteraction)
         {
-
+            clientInteraction.GetPayment();
         }
     }
 }

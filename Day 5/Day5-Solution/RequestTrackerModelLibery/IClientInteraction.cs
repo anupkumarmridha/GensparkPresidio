@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RequestTrackerModelLibery
 {
-    internal interface IClientInteraction
+   public interface IClientInteraction
     {
         void GetOrder();
         void GetPayment();

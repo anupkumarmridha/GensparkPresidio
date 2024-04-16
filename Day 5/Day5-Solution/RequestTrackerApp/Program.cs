@@ -197,7 +197,12 @@ namespace RequestTrackerApp
             for (int i = 0; i < employees.Length; i++)
             {
                 if (employees[i] != null)
+                {
+                    Company company = new Company();
+                    company.EmployeeClientVisit(employees[i]);
                     PrintEmployee(employees[i]);
+
+                }
             }
         }
         Employee CreateEmployee(int id)
