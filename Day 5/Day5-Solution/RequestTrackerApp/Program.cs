@@ -123,7 +123,10 @@ namespace RequestTrackerApp
         int count = 0;
         public Program()
         {
-            employees = new Employee[3];
+            int n;
+            Console.WriteLine("Enter Total no of Employee at max: ");
+            n = Convert.ToInt32(Console.ReadLine());
+            employees = new Employee[n];
         }
         void PrintMenu()
         {
@@ -200,6 +203,12 @@ namespace RequestTrackerApp
         Employee CreateEmployee(int id)
         {
             Employee employee = new Employee();
+            Console.WriteLine("Please enter the type of employee");
+            string type = Console.ReadLine();
+            if (type == "Permanent")
+                employee = new PermanentEmployee();
+            else if (type == "Contract")
+                employee = new ContractEmployee();
             employee.Id = 101 + id;
             employee.BuildEmployeeFromConsole();
             count++;
@@ -209,7 +218,8 @@ namespace RequestTrackerApp
         void PrintEmployee(Employee employee)
         {
             Console.WriteLine("---------------------------");
-            employee.PrintEmployeeDetails();
+            //employee.PrintEmployeeDetails();
+            Console.WriteLine(employee);
             Console.WriteLine("---------------------------");
         }
         int GetIdFromConsole()
@@ -335,6 +345,10 @@ namespace RequestTrackerApp
         {
             Program program = new Program();
             program.EmployeeInteraction();
+            //ContractEmployee employee = new ContractEmployee();
+            //employee.BuildEmployeeFromConsole();
+            //employee.PrintEmployeeDetails();
         }
+
     }
-}
+ }
