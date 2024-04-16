@@ -109,7 +109,8 @@ namespace HRManagementSystem
         {
             Console.WriteLine("---------------------------");
             employee.PrintEmployeeDetails();
-            //Console.WriteLine(employee);
+            EmployeeBenifits employeeBenifits = new EmployeeBenifits();
+            employeeBenifits.ShowEmployeeBenifits(employee, employee.BasicSalary, employee.ServiceCompleted);
             Console.WriteLine("---------------------------");
         }
         int GetIdFromConsole()

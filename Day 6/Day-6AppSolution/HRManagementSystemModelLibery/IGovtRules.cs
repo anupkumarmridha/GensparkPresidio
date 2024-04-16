@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HRManagementSystemModelLibery
 {
-    internal interface IGovtRules
+    public interface IGovtRules
     {
         double EmployeePF(double basicSalary);
         void LeaveDetails();

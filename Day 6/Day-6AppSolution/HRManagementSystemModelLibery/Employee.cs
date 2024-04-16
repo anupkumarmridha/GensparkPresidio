@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HRManagementSystemModelLibery
 {
-    public class Employee
+    public class Employee:IGovtRules
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -70,6 +70,24 @@ namespace HRManagementSystemModelLibery
             Console.WriteLine("Date of Designation : " + Designation);
             Console.WriteLine("Employee Basic Salary : " + BasicSalary);
             Console.WriteLine("Employee Total Service Completed : " + ServiceCompleted);
+        }
+
+        public double EmployeePF(double basicSalary)
+        {
+            Console.WriteLine("Under Employee class PF");
+            throw new NotImplementedException();
+        }
+
+        public void LeaveDetails()
+        {
+            Console.WriteLine("Under Employee class Leave Details");
+            throw new NotImplementedException();
+        }
+
+        public double GratuityAmount(float serviceCompleted, double basicSalary)
+        {
+            Console.WriteLine("Under Employee class GratuityAmount");
+            throw new NotImplementedException();
         }
     }
 }
