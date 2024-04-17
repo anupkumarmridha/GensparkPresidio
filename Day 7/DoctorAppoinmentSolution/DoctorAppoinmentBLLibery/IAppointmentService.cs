@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DoctorAppoinmentBLLibery
 {
-    public interface IAppointment
+    public interface IAppointmentService
     {
         int ScheduleAppointment(Appointment appointment);
         Appointment GetAppointmentById(int id);
