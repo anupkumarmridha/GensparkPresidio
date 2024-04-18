@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day 8 OOPS", "Day 8 OOPS\Day 8 OOPS.csproj", "{5B9086B8-F1D4-4853-8DC2-D9A95E998AAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B9086B8-F1D4-4853-8DC2-D9A95E998AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B9086B8-F1D4-4853-8DC2-D9A95E998AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B9086B8-F1D4-4853-8DC2-D9A95E998AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B9086B8-F1D4-4853-8DC2-D9A95E998AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A8AC20E-73CF-464C-82DC-4146A797F040}
+	EndGlobalSection
+EndGlobal
