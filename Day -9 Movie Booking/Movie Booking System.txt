@@ -1,0 +1,44 @@
+Movie Booking System
+
+Objective:
+Develop a console-based movie booking system to enable customers to book movie tickets for screenings at a cinema.
+
+Functional Requirements:
+
+1. **Movie Listing:**
+   - Maintain a list of available movies, including details such as title, genre, duration, and screening times.
+   - Display the list of available movies along with their details to customers.
+
+2. **Booking Process:**
+   - Allow customers to select a movie and book tickets for specific screening times.
+   - Each booking should include details such as the customer's name, contact information, selected movie, screening time, and number of tickets.
+
+3. **Payment Handling:**
+   - Calculate the total cost of each booking based on the selected movie, number of tickets, and any applicable discounts or surcharges.
+
+4. **Booking Confirmation:**
+   - Provide customers with a booking confirmation including details such as the booking reference, movie title, screening time and total cost.
+
+
+#### Non-Functional Requirements:
+
+1. **User Interface:**
+   - Design an intuitive console interface with clear menus and prompts for easy movie selection, seat reservation, and payment.
+
+2. **Efficiency:**
+   - The system should handle booking transactions and seat updates efficiently, even during peak hours of operation.
+
+3. **Security:**
+   - Implement access controls to restrict access to sensitive functionalities such as booking cancellation and financial transactions.
+
+4. **Scalability:**
+   - Design the system to handle a growing number of bookings and movie screenings without performance degradation.
+
+#### Optional Enhancements (Not required but could be added for further functionality):
+
+
+1. **Membership Program:**
+   - Implement a membership program offering benefits such as priority booking, discounts, or loyalty points.
+
+2. **Feedback Collection:**
+   - Collect feedback from customers about their movie-going experience to improve service quality.
