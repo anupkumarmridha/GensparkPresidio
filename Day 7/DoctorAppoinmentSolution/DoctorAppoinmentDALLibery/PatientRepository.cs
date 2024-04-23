@@ -7,38 +7,27 @@ using System.Threading.Tasks;
 
 namespace DoctorAppoinmentDALLibery
 {
-    internal class PatientRepository 
+    public class PatientRepository : BaseRepository<int, Patient>, IPatientRepository
     {
-        private readonly Repository<int, Patient> _repository;
-
-        public PatientRepository()
+        public override int GenerateId()
         {
-            _repository = new Repository<int, Patient>();
+            if (_data.Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return _data.Keys.Max() + 1;
+            }
         }
-
-        public Patient AddPatient(Patient patient)
+        public override Patient Add(Patient item)
         {
-            return _repository.Add(patient);
+            item.Id = GenerateId(); // Set the Id before adding
+            return base.Add(item);
         }
-
-        public Patient DeletePatient(int id)
+        protected override int GetKey(Patient item)
         {
-            return _repository.Delete(id);
-        }
-
-        public Patient GetPatient(int id)
-        {
-            return _repository.Get(id);
-        }
-
-        public List<Patient> GetAllPatients()
-        {
-            return _repository.GetAll();
-        }
-
-        public Patient UpdatePatient(Patient patient)
-        {
-            return _repository.Update(patient);
+            return item.Id;
         }
     }
 }

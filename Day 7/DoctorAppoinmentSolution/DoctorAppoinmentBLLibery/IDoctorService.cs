@@ -9,10 +9,11 @@ namespace DoctorAppoinmentBLLibery
 {
     public interface IDoctorService
     {
-        int AddDoctor(Doctor doctor);
+        Doctor AddDoctor(Doctor doctor);
         Doctor GetDoctorById(int id);
         Doctor UpdateDoctor(Doctor doctor);
         bool DeleteDoctor(int id);
+        List<Doctor> GetAllDoctors();
         List<Doctor> SearchDoctors(string keyword);
     }
 }

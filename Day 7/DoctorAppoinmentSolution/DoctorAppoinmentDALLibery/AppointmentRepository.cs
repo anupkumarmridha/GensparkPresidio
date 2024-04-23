@@ -7,38 +7,69 @@ using System.Threading.Tasks;
 
 namespace DoctorAppoinmentDALLibery
 {
-    internal class AppointmentRepository
+    public class AppointmentRepository:BaseRepository<int, Appointment>, IAppoinmentRepository
     {
-        private readonly Repository<int, Appointment> _repository;
-
-        public AppointmentRepository()
+        public override int GenerateId()
         {
-            _repository = new Repository<int, Appointment>();
+            if (_data.Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return _data.Keys.Max() + 1;
+            }
+        }
+        public override Appointment Add(Appointment item)
+        {
+            item.Id = GenerateId(); // Set the Id before adding
+            return base.Add(item);
+        }
+        public List<Appointment> GetAppointmentsByDate(DateTime date)
+        {
+            return _data.Values.Where(appointment => appointment.AppointmentDateTime.Date == date.Date).ToList();
         }
 
-        public Appointment AddAppointment(Appointment appointment)
+        public List<Appointment> GetAppointmentsByStatus(string status)
         {
-            return _repository.Add(appointment);
+            return _data.Values.Where(appointment => appointment.Status == status).ToList();
         }
 
-        public Appointment DeleteAppointment(int id)
+        public List<Appointment> GetAppointmentsForDoctor(int doctorId)
         {
-            return _repository.Delete(id);
+            return _data.Values.Where(appointment => appointment.Doctor.Id == doctorId).ToList();
         }
 
-        public Appointment GetAppointment(int id)
+        public List<Appointment> GetAppointmentsForPatient(int patientId)
         {
-            return _repository.Get(id);
+            return _data.Values.Where(appointment => appointment.Patient.Id == patientId).ToList();
         }
 
-        public List<Appointment> GetAllAppointments()
+        public List<Appointment> GetUpcomingAppointmentsForDoctor(int doctorId, int daysAhead)
         {
-            return _repository.GetAll();
+            var currentDate = DateTime.Now.Date;
+            var targetDate = currentDate.AddDays(daysAhead);
+            return _data.Values
+                .Where(appointment => appointment.Doctor.Id == doctorId &&
+                    appointment.AppointmentDateTime.Date >= currentDate &&
+                    appointment.AppointmentDateTime.Date <= targetDate)
+                .ToList();
         }
 
-        public Appointment UpdateAppointment(Appointment appointment)
+        public List<Appointment> GetUpcomingAppointmentsForPatient(int patientId, int daysAhead)
         {
-            return _repository.Update(appointment);
+            var currentDate = DateTime.Now.Date;
+            var targetDate = currentDate.AddDays(daysAhead);
+            return _data.Values
+                .Where(appointment => appointment.Patient.Id == patientId &&
+                    appointment.AppointmentDateTime.Date >= currentDate &&
+                    appointment.AppointmentDateTime.Date <= targetDate)
+                .ToList();
+        }
+
+        protected override int GetKey(Appointment item)
+        {
+            return item.Id;
         }
     }
 }

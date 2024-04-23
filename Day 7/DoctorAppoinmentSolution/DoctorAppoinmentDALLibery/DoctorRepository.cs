@@ -3,38 +3,28 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace DoctorAppoinmentDALLibery
 {
-    public class DoctorRepository
+    public class DoctorRepository:BaseRepository<int, Doctor>, IDoctorRepository
     {
-        private readonly Repository<int, Doctor> _repository;
 
-        public DoctorRepository()
+        public override int GenerateId()
         {
-            _repository = new Repository<int, Doctor>();
+            if (_data.Count == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return _data.Keys.Max() + 1;
+            }
         }
-
-        public Doctor AddDoctor(Doctor doctor)
+        public override Doctor Add(Doctor item)
         {
-            return _repository.Add(doctor);
+            item.Id = GenerateId(); // Set the Id before adding
+            return base.Add(item);
         }
-
-        public Doctor DeleteDoctor(int id)
+        protected override int GetKey(Doctor item)
         {
-            return _repository.Delete(id);
-        }
-
-        public Doctor GetDoctor(int id)
-        {
-            return _repository.Get(id);
-        }
-
-        public List<Doctor> GetAllDoctors()
-        {
-            return _repository.GetAll();
-        }
-
-        public Doctor UpdateDoctor(Doctor doctor)
-        {
-            return _repository.Update(doctor);
+            return item.Id;
         }
     }
 }

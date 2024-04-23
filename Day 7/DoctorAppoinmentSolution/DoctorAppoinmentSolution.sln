@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppoinment", "DoctorAppoinment\DoctorAppoinment.csproj", "{8E78C11A-1F0A-4CF0-BA1F-775B2AB254F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppoinment", "DoctorAppoinment\DoctorAppoinment.csproj", "{8E78C11A-1F0A-4CF0-BA1F-775B2AB254F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppoinmentModelLibery", "DoctorAppoinmentModelLibery\DoctorAppoinmentModelLibery.csproj", "{931450CC-D5E3-410D-A36D-819FAD6ED50D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppoinmentModelLibery", "DoctorAppoinmentModelLibery\DoctorAppoinmentModelLibery.csproj", "{931450CC-D5E3-410D-A36D-819FAD6ED50D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppoinmentDALLibery", "DoctorAppoinmentDALLibery\DoctorAppoinmentDALLibery.csproj", "{3EECB2FD-E6DB-4F26-8537-F795B901DA6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppoinmentDALLibery", "DoctorAppoinmentDALLibery\DoctorAppoinmentDALLibery.csproj", "{3EECB2FD-E6DB-4F26-8537-F795B901DA6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppoinmentBLLibery", "DoctorAppoinmentBLLibery\DoctorAppoinmentBLLibery.csproj", "{8ACC944A-2B25-480F-8EE6-27B992B67B91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppoinmentBLLibery", "DoctorAppoinmentBLLibery\DoctorAppoinmentBLLibery.csproj", "{8ACC944A-2B25-480F-8EE6-27B992B67B91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppoinmentBLTest", "DoctorAppoinmentBLTest\DoctorAppoinmentBLTest.csproj", "{77B4AD7D-3FBA-4081-84A1-2774E2ED9BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8ACC944A-2B25-480F-8EE6-27B992B67B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACC944A-2B25-480F-8EE6-27B992B67B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ACC944A-2B25-480F-8EE6-27B992B67B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B4AD7D-3FBA-4081-84A1-2774E2ED9BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B4AD7D-3FBA-4081-84A1-2774E2ED9BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B4AD7D-3FBA-4081-84A1-2774E2ED9BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B4AD7D-3FBA-4081-84A1-2774E2ED9BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
