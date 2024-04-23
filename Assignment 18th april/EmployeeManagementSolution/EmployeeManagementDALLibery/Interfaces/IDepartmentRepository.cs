@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementDALLibery.Interfaces
 {
-    public interface IDepartmentRepository : IRepository<DepartmentModel>
+    public interface IDepartmentRepository : IDepartmentRepository<DepartmentModel>
     {
         DepartmentModel GetDepartmentByName(string departmentName);
 

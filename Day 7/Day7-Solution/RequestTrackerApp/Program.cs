@@ -1,4 +1,5 @@
 ﻿using RequestTrackerBLLibery;
+using RequestTrackerDALLibery;
 using RequestTrackerModelLibery;
 using System.Collections;
 namespace RequestTrackerApp
@@ -28,11 +29,11 @@ namespace RequestTrackerApp
         void AddDepartment()
         {
 
-            DepartmentBL departmentBL = new DepartmentBL();
+            DepartmentBL departmentBL = new DepartmentBL(new DepartmentRepository());
             try
             {
                 Console.WriteLine("Please enter the number of Department you wanted to add: ");
-                int n=int.Parse(Console.ReadLine());
+                int n = int.Parse(Console.ReadLine());
 
                 Console.WriteLine("Pleae enter the department name");
                 string name = Console.ReadLine();
@@ -73,7 +74,7 @@ namespace RequestTrackerApp
             //    Console.WriteLine("You are trying to divide by zero. Its not worth");
             //}
             //Console.WriteLine("Bye bye");
-    }
+        }
 
     }
  }

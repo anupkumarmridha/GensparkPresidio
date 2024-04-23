@@ -9,7 +9,7 @@ namespace MovieBookingSystem
 {
     internal class Program
     {
-        static void HandleBookTickets(ConsoleOperations consoleOperations,BookingService bookingService, UserService userService,MovieService movieService,ScreeningService screeningService)
+        static void HandleBookTickets(ConsoleOperations consoleOperations,BookingService bookingService, UserService userService,MovieService movieService,ScreeningService screeningService, PaymentService paymentService)
         {
             bool exit = false;
             while (!exit)
@@ -22,11 +22,10 @@ namespace MovieBookingSystem
                         consoleOperations.GetALLScreening(screeningService);
                         break;
                     case 2:
-                        consoleOperations.AddBooking(bookingService, userService, movieService, screeningService);
+                        consoleOperations.AddBooking(bookingService, userService, movieService, screeningService, paymentService);
                         break;
                     case 3:
-                        // Update Booking
-                        // Implement logic to update an existing booking
+                        Console.WriteLine("Not implemented yet");
                         break;
                     case 4:
                         consoleOperations.DeleteBooking(bookingService);
@@ -151,10 +150,12 @@ namespace MovieBookingSystem
             UserRepository userRepository = new UserRepository();
             ScreeningRepository screeningRepository = new ScreeningRepository();
             BookingRepository bookingRepository = new BookingRepository();
+            PaymentRepository paymentRepository = new PaymentRepository();
             MovieService movieService = new MovieService(movieRepository);
             UserService userService = new UserService(userRepository);
             ScreeningService screeningService = new ScreeningService(screeningRepository);
             BookingService bookingService = new BookingService(bookingRepository);
+            PaymentService paymentService = new PaymentService(paymentRepository);
 
             ConsoleOperations consoleOperations = new ConsoleOperations();
 
@@ -167,7 +168,7 @@ namespace MovieBookingSystem
                 switch (mainMenuChoice)
                 {
                     case 1:
-                        HandleBookTickets(consoleOperations, bookingService,userService, movieService, screeningService);
+                        HandleBookTickets(consoleOperations, bookingService,userService, movieService, screeningService, paymentService);
                         break;
                     case 2:
                         HandleManageUser(consoleOperations, userService);

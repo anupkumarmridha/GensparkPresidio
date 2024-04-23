@@ -52,7 +52,7 @@ namespace MovieBookingPLLibery.Interfaces
         /// For Booking Operations
         /// </summary>
         /// <param name="movieService"></param>
-        void AddBooking(IBookingService BookingServic, IUserService userService, IMovieService movieService, IScreeningService screeningService);
+        void AddBooking(IBookingService BookingServic, IUserService userService, IMovieService movieService, IScreeningService screeningService, IPaymentService paymentService);
         void UpdateBooking(IBookingService BookingService);
         void DeleteBooking(IBookingService mBookingervice);
         void GetALLBooking(IBookingService BookingService);

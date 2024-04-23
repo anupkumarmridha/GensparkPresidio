@@ -40,7 +40,8 @@ namespace MovieBookingPLLibery.ConsoleServices
             Console.WriteLine("1. Add Movie");
             Console.WriteLine("2. Get movie by Id");
             Console.WriteLine("3. Get All Movie");
-            Console.WriteLine("4. Back to Main Menu");
+            Console.WriteLine("4. Delete Movie");
+            Console.WriteLine("5. Back to Main Menu");
         }
 
         public void DisplayMovieSearchMenu()
@@ -668,53 +669,94 @@ namespace MovieBookingPLLibery.ConsoleServices
             }
         }
 
-        private Booking BuildBookingFromConsole(IUserService userService, IMovieService movieService, IScreeningService screeningService)
+        private Booking BuildBookingFromConsole(IUserService userService, IMovieService movieService, IScreeningService screeningService, IPaymentService paymentService)
         {
             Console.WriteLine("Enter Booking Details:");
-            string username = GetValidStringInput("Enter customer username: ");
-            User user = userService.GetUserByUsername(username);
-            if (user == null)
+
+            User user = null;
+            while (user == null)
             {
-                Console.WriteLine("User not found.");
-                return null;
+                string username = GetValidStringInput("Enter customer username: ");
+                try
+                {
+                    user = userService.GetUserByUsername(username);
+                    if (user == null)
+                    {
+                        Console.WriteLine("User not found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving user: {ex.Message}");
+                }
             }
 
-            string movieTitle = GetValidStringInput("Enter movie title: ");
-            Movie movie = movieService.GetMovieByTitle(movieTitle);
-            if (movie == null)
+            Movie movie = null;
+            while (movie == null)
             {
-                Console.WriteLine("Movie not found.");
-                return null;
+                string movieTitle = GetValidStringInput("Enter movie title: ");
+                try
+                {
+                    movie = movieService.GetMovieByTitle(movieTitle);
+                    if (movie == null)
+                    {
+                        Console.WriteLine("Movie not found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving movie: {ex.Message}");
+                }
             }
 
             // Get screening by movie and time
-            DateTime startTime = GetValidDateTimeInput("Enter screening start time (YYYY-MM-DD HH:MM): ");
-            List<Screening> screenings = screeningService.GetScreeningsByMovieAndTime(movie.Id, startTime);
-            if (screenings == null || screenings.Count == 0)
+            Screening screening = null;
+            while (screening == null)
             {
-                Console.WriteLine("No screening found for the specified movie and time.");
-                return null;
+                DateTime startTime = GetValidDateTimeInput("Enter screening start time (YYYY-MM-DD HH:MM): ");
+                try
+                {
+                    List<Screening> screenings = screeningService.GetScreeningsByMovieAndTime(movie.Id, startTime);
+                    if (screenings == null || screenings.Count == 0)
+                    {
+                        Console.WriteLine("No screening found for the specified movie and time.");
+                        continue;
+                    }
+                    screening = screenings[0];
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving screening: {ex.Message}");
+                }
             }
-            Screening screening = screenings[0];
 
-            int numberOfTickets = GetValidIntegerInput("Enter number of tickets: ");
-            if (numberOfTickets <= 0)
+            int numberOfTickets = 0;
+            while (numberOfTickets <= 0)
             {
-                Console.WriteLine("Number of tickets must be greater than zero.");
-                return null;
+                numberOfTickets = GetValidIntegerInput("Enter number of tickets: ");
+                if (numberOfTickets <= 0)
+                {
+                    Console.WriteLine("Number of tickets must be greater than zero.");
+                }
             }
 
             decimal totalCost = screening.TicketPrice * numberOfTickets;
 
-            Booking newBooking = new Booking(0, user, movie, screening, numberOfTickets, totalCost, DateTime.Now, null);
+            // Prompt for payment details
+            Console.WriteLine("Enter Payment Details:");
+            decimal paymentAmount = totalCost; 
+            PaymentStatus paymentStatus = PaymentStatus.Pending;
+            DateTime paymentTime = DateTime.Now;
+
+            
+            Payment newPayment = new Payment(0, paymentAmount, paymentStatus, paymentTime, null, user);
+            Booking newBooking = new Booking(0, user, movie, screening, numberOfTickets, totalCost, DateTime.Now, newPayment);
 
             return newBooking;
-
-
         }
-        public void AddBooking(IBookingService bookingService, IUserService userService, IMovieService movieService,IScreeningService screeningService)
+        public void AddBooking(IBookingService bookingService, IUserService userService, IMovieService movieService,IScreeningService screeningService, IPaymentService paymentService)
         {
-            Booking newBooking = BuildBookingFromConsole(userService, movieService, screeningService);
+            Booking newBooking = BuildBookingFromConsole(userService, movieService, screeningService, paymentService);
             if (newBooking != null)
             {
                 bookingService.Add(newBooking);

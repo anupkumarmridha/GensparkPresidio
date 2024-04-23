@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementDALLibery.Interfaces
 {
-    public interface IRepository<T>
+    public interface IDepartmentRepository<T>
     {
         T GetById(int id);
         List<T> GetAll();
