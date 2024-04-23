@@ -2,7 +2,7 @@
 
 namespace EmployeeManagementDALLibery.Repositories
 {
-    public abstract class BaseRepository<T> : IRepository<T>
+    public abstract class BaseRepository<T> : IDepartmentRepository<T>
     {
         protected Dictionary<int, T> _data;
         public BaseRepository()

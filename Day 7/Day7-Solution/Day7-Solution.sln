@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTrackerApp", "Reques
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTrackerModelLibery", "RequestTrackerModelLibery\RequestTrackerModelLibery.csproj", "{99BB3F09-CF89-4BD3-9EA5-136E766CC708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrackerDALLibery", "RequestTrackerDALLibery\RequestTrackerDALLibery.csproj", "{F8DBE13E-3BEC-475E-AE84-8069EE842EE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTrackerDALLibery", "RequestTrackerDALLibery\RequestTrackerDALLibery.csproj", "{F8DBE13E-3BEC-475E-AE84-8069EE842EE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrackerBLLibery", "RequestTrackerBLLibery\RequestTrackerBLLibery.csproj", "{72492AAB-3F89-408A-AA4E-B7CCF320DCBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTrackerBLLibery", "RequestTrackerBLLibery\RequestTrackerBLLibery.csproj", "{72492AAB-3F89-408A-AA4E-B7CCF320DCBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrackerTest", "RequestTrackerTest\RequestTrackerTest.csproj", "{B1907E6C-7052-4B31-AE61-E1C0FF9F46D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrackerBLTest", "RequestTrackerBLTest\RequestTrackerBLTest.csproj", "{BBB4F571-C12B-4073-826E-4BA6F1C2092F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{72492AAB-3F89-408A-AA4E-B7CCF320DCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72492AAB-3F89-408A-AA4E-B7CCF320DCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72492AAB-3F89-408A-AA4E-B7CCF320DCBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1907E6C-7052-4B31-AE61-E1C0FF9F46D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1907E6C-7052-4B31-AE61-E1C0FF9F46D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1907E6C-7052-4B31-AE61-E1C0FF9F46D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1907E6C-7052-4B31-AE61-E1C0FF9F46D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB4F571-C12B-4073-826E-4BA6F1C2092F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB4F571-C12B-4073-826E-4BA6F1C2092F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB4F571-C12B-4073-826E-4BA6F1C2092F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB4F571-C12B-4073-826E-4BA6F1C2092F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

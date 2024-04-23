@@ -13,6 +13,7 @@ namespace RequestTrackerDALLibery
         {
             if(_departments.Count == 0) return 1;
             int id = _departments.Keys.Max();
+            Console.WriteLine(id);
             return ++id;
         }
         public Department Add(Department item)
@@ -26,7 +27,8 @@ namespace RequestTrackerDALLibery
                 return null;
             }
             //_departments[item.Id] = item;
-            _departments.Add(GenerateId(), item);
+            item.Id = GenerateId();
+            _departments.Add(item.Id, item);
             return item;
         }
 
