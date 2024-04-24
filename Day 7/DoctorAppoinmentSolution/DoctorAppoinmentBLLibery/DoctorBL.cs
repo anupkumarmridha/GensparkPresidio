@@ -103,7 +103,12 @@ namespace DoctorAppoinmentBLLibery
 
         public List<Doctor> GetAllDoctors()
         {
-            return _doctorRepository.GetAll();
+            List<Doctor> doctors = _doctorRepository.GetAll();
+            if (doctors == null || doctors.Count == 0)
+            {
+                throw new Exception("No doctors available.");
+            }
+            return doctors;
         }
     }
 }
