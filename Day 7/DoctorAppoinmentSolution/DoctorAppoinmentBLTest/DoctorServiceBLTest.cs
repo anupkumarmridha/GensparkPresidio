@@ -16,7 +16,7 @@ namespace DoctorAppoinmentBLTest
         }
 
         [Test]
-        public void AddDoctor_ValidDoctor_ReturnsDoctorId()
+        public void AddDoctor_ValidDoctor_ReturnsDoctor()
         {
             // Arrange
             var doctor = new Doctor
@@ -187,5 +187,44 @@ namespace DoctorAppoinmentBLTest
             // Arrange, Act & Assert
             Assert.Throws<ArgumentNullException>(() => _doctorService.UpdateDoctor(null));
         }
+
+        [Test]
+        public void GetAllDoctors_ReturnsNonEmptyList()
+        {
+            // Arrange
+            var doctor1 = new Doctor
+            {
+                Name = "John Doe",
+                Email = "john@gmail.com",
+                Specialization = "Cardiology",
+                Gender = "Male",
+                DateOfBirth = new DateTime(1985, 5, 15)
+            };
+            var doctor2 = new Doctor
+            {
+                Name = "Emily Parker",
+                Email = "emily@gmail.com",
+                Specialization = "Pediatrics",
+                Gender = "Female",
+                DateOfBirth = new DateTime(1978, 10, 25)
+            };
+            _doctorService.AddDoctor(doctor1);
+            _doctorService.AddDoctor(doctor2);
+
+            // Act
+            List<Doctor> doctors = _doctorService.GetAllDoctors();
+
+            // Assert
+            Assert.IsNotNull(doctors);
+            Assert.IsNotEmpty(doctors);
+        }
+
+        [Test]
+        public void GetAllDoctors_ThrowsException()
+        {
+            var exception = Assert.Throws<Exception>(() => _doctorService.GetAllDoctors());
+            Assert.AreEqual("No doctors available.", exception.Message);
+        }
     }
+
 }
