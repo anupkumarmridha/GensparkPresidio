@@ -10,6 +10,16 @@ namespace ShoppingDALLibrary
 {
     public class ProductRepository : AbstractRepository<int, Product>
     {
+        public override Product Add(Product item)
+        {
+            if (item == null) throw new ArgumentNullException("item");
+            if (items.Any(p => p.Id == item.Id))
+            {
+                throw new ArgumentException("A product with the same ID already exists.");
+            }
+            items.Add(item);
+            return item;
+        }
         public override Product Delete(int key)
         {
             Product product = GetByKey(key);
@@ -22,23 +32,18 @@ namespace ShoppingDALLibrary
 
         public override Product GetByKey(int key)
         {
-            //for (int i = 0; i < items.Count; i++)
-            //{
-            //    if (items[i].Id == key)
-            //        return items[i];
-            //}
-            //Predicate<Product> findProduct =(p)=>p.Id==key;
-            //Product product = items.ToList().Find(findProduct);
-
-            //Product product = items.ToList().Find((p) => p.Id == key);
-
             Product product = items.FirstOrDefault(p => p.Id == key);
             return product;
-            //throw new NoCustomerWithGiveIdException();
         }
 
         public override Product Update(Product item)
         {
+            Product existingProduct = GetByKey(item.Id);
+            if (existingProduct != null && existingProduct.Id != item.Id)
+            {
+                throw new ArgumentException("Cannot update product with a duplicate Id.");
+            }
+
             Product product = GetByKey(item.Id);
             if (product != null)
             {

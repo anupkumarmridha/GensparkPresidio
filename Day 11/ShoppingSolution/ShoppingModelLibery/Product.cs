@@ -1,6 +1,6 @@
 ﻿namespace ShoppingModelLibrary
 {
-    public class Product
+    public class Product:IEquatable<Product>
     {
         public int Id { get; set; }
         public double Price { get; set; }

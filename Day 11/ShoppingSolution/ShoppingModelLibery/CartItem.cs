@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingModelLibrary
 {
-    public class CartItem
+    public class CartItem: IEquatable<CartItem>
     {
         public int CartId { get; set; }//Navigation property
         public int ProductId { get; set; }
@@ -15,5 +15,15 @@ namespace ShoppingModelLibrary
         public double Price { get; set; }
         public double Discount { get; set; }
         public DateTime PriceExpiryDate { get; set; }
+        public override string ToString()
+        {
+            return $"Product: {Product.Name}, Quantity: {Quantity}, Price: {Price:C}, Discount: {Discount:C}, Price Expiry Date: {PriceExpiryDate}";
+        }
+
+        public bool Equals(CartItem? other)
+        {
+            return this.CartId.Equals(other.CartId);
+        }
+
     }
 }

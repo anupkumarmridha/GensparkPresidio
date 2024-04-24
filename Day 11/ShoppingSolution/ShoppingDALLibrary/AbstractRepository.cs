@@ -11,6 +11,7 @@ namespace ShoppingDALLibrary
         protected IList<T> items = new List<T>();
         public virtual T Add(T item)
         {
+            if (item == null) throw new ArgumentNullException("item");
             items.Add(item);
             return item;
         }
@@ -20,9 +21,6 @@ namespace ShoppingDALLibrary
         }
 
         public abstract T Delete(K key);
-
-
-
         public abstract T GetByKey(K key);
 
         public abstract T Update(T item);
