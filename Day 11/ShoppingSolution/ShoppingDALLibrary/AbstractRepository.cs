@@ -8,7 +8,7 @@ namespace ShoppingDALLibrary
 {
     public abstract class AbstractRepository<K, T> : IRepository<K, T>
     {
-        protected IList<T> items = new List<T>();
+        protected List<T> items = new List<T>();
         public virtual T Add(T item)
         {
             if (item == null) throw new ArgumentNullException("item");
@@ -17,6 +17,7 @@ namespace ShoppingDALLibrary
         }
         public virtual ICollection<T> GetAll()
         {
+            //items.Sort();
             return items.ToList<T>();
         }
 

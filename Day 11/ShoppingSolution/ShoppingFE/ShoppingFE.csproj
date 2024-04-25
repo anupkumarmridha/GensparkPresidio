@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingDALLibrary\ShoppingDALLibrary.csproj" />
+    <ProjectReference Include="..\ShoppingModelLibery\ShoppingModelLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingModelLibrary
 {
-    public class Customer:IEquatable<Customer>
+    public class Customer:IEquatable<Customer>, IComparable<Customer>
     {
         public int Id { get; set; }
         public string Name { get; set; } = String.Empty;
@@ -20,7 +20,24 @@ namespace ShoppingModelLibrary
         {
             return this.Id.Equals(other.Id);
         }
+
+        public int CompareTo(Customer? other)
+        {
+            if (this.Age == other.Age)
+                return 0;
+            else if (this.Age < other.Age)
+                return -1;
+            else
+                return 1;
+            //return this.Age.CompareTo(other.Age);
+        }
     }
 
-   
+    public class SortCustomerByName : IComparer<Customer>
+    {
+        public int Compare(Customer? x, Customer? y)
+        {
+            return x.Name.CompareTo(y.Name);
+        }
+    }
 }
