@@ -153,6 +153,22 @@ namespace ShoppingBLLibrary
             return Updatedcart;
         }
 
+        public Cart GetCartById(int cartId)
+        {
+            Cart cart = _cartRepository.GetByKey(cartId);
+            if (cart == null)
+            {
+                throw new CartNotFoundException(cartId);
+            }
+            return cart;
+        }
+
+        public List<Cart> GetAllCarts()
+        {
+            List<Cart> carts = _cartRepository.GetAll().ToList();
+            return carts;
+        }
+
         private Cart GetOrCreateCartForCustomer(int customerId)
         {
             // Try to retrieve the cart for the customer
@@ -171,5 +187,6 @@ namespace ShoppingBLLibrary
 
             return cart;
         }
+
     }
 }

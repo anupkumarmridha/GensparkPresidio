@@ -12,6 +12,8 @@ namespace ShoppingBLLibrary
         public Cart AddProductToCart(int customerId, int productId, int quantity);
         Cart UpdateCartItemQuantity(int cartId, int productId, int newQuantity);
         Cart RemoveProductFromCart(int cartId, int productId);
+        Cart GetCartById(int cartId);
+        List<Cart> GetAllCarts();
 
     }
 }
