@@ -67,7 +67,7 @@ namespace ShoppingBLLibrary
                 cart.ShippingCharge = 100;
             }
             // Apply discount rule
-            if (cart.CartItems.Count == 3 && totalOrderValue >= 1500)
+            if (cart.CartItems.Count >= 3 && totalOrderValue >= 1500)
             {
                 double discountAmount = totalOrderValue * 0.05;
                 cart.Discount = discountAmount;

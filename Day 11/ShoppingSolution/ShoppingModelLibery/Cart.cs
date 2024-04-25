@@ -12,7 +12,7 @@ namespace ShoppingModelLibrary
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }//Navigation property
 
-        public List<CartItem> CartItems { get; set; }//Navigation property
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>();//Navigation property
         public double ShippingCharge { get; set; } = 0;
         public double totalOrderValue { get; set; } = 0;
         public double Discount { get; set; } = 0;
