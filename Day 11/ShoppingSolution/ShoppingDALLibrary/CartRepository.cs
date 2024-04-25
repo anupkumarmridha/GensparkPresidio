@@ -37,12 +37,18 @@ namespace ShoppingDALLibrary
 
         public override Cart Update(Cart item)
         {
-            Cart cart = GetByKey(item.Id);
-            if (cart != null)
+            Cart existingCart = GetByKey(item.Id);
+            if (existingCart != null)
             {
-                cart = item;
+                // Find the index of the existing cart in the items list
+                int index = items.FindIndex(cart => cart.Id == existingCart.Id);
+                if (index != -1)
+                {
+                    items[index] = item;
+                    return item;
+                }
             }
-            return cart;
+            return null;
         }
     }
 }

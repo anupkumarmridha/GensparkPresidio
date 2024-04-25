@@ -13,12 +13,18 @@ namespace ShoppingModelLibrary
         public Customer Customer { get; set; }//Navigation property
 
         public List<CartItem> CartItems { get; set; }//Navigation property
+        public double ShippingCharge { get; set; } = 0;
+        public double totalOrderValue { get; set; } = 0;
+        public double Discount { get; set; } = 0;
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Cart Id: {Id}");
             sb.AppendLine($"Customer Id: {CustomerId}");
             sb.AppendLine($"Customer Name: {Customer?.Name ?? "N/A"}");
+            sb.AppendLine($"Total Order Value: {totalOrderValue}");
+            sb.AppendLine($"Total Shipping Charge: {ShippingCharge}");
+            sb.AppendLine($"Total Discount: {Discount}");
 
             if (CartItems != null && CartItems.Any())
             {

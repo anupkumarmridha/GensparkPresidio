@@ -13,6 +13,10 @@ namespace ShoppingModelLibrary.Exceptions
         {
             message = "Customer with the given Id is not present";
         }
+        public NoCustomerWithGiveIdException(int _customerId)
+        {
+            message = $"Customer with the {_customerId} Id is not present";
+        }
         public override string Message => message;
     }
 }
