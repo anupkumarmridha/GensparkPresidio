@@ -24,7 +24,6 @@ namespace ShoppingDALTest
             // Arrange
             Cart cart = new Cart
             {
-                Id = 1,
                 CustomerId = 1,
                 Customer = new Customer { Id = 1, Name = "John Doe", Phone = "1234567890", Age = 30 },
                 CartItems = new List<CartItem>()
@@ -66,7 +65,7 @@ namespace ShoppingDALTest
         public void GetByKey_Existing_Cart_Returns_Cart()
         {
             // Arrange
-            Cart cartToAdd = new Cart { Id = 1, CustomerId = 1, Customer = new Customer { Id = 1, Name = "John Doe" } };
+            Cart cartToAdd = new Cart {CustomerId = 1, Customer = new Customer { Id = 1, Name = "John Doe" } };
             cartRepository.Add(cartToAdd);
 
             // Act
@@ -91,15 +90,16 @@ namespace ShoppingDALTest
         {
             // Arrange
             Cart cartToAdd = new Cart { Id = 1, CustomerId = 1, Customer = new Customer { Id = 1, Name = "John Doe" } };
-            cartRepository.Add(cartToAdd);
+            Cart updatedCart= cartRepository.Add(cartToAdd);
 
-            Cart updatedCart = new Cart { Id = 1, CustomerId = 2, Customer = new Customer { Id = 2, Name = "Jane Doe" } };
+            updatedCart.CustomerId = 2;
+            updatedCart.Customer = new Customer { Id = 2, Name = "Jane Doe" };
 
             // Act
             Cart updatedCartResult = cartRepository.Update(updatedCart);
 
             // Assert
-            Assert.AreEqual(updatedCart, updatedCartResult);
+            Assert.That(updatedCartResult, Is.EqualTo(updatedCart));
             Assert.Contains(updatedCart, cartRepository.GetAll().ToList());
         }
 

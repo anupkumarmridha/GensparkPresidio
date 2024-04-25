@@ -19,9 +19,9 @@ namespace ShoppingBLLibrary
                            IRepository<int, Product> productRepository,
                            IRepository<int, Customer> customerRepository)
         {
-            _cartRepository = cartRepository ?? throw new ArgumentNullException(nameof(cartRepository));
-            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _cartRepository = cartRepository;
+            _productRepository = productRepository;
+            _customerRepository = customerRepository;
         }
         public Cart AddProductToCart(int customerId, int productId, int quantity)
         {
@@ -32,12 +32,13 @@ namespace ShoppingBLLibrary
             {
                 throw new NoProductWithGiveIdException(productId);
             }
+
+            // Apply the maximum quantity rule
             if (quantity > 5)
             {
                 throw new MaxQuantityExceededException();
             }
 
-            // Apply the maximum quantity rule
             if (product.QuantityInHand < quantity)
             {
                 int _quantityInHand = product.QuantityInHand;
@@ -131,6 +132,19 @@ namespace ShoppingBLLibrary
             if (newQuantity > 5)
             {
                 throw new MaxQuantityExceededException(productId);
+            }
+
+            Product product = _productRepository.GetByKey(productId);
+            if (product == null)
+            {
+                throw new NoProductWithGiveIdException(productId);
+            }
+
+            if (product.QuantityInHand < newQuantity)
+            {
+                int _quantityInHand = product.QuantityInHand;
+                string _productName = product.Name;
+                throw new ProductQuantityNotAvailableException(_productName, _quantityInHand);
             }
 
             cartItemToUpdate.Quantity = newQuantity;

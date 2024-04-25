@@ -16,6 +16,7 @@ namespace ShoppingDALLibrary
             {
                 throw new ArgumentException("A Cart with the same ID already exists.");
             }
+            item.Id = items.Count + 1;
             items.Add(item);
             return item;
         }

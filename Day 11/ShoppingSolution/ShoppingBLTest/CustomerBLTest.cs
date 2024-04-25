@@ -28,7 +28,7 @@ namespace ShoppingBLTest
             Customer customer = new Customer { Id = 1, Name = "John Doe", Age = 30, Phone = "1234567890" };
 
             Customer addedCustomer = _customerService.AddCustomer(customer);
-            Assert.AreEqual(customer, addedCustomer);
+            Assert.That(addedCustomer, Is.EqualTo(customer));
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace ShoppingBLTest
 
             // Assert
             Assert.IsNotNull(deletedCustomer);
-            Assert.AreEqual(customerToDelete, deletedCustomer);
+            Assert.That(deletedCustomer, Is.EqualTo(customerToDelete));
             Assert.IsFalse(_customerService.GetAllCustomers().Any(c => c.Id == customerId));
         }
 
@@ -64,7 +64,7 @@ namespace ShoppingBLTest
             // Arrange
             int nonExistingCustomerId = 100;
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => _customerService.DeleteCustomer(nonExistingCustomerId));
-            Assert.AreEqual($"Customer with ID {nonExistingCustomerId} not found.", exception.Message);
+            Assert.That(exception.Message, Is.EqualTo($"Customer with ID {nonExistingCustomerId} not found."));
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace ShoppingBLTest
             Customer retrievedCustomer = _customerService.GetCustomerById(customerId);
 
             // Assert
-            Assert.AreEqual(customer, retrievedCustomer);
+            Assert.That(retrievedCustomer, Is.EqualTo(customer));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace ShoppingBLTest
             Customer updatedCustomer = _customerService.UpdateCustomer(customer1);
 
             // Assert
-            Assert.AreEqual(newCustomer, updatedCustomer);
+            Assert.That(updatedCustomer, Is.EqualTo(newCustomer));
         }
 
         [Test]
