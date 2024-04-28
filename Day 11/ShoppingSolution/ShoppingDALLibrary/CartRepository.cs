@@ -1,4 +1,5 @@
 ﻿using ShoppingModelLibrary;
+using ShoppingModelLibrary.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ShoppingDALLibrary
 {
     public class CartRepository : AbstractRepository<int, Cart>
     {
-        public override Cart Add(Cart item)
+        public override async Task<Cart> Add(Cart item)
         {
             if (item == null) throw new ArgumentNullException("item");
             if (items.Any(p => p.Id == item.Id))
@@ -18,38 +19,67 @@ namespace ShoppingDALLibrary
             }
             item.Id = items.Count + 1;
             items.Add(item);
-            return item;
+            return await Task.FromResult(item);
         }
-        public override Cart Delete(int key)
+        public override async Task<Cart> Delete(int key)
         {
-            Cart cart = GetByKey(key);
-            if (cart != null)
+            try
             {
-                items.Remove(cart);
+                Cart cart = await GetByKey(key);
+            
+                if (cart == null) {
+                    throw new CartNotFoundException(key);
+                }
+                if (cart != null)
+                {
+                    items.Remove(cart);
+                }
+                return cart;
             }
-            return cart;
+            catch (CartNotFoundException)
+            {
+               throw new CartNotFoundException(key);
+            }
         }
 
-        public override Cart GetByKey(int key)
+        public override async Task<Cart> GetByKey(int key)
         {
             Cart cart = items.FirstOrDefault(c => c.Id == key);
+            if (cart == null)
+            {
+                throw new CartNotFoundException(key);
+            }
             return cart;
         }
 
-        public override Cart Update(Cart item)
+        public override async Task<List<Cart>> GetAll()
         {
-            Cart existingCart = GetByKey(item.Id);
-            if (existingCart != null)
+            return await Task.FromResult(items.ToList());
+        }
+
+        public override async Task<Cart> Update(Cart item)
+        {
+            try
             {
-                // Find the index of the existing cart in the items list
-                int index = items.FindIndex(cart => cart.Id == existingCart.Id);
-                if (index != -1)
+                Cart existingCart = await GetByKey(item.Id);
+
+                if (existingCart != null)
                 {
-                    items[index] = item;
-                    return item;
+                    // Find the index of the existing cart in the items list
+                    int index = items.FindIndex(cart => cart.Id == existingCart.Id);
+                    if (index != -1)
+                    {
+                        items[index] = item;
+                        return item;
+                    }
                 }
+
+                throw new CartNotFoundException(item.Id);
             }
-            return null;
+            catch (CartNotFoundException)
+            {
+                throw new CartNotFoundException(item.Id);
+            }
         }
     }
 }

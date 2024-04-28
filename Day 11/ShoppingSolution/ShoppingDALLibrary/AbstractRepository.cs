@@ -9,22 +9,22 @@ namespace ShoppingDALLibrary
     public abstract class AbstractRepository<K, T> : IRepository<K, T>
     {
         protected List<T> items = new List<T>();
-        public virtual T Add(T item)
+        public virtual async Task<T> Add(T item)
         {
             if (item == null) throw new ArgumentNullException("item");
             items.Add(item);
-            return item;
+            return await Task.FromResult(item);
         }
-        public virtual ICollection<T> GetAll()
+        public virtual async Task<List<T>> GetAll()
         {
             //items.Sort();
-            return items.ToList<T>();
+            return await Task.FromResult(items.ToList());
         }
 
-        public abstract T Delete(K key);
-        public abstract T GetByKey(K key);
+        public abstract Task<T> Delete(K key);
+        public abstract Task<T> GetByKey(K key);
 
-        public abstract T Update(T item);
+        public abstract Task<T> Update(T item);
 
     }
 }

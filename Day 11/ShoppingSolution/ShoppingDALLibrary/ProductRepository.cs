@@ -10,7 +10,7 @@ namespace ShoppingDALLibrary
 {
     public class ProductRepository : AbstractRepository<int, Product>
     {
-        public override Product Add(Product item)
+        public override async Task<Product> Add(Product item)
         {
             if (item == null) throw new ArgumentNullException("item");
             if (items.Any(p => p.Id == item.Id))
@@ -20,36 +20,54 @@ namespace ShoppingDALLibrary
             items.Add(item);
             return item;
         }
-        public override Product Delete(int key)
+        public override async Task<Product> Delete(int key)
         {
-            Product product = GetByKey(key);
-            if (product != null)
+            try
             {
-                items.Remove(product);
+                Product product = await GetByKey(key);
+                if (product != null)
+                {
+                    items.Remove(product);
+                }
+                return product;
             }
-            return product;
+            catch (NoProductWithGiveIdException)
+            {
+                throw new NoProductWithGiveIdException(key);
+            }
         }
 
-        public override Product GetByKey(int key)
+        public override async Task<Product> GetByKey(int key)
         {
             Product product = items.FirstOrDefault(p => p.Id == key);
+            if (product == null)
+            {
+                throw new NoProductWithGiveIdException(key);
+            }
             return product;
         }
 
-        public override Product Update(Product item)
+        public override async Task<Product> Update(Product item)
         {
-            Product existingProduct = GetByKey(item.Id);
-            if (existingProduct != null && existingProduct.Id != item.Id)
+            if (item == null) throw new ArgumentNullException("item");
+            try
             {
-                throw new ArgumentException("Cannot update product with a duplicate Id.");
+                Product existingProduct =await GetByKey(item.Id);
+                if (existingProduct != null && existingProduct.Id != item.Id)
+                {
+                    throw new ArgumentException("Cannot update product with a duplicate Id.");
+                }
+                Product product = await GetByKey(item.Id);
+                if (product != null)
+                {
+                    product = item;
+                }
+                return product;
             }
-
-            Product product = GetByKey(item.Id);
-            if (product != null)
+            catch (NoProductWithGiveIdException)
             {
-                product = item;
+                throw new NoProductWithGiveIdException(item.Id);
             }
-            return product;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ShoppingDALTest
         }
 
         [Test]
-        public void Add_CartItem_Success()
+        public async Task Add_CartItem_Success()
         {
             // Arrange
             CartItem cartItem = new CartItem
@@ -34,15 +34,15 @@ namespace ShoppingDALTest
             };
 
             // Act
-            CartItem addedCartItem = cartItemRepository.Add(cartItem);
-
+            CartItem addedCartItem = await cartItemRepository.Add(cartItem);
+            List<CartItem> allCartItems = await cartItemRepository.GetAll();
             // Assert
             Assert.AreEqual(cartItem, addedCartItem);
-            Assert.Contains(addedCartItem, cartItemRepository.GetAll().ToList());
+            Assert.Contains(addedCartItem, allCartItems.ToList());
         }
 
         [Test]
-        public void Add_CartItem_Null_Fails()
+        public async Task Add_CartItem_Null_Fails()
         {
             // Arrange
             CartItem cartItem = null;
@@ -52,7 +52,7 @@ namespace ShoppingDALTest
         }
 
         [Test]
-        public void Add_CartItem_With_Null_Product_Fails()
+        public async Task Add_CartItem_With_Null_Product_Fails()
         {
             // Arrange
             CartItem cartItem = new CartItem { CartId = 1, Product = null };
@@ -62,31 +62,31 @@ namespace ShoppingDALTest
         }
 
         [Test]
-        public void GetByKey_Existing_CartItem_Returns_CartItem()
+        public async Task GetByKey_Existing_CartItem_Returns_CartItem()
         {
             // Arrange
             CartItem cartItemToAdd = new CartItem { CartId = 1, ProductId = 1, Product = new Product { Id = 1, Name = "Product 1" } };
             cartItemRepository.Add(cartItemToAdd);
 
             // Act
-            CartItem retrievedCartItem = cartItemRepository.GetByKey(1);
+            CartItem retrievedCartItem = await cartItemRepository.GetByKey(1);
 
             // Assert
             Assert.AreEqual(cartItemToAdd, retrievedCartItem);
         }
 
         [Test]
-        public void GetByKey_NonExisting_CartItem_Returns_Null()
+        public async Task GetByKey_NonExisting_CartItem_Returns_Null()
         {
             // Act
-            CartItem retrievedCartItem = cartItemRepository.GetByKey(100);
+            CartItem retrievedCartItem = await cartItemRepository.GetByKey(100);
 
             // Assert
             Assert.IsNull(retrievedCartItem);
         }
 
         [Test]
-        public void Update_Existing_CartItem_Success()
+        public async Task Update_Existing_CartItem_Success()
         {
             // Arrange
             CartItem cartItemToAdd = new CartItem { CartId = 1, ProductId = 1, Product = new Product { Id = 1, Name = "Product 1" } };
@@ -95,53 +95,54 @@ namespace ShoppingDALTest
             CartItem updatedCartItem = new CartItem { CartId = 1, ProductId = 2, Product = new Product { Id = 2, Name = "Product 2" } };
 
             // Act
-            CartItem updatedCartItemResult = cartItemRepository.Update(updatedCartItem);
+            CartItem updatedCartItemResult = await cartItemRepository.Update(updatedCartItem);
 
+            List<CartItem> allCartItems = await cartItemRepository.GetAll();
             // Assert
             Assert.AreEqual(updatedCartItem, updatedCartItemResult);
-            Assert.Contains(updatedCartItem, cartItemRepository.GetAll().ToList());
+            Assert.Contains(updatedCartItem, allCartItems.ToList());
         }
 
         [Test]
-        public void Update_NonExisting_CartItem_Returns_Null()
+        public async Task Update_NonExisting_CartItem_Returns_Null()
         {
             // Arrange
             CartItem nonExistingCartItem = new CartItem { CartId = 100, ProductId = 100 };
 
             // Act
-            CartItem updatedCartItemResult = cartItemRepository.Update(nonExistingCartItem);
+            CartItem updatedCartItemResult = await cartItemRepository.Update(nonExistingCartItem);
 
             // Assert
             Assert.IsNull(updatedCartItemResult);
         }
 
         [Test]
-        public void Delete_Existing_CartItem_Success()
+        public async Task Delete_Existing_CartItem_Success()
         {
             // Arrange
             CartItem cartItemToAdd = new CartItem { CartId = 1, ProductId = 1, Product = new Product { Id = 1, Name = "Product 1" } };
             cartItemRepository.Add(cartItemToAdd);
 
             // Act
-            CartItem deletedCartItem = cartItemRepository.Delete(1);
+            CartItem deletedCartItem = await cartItemRepository.Delete(1);
 
             // Assert
             Assert.AreEqual(cartItemToAdd, deletedCartItem);
-            CollectionAssert.DoesNotContain(cartItemRepository.GetAll(), cartItemToAdd);
+            CollectionAssert.DoesNotContain(await cartItemRepository.GetAll(), cartItemToAdd);
         }
 
         [Test]
-        public void Delete_NonExisting_CartItem_Returns_Null()
+        public async Task Delete_NonExisting_CartItem_Returns_Null()
         {
             // Act
-            CartItem deletedCartItem = cartItemRepository.Delete(100);
+            CartItem deletedCartItem = await cartItemRepository.Delete(100);
 
             // Assert
             Assert.IsNull(deletedCartItem);
         }
 
         [Test]
-        public void Get_All_CartItems_Returns_All_CartItems()
+        public async Task Get_All_CartItems_Returns_All_CartItems()
         {
             // Arrange
             CartItem cartItem1 = new CartItem { CartId = 1, ProductId = 1, Product = new Product { Id = 1, Name = "Product 1" } };
@@ -150,25 +151,25 @@ namespace ShoppingDALTest
             cartItemRepository.Add(cartItem2);
 
             // Act
-            List<CartItem> allCartItems = cartItemRepository.GetAll().ToList();
-
+            List<CartItem> allCartItems = await cartItemRepository.GetAll();
+            List<CartItem> allCartItemsList = allCartItems.ToList();
             // Assert
-            Assert.Contains(cartItem1, allCartItems);
-            Assert.Contains(cartItem2, allCartItems);
+            Assert.Contains(cartItem1, allCartItemsList);
+            Assert.Contains(cartItem2, allCartItemsList);
         }
 
         [Test]
-        public void Delete_CartItems_Empty_Repository_Returns_Null()
+        public async Task Delete_CartItems_Empty_Repository_Returns_Null()
         {
             // Act
-            CartItem deletedCartItem = cartItemRepository.Delete(1);
+            CartItem deletedCartItem = await cartItemRepository.Delete(1);
 
             // Assert
             Assert.IsNull(deletedCartItem);
         }
 
         [Test]
-        public void CartItem_Equals_Returns_True_For_Same_CartId()
+        public async Task CartItem_Equals_Returns_True_For_Same_CartId()
         {
             // Arrange
             CartItem cartItem1 = new CartItem { CartId = 1 };
@@ -182,7 +183,7 @@ namespace ShoppingDALTest
         }
 
         [Test]
-        public void CartItem_Equals_Returns_False_For_Different_CartId()
+        public async Task CartItem_Equals_Returns_False_For_Different_CartId()
         {
             // Arrange
             CartItem cartItem1 = new CartItem { CartId = 1 };

@@ -17,22 +17,23 @@ namespace ShoppingBLLibrary
             _productRepository = productRepository;
         }
 
-        public Product AddProduct(Product product)
+        public  async Task<Product> AddProduct(Product product)
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
 
-            if (_productRepository.GetAll().Any(c => c.Id == product.Id))
+            List<Product> products = await _productRepository.GetAll();
+
+            if (products.Any(c => c.Id == product.Id))
             {
                 throw new ArgumentException("A Product with the same ID already exists.", nameof(product));
             }
-
-            return _productRepository.Add(product);
+            return await _productRepository.Add(product);
         }
 
-        public Product DeleteProduct(int productId)
+        public async Task<Product> DeleteProduct(int productId)
         {
-            Product deletedProduct = _productRepository.Delete(productId);
+            Product deletedProduct = await _productRepository.Delete(productId);
 
             if (deletedProduct == null)
             {
@@ -42,21 +43,21 @@ namespace ShoppingBLLibrary
             return deletedProduct;
         }
 
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProducts()
         {
-            return _productRepository.GetAll().ToList();
+            return await _productRepository.GetAll();
         }
 
-        public Product GetProductById(int productId)
+        public async Task<Product> GetProductById(int productId)
         {
-            return _productRepository.GetByKey(productId);
+            return await _productRepository.GetByKey(productId);
         }
 
-        public Product UpdateProduct(Product product)
+        public async Task<Product> UpdateProduct(Product product)
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
-            return _productRepository.Update(product);
+            return await _productRepository.Update(product);
         }
     }
 }

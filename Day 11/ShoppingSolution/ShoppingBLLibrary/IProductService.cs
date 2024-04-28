@@ -9,10 +9,10 @@ namespace ShoppingBLLibrary
 {
     public interface IProductService
     {
-        Product AddProduct(Product product);
-        Product GetProductById(int productId);
-        List<Product> GetAllProducts();
-        Product UpdateProduct(Product product);
-        Product DeleteProduct(int productId);
+        Task<Product> AddProduct(Product product);
+        Task<Product> GetProductById(int productId);
+        Task<List<Product>> GetAllProducts();
+        Task<Product> UpdateProduct(Product product);
+        Task<Product> DeleteProduct(int productId);
     }
 }

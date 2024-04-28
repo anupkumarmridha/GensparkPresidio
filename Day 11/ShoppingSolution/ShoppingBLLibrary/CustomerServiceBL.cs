@@ -17,22 +17,23 @@ namespace ShoppingBLLibrary
             _customerRepository = customerRepository;
         }
 
-        public Customer AddCustomer(Customer customer)
+        public async Task<Customer> AddCustomer(Customer customer)
         {
             if (customer == null)
                 throw new ArgumentNullException(nameof(customer));
 
-            if (_customerRepository.GetAll().Any(c => c.Id == customer.Id))
+            List<Customer> customers = await _customerRepository.GetAll();
+            if (customers.Any(c => c.Id == customer.Id))
             {
                 throw new ArgumentException("A Customer with the same ID already exists.", nameof(customer));
             }
 
-            return _customerRepository.Add(customer);
+            return await _customerRepository.Add(customer);
         }
 
-        public Customer DeleteCustomer(int customerId)
+        public async Task<Customer> DeleteCustomer(int customerId)
         {
-            Customer deletedCustomer = _customerRepository.Delete(customerId);
+            Customer deletedCustomer = await _customerRepository.Delete(customerId);
 
             if (deletedCustomer == null)
             {
@@ -43,21 +44,22 @@ namespace ShoppingBLLibrary
 
         }
 
-        public List<Customer> GetAllCustomers()
+        public async Task<List<Customer>> GetAllCustomers()
         {
-            return _customerRepository.GetAll().ToList();
+            List<Customer> customers = await _customerRepository.GetAll();
+            return customers.ToList();
         }
 
-        public Customer GetCustomerById(int customerId)
+        public async Task<Customer> GetCustomerById(int customerId)
         {
-            return _customerRepository.GetByKey(customerId);
+            return await _customerRepository.GetByKey(customerId);
         }
 
-        public Customer UpdateCustomer(Customer customer)
+        public async Task<Customer> UpdateCustomer(Customer customer)
         {
             if (customer == null)
                 throw new ArgumentNullException(nameof(customer));
-            return _customerRepository.Update(customer);
+            return await _customerRepository.Update(customer);
         }
     }
 }
