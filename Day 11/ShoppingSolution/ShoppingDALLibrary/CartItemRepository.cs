@@ -1,4 +1,5 @@
 ﻿using ShoppingModelLibrary;
+using ShoppingModelLibrary.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ShoppingDALLibrary
 {
     public class CartItemRepository : AbstractRepository<int, CartItem>
     {
-        public override CartItem Add(CartItem item)
+        public override async Task<CartItem> Add(CartItem item)
         {
             if (item == null) throw new ArgumentNullException("item");
             if (item.Product == null)
@@ -17,32 +18,37 @@ namespace ShoppingDALLibrary
                 throw new ArgumentException("Product cannot be null.");
             }
 
-            return base.Add(item);
+            return await base.Add(item);
         }
-        public override CartItem Delete(int key)
+        public override async Task<CartItem> Delete(int key)
         {
-            CartItem cartItem = GetByKey(key);
+            CartItem cartItem = await GetByKey(key);
             if (cartItem != null)
             {
                 items.Remove(cartItem);
             }
-            return cartItem;
+
+            return await Task.FromResult(cartItem);
         }
 
-        public override CartItem GetByKey(int key)
+        public override async Task<CartItem> GetByKey(int key)
         {
             CartItem cartItem = items.FirstOrDefault(item => item.CartId == key);
-            return cartItem;
+            if (cartItem == null)
+            {
+                throw new CartItemNotFoundException(key);
+            }
+            return await Task.FromResult(cartItem);
         }
 
-        public override CartItem Update(CartItem item)
+        public override async Task<CartItem> Update(CartItem item)
         {
-            CartItem cartItem = GetByKey(item.CartId);
+            CartItem cartItem = await GetByKey(item.CartId);
             if (cartItem != null)
             {
                 cartItem = item;
             }
-            return cartItem;
+            return await Task.FromResult(cartItem);
         }
     }
 }

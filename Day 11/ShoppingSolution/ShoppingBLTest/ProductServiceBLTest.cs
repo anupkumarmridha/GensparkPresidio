@@ -22,17 +22,17 @@ namespace ShoppingBLTest
         }
 
         [Test]
-        public void AddProduct_Success()
+        public async Task AddProduct_Success()
         {
             // Arrange
             Product product = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand=80 };
 
-            Product addedProduct = _productService.AddProduct(product);
+            Product addedProduct = await _productService.AddProduct(product);
             Assert.AreEqual(product, addedProduct);
         }
 
         [Test]
-        public void AddProduct_NullProduct_Fails()
+        public async Task AddProduct_NullProduct_Fails()
         {
             // Arrange
             Product product = null;
@@ -42,7 +42,7 @@ namespace ShoppingBLTest
         }
 
         [Test]
-        public void DeleteProduct_Success()
+        public async Task DeleteProduct_Success()
         {
             // Arrange
             int productId = 1;
@@ -50,16 +50,17 @@ namespace ShoppingBLTest
             _productService.AddProduct(productToDelete);
 
             // Act
-            Product deletedProduct = _productService.DeleteProduct(productId);
+            Product deletedProduct = await _productService.DeleteProduct(productId);
 
             // Assert
             Assert.IsNotNull(deletedProduct);
             Assert.AreEqual(productToDelete, deletedProduct);
-            Assert.IsFalse(_productService.GetAllProducts().Any(c => c.Id == productId));
+            List<Product> products = await _productService.GetAllProducts();
+            Assert.IsFalse(products.Any(c => c.Id == productId));
         }
 
         [Test]
-        public void DeleteProduct_NonExistingProductId_ReturnsException()
+        public async Task DeleteProduct_NonExistingProductId_ReturnsException()
         {
             // Arrange
             int nonExistingProductId = 100;
@@ -68,7 +69,7 @@ namespace ShoppingBLTest
         }
 
         [Test]
-        public void GetAllProducts_ReturnsAllProducts()
+        public async Task GetAllProducts_ReturnsAllProducts()
         {
             // Arrange
 
@@ -85,98 +86,98 @@ namespace ShoppingBLTest
             _productService.AddProduct(product2);
 
 
-            List<Product> retrievedProducts = _productService.GetAllProducts();
+            List<Product> retrievedProducts = await _productService.GetAllProducts();
 
             // Assert
             CollectionAssert.AreEquivalent(products, retrievedProducts);
         }
 
         [Test]
-        public void GetProductById_ExistingId_ReturnsProduct()
+        public async Task GetProductById_ExistingId_ReturnsProduct()
         {
             // Arrange
             int productId = 1;
             Product product = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand = 80 };
             _productService.AddProduct(product);
-            Product retrievedProduct = _productService.GetProductById(productId);
+            Product retrievedProduct = await _productService.GetProductById(productId);
 
             // Assert
             Assert.AreEqual(product, retrievedProduct);
         }
 
         [Test]
-        public void GetProductById_NonExistingId_ReturnsNull()
+        public async Task GetProductById_NonExistingId_ReturnsNull()
         {
             // Arrange
             int nonExistingProductId = 100;
-            Product retrievedProduct = _productService.GetProductById(nonExistingProductId);
+            Product retrievedProduct = await _productService.GetProductById(nonExistingProductId);
 
             // Assert
             Assert.IsNull(retrievedProduct);
         }
 
         [Test]
-        public void UpdateProduct_Success()
+        public async Task UpdateProduct_Success()
         {
             // Arrange
             Product product = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand = 80 };
-            Product newProduct = _productService.AddProduct(product);
+            Product newProduct = await _productService.AddProduct(product);
             newProduct.Price = 800000;
-            Product updatedProduct = _productService.UpdateProduct(newProduct);
+            Product updatedProduct = await _productService.UpdateProduct(newProduct);
 
             // Assert
             Assert.AreEqual(newProduct, updatedProduct);
         }
 
         [Test]
-        public void UpdateProduct_NullProduct_Fails()
+        public async Task UpdateProduct_NullProduct_Fails()
         {
             // Arrange
             Product product = null;
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _productService.UpdateProduct(product));
+            Assert.Throws<ArgumentNullException>(async() =>await _productService.UpdateProduct(product));
         }
 
         [Test]
-        public void UpdateProduct_NonExistingId_Fails()
+        public async Task UpdateProduct_NonExistingId_Fails()
         {
             // Arrange
             Product product = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand = 80 };
-            Product updatedProduct = _productService.UpdateProduct(product);
+            Product updatedProduct = await _productService.UpdateProduct(product);
 
             // Assert
             Assert.IsNull(updatedProduct);
         }
 
         [Test]
-        public void AddProduct_DuplicateId_Fails()
+        public async Task AddProduct_DuplicateId_Fails()
         {
             // Arrange
             Product existingProduct = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand = 80 };
             Product duplicateProduct = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand = 80 };
             _productService.AddProduct(existingProduct);
             // Assert
-            Assert.Throws<ArgumentException>(() => _productService.AddProduct(duplicateProduct));
+            Assert.Throws<ArgumentException>(async () => await _productService.AddProduct(duplicateProduct));
         }
 
         [Test]
-        public void GetAllProducts_EmptyRepository_ReturnsEmptyList()
+        public async Task GetAllProducts_EmptyRepository_ReturnsEmptyList()
         {
             // Arrange
             List<Product> emptyList = new List<Product>();
-            List<Product> retrievedProducts = _productService.GetAllProducts();
+            List<Product> retrievedProducts = await _productService.GetAllProducts();
 
             // Assert
             CollectionAssert.IsEmpty(retrievedProducts);
         }
 
         [Test]
-        public void UpdateProduct_EmptyRepository_ReturnsNull()
+        public async Task UpdateProduct_EmptyRepository_ReturnsNull()
         {
             // Arrange
             Product product = new Product { Id = 1, Name = "Laptop", Price = 100000, QuantityInHand = 80 };
-            Product updatedProduct = _productService.UpdateProduct(product);
+            Product updatedProduct = await _productService.UpdateProduct(product);
 
             // Assert
             Assert.IsNull(updatedProduct);
