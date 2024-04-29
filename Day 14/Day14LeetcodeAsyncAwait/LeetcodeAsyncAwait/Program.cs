@@ -28,7 +28,7 @@ namespace LeetcodeAsyncAwait
      }
     internal class Program
     {
-        int MinDepth(TreeNode root)
+        async Task<int> MinDepth(TreeNode root)
         {
             if (root == null)
             {
@@ -41,11 +41,11 @@ namespace LeetcodeAsyncAwait
             int min_depth = int.MaxValue;
             if (root.left != null)
             {
-                min_depth = Math.Min(MinDepth(root.left), min_depth);
+                min_depth = Math.Min(await MinDepth(root.left), min_depth);
             }
             if (root.right != null)
             {
-                min_depth = Math.Min(MinDepth(root.right), min_depth);
+                min_depth = Math.Min(await MinDepth(root.right), min_depth);
             }
             return min_depth + 1;   
         }
@@ -55,7 +55,7 @@ namespace LeetcodeAsyncAwait
         /// </summary>
         /// <param name="columnNumber"></param>
         /// <returns></returns>
-        string convertToTitle(int columnNumber)
+        async Task<string> convertToTitle(int columnNumber)
         {
             StringBuilder sb = new StringBuilder();
             while (columnNumber > 0)
@@ -79,7 +79,7 @@ namespace LeetcodeAsyncAwait
         /// </summary>
         /// <param name="head"></param>
         /// <returns></returns>
-        public bool HasCycle(ListNode head)
+        async Task<bool> HasCycle(ListNode head)
         {
             if (head == null)
             {
@@ -100,27 +100,51 @@ namespace LeetcodeAsyncAwait
         }
 
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            //Console.WriteLine("Hello, World!");
+            //building tree
             TreeNode root = new TreeNode(3);
             root.left = new TreeNode(9);
             root.right = new TreeNode(20);
             root.right.left = new TreeNode(15);
             root.right.right = new TreeNode(7);
             Program p = new Program();
-            Console.WriteLine(p.MinDepth(root));
-            
-            
-            Console.WriteLine(p.convertToTitle(701));
+
+            var minDepthTask = p.MinDepth(root);
+            //Console.WriteLine(await p.MinDepth(root));
 
 
+            var convertToTitleTask = p.convertToTitle(701);
+
+            //creating a cycle in the linked list
             ListNode head = new ListNode(3);
             head.next = new ListNode(2);
             head.next.next = new ListNode(0);
             head.next.next.next = new ListNode(-4);
             head.next.next.next.next = head.next;
-            Console.WriteLine(p.HasCycle(head));
+
+            var hasCycleTask = p.HasCycle(head);
+
+            var allTasks= new List<Task> { minDepthTask, convertToTitleTask, hasCycleTask};
+
+            while (allTasks.Count > 0)
+            {
+                Task finishedTask = await Task.WhenAny(allTasks);
+                if (finishedTask == minDepthTask)
+                {
+                    Console.WriteLine($"Min Depth Task Done, \n Result = {minDepthTask.Result}");
+                }
+                else if (finishedTask == convertToTitleTask)
+                {
+                    Console.WriteLine($"Convert to Title Task done. \n Result = {convertToTitleTask.Result}");
+                }
+                else if (finishedTask == hasCycleTask)
+                {
+                    Console.WriteLine($"Cycle detection task done. \n Result = {hasCycleTask.Result} ");
+                }
+                allTasks.Remove(finishedTask);
+            }
+            //Console.WriteLine(await p.HasCycle(head));
 
         }
     }
