@@ -7,6 +7,9 @@
 -- Run this script in the database you want the objects to be created.
 -- Default schema is dbo.
 
+-- create database NorthWind
+-- use NorthWind
+
 SET NOCOUNT ON
 GO
 
