@@ -1,0 +1,103 @@
+Database conenctions
+
+ADO.NET
+ Data Provider
+    Connection
+    Command
+    Data Reader
+
+
+Data Source=G3SLAPTOP\\SQLEXPRESS;Integrated Security=true;Initial Catalog=dbEmployeeTracker; - Connection String
+
+Data Source=G3SLAPTOP\\SQLEXPRESS;Initial Catalog=dbEmployeeTracker;user id=sa;password=abcd123
+
+
+Scaffold-DbContext "Data Source=G3SLAPTOP\SQLEXPRESS;Integrated Security=true;Initial Catalog=dbEmployeeTracker;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Model
+
+
+
+
+
+
+
+ static void Main(string[] args)
+ {
+     //new Program().AddDepartment();
+     SqlConnection conn = new SqlConnection(@"Data Source=G3SLAPTOP\SQLEXPRESS;Integrated Security=true;Initial Catalog=dbEmployeeTracker;");
+     conn.Open();
+     Console.WriteLine("Conenction Established");
+     SqlCommand command = new SqlCommand();
+     var area = GetAreaFromUser();
+     //command.CommandText = "Insert into Areas values('"+area.AreaName+"','"+area.Zipcode+"');";
+     command.CommandText = "Insert into Areas values(@aname,@azip);";
+     //command.CommandText = "proc_AddArea;delete froma areas where area ='TTTT'";
+     //command.CommandType = System.Data.CommandType.StoredProcedure;
+     command.Parameters.AddWithValue("@aname",area.AreaName);
+     command.Parameters.AddWithValue("@azip", area.Zipcode);
+     command.Connection = conn;
+     int result = command.ExecuteNonQuery();
+     conn.Close();
+     if (result > 0)
+     {
+         Console.WriteLine("The area is added");
+     }
+     else
+         Console.WriteLine("Your are ais invalid");
+ }
+
+ private static Area GetAreaFromUser()
+ {
+     Console.WriteLine("Please enter the Area name");
+     Area area = new Area();
+     area.AreaName = Console.ReadLine();
+     Console.WriteLine("Please enter the Zipcode");
+     area.Zipcode = Console.ReadLine();
+     return area;
+ }
+
+
+    static void Main(string[] args)
+    {
+        //new Program().AddDepartment();
+        SqlConnection conn = new SqlConnection(@"Data Source=G3SLAPTOP\SQLEXPRESS;Integrated Security=true;Initial Catalog=dbEmployeeTracker;");
+        conn.Open();
+        Console.WriteLine("Conenction Established");
+        SqlCommand command = new SqlCommand("Select * from areas",conn);
+        SqlDataReader reader = command.ExecuteReader();
+        List<Area> areas = new List<Area>();
+       
+        while (reader.Read())
+        {
+            Area area = new Area();
+            area.AreaName = reader["Area"].ToString();
+            area.Zipcode = reader[1].ToString();
+            areas.Add(area);
+        }
+        conn.Close();
+        foreach (var item in areas)
+        {
+            Console.WriteLine(item);
+        }
+
+    }
+
+    private static Area GetAreaFromUser()
+    {
+        Console.WriteLine("Please enter the Area name");
+        Area area = new Area();
+        area.AreaName = Console.ReadLine();
+        Console.WriteLine("Please enter the Zipcode");
+        area.Zipcode = Console.ReadLine();
+        return area;
+    }
+}
+
+public class Area
+{
+    public string AreaName { get; set; }
+    public string Zipcode { get; set; }
+    public override string ToString()
+    {
+        return AreaName+" "+Zipcode;
+    }
+}

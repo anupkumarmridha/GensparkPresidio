@@ -1,0 +1,2 @@
+Take your app built on Day7 Question. Convert the repository layer to EF Core. 
+There should be no changes in BL and FE. Please use Database First approch
