@@ -28,15 +28,16 @@ select * from publishers
     @employee_firstname varchar(50)
 as
 begin
-    select t.title as book_title, t.price, s.qty, t.price * s.qty as cost
-    from sales s
-    join titles t on s.title_id = t.title_id
-    join employee e on e.pub_id = t.pub_id
-    where e.fname = @employee_firstname;
+    select t.title 'Book Name',sum(t.price) 'Price',sum(s.qty) 'Quantity', sum(t.price*s.qty) 'Cost'
+	 from titles as t 
+	 join employee as e on e.pub_id=t.pub_id
+	 join sales as s on t.title_id=s.title_id
+	 where e.fname=@employee_firstname group by t.title
 end;
 
-get_titles_sold_by_employee 'Paolo';
+get_titles_sold_by_employee 'Victoria';
 
+drop procedure get_titles_sold_by_employee
 --3) Create a query that will print all names from authors and employees
 select au_fname as name from authors
 union
@@ -48,11 +49,12 @@ select fname as name from employee;
 
  
 select top 5 t.title as BookTitle, p.pub_name, CONCAT(a.au_fname, ' ', a.au_lname) as AuthorName,
-s.qty as "Quantity Ordered", t.Price * s.qty as OrderTotalPrice
+SUM(s.qty) as "Quantity Ordered", SUM(t.Price * s.qty) as OrderTotalPrice
 from sales s 
 join titles t on s.title_id = t.title_id 
 join publishers p on t.pub_id = p.pub_id
 join titleauthor ta on t.title_id = ta.title_id
 join authors a on ta.au_id = a.au_id
-order by t.price;
+group by t.title, p.pub_name, CONCAT(a.au_fname, ' ', a.au_lname)
+order by OrderTotalPrice desc;
 
