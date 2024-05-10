@@ -12,8 +12,8 @@ using RequestTrackerModelLibery;
 namespace RequestTrackerModelLibery.Migrations
 {
     [DbContext(typeof(RequestTrackerContext))]
-    [Migration("20240510053457_Feedbacks")]
-    partial class Feedbacks
+    [Migration("20240510104821_SolutionFeedbacks")]
+    partial class SolutionFeedbacks
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,7 +177,7 @@ namespace RequestTrackerModelLibery.Migrations
 
                     b.HasIndex("SolutionId");
 
-                    b.ToTable("SolutionFeedback");
+                    b.ToTable("SolutionFeedbacks");
                 });
 
             modelBuilder.Entity("RequestTrackerModelLibery.Request", b =>

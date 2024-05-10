@@ -175,7 +175,7 @@ namespace RequestTrackerModelLibery.Migrations
 
                     b.HasIndex("SolutionId");
 
-                    b.ToTable("SolutionFeedback");
+                    b.ToTable("SolutionFeedbacks");
                 });
 
             modelBuilder.Entity("RequestTrackerModelLibery.Request", b =>

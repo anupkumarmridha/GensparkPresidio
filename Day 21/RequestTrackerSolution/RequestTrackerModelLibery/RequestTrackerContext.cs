@@ -16,6 +16,7 @@ namespace RequestTrackerModelLibery
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Request> Requests { get;set; }
         public DbSet<RequestSolution> RequestSolutions { get; set; }
+        public DbSet<SolutionFeedback> SolutionFeedbacks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>().HasData(

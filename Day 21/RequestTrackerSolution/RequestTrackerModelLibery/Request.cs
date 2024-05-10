@@ -15,7 +15,7 @@ namespace RequestTrackerModelLibery
         public string RequestMessage { get; set; }
         public DateTime RequestDate { get; set; } = System.DateTime.Now;
         public DateTime? ClosedDate { get; set; } = null;
-        public string RequestStatus { get; set; }
+        public string RequestStatus { get; set; } = "Open";
 
 
         //public int RequestRaisedBy { get; set; }

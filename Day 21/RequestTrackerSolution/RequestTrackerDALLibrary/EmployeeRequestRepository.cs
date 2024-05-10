@@ -17,7 +17,7 @@ namespace RequestTrackerDALLibrary
         {
             return await _context.Employees.Include(e => e.RequestsRaised).ToListAsync();
         }
-        public async override Task<Employee> Get(int key)
+        public async override Task<Employee> GetByKey(int key)
         {
             var employee = _context.Employees.Include(e => e.RequestsRaised).SingleOrDefault(e => e.Id == key);
             return employee;
