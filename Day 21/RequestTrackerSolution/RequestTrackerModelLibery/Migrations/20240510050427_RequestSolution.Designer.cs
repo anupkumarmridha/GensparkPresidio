@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RequestTrackerModelLibery;
 
@@ -11,9 +12,10 @@ using RequestTrackerModelLibery;
 namespace RequestTrackerModelLibery.Migrations
 {
     [DbContext(typeof(RequestTrackerContext))]
-    partial class RequestTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20240510050427_RequestSolution")]
+    partial class RequestSolution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,9 +130,6 @@ namespace RequestTrackerModelLibery.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SolutionFeedback")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SolvedBy")
                         .HasColumnType("int");
 
@@ -144,38 +143,6 @@ namespace RequestTrackerModelLibery.Migrations
                     b.HasIndex("SolvedBy");
 
                     b.ToTable("RequestSolutions");
-                });
-
-            modelBuilder.Entity("RequestTrackerModelLibery.SolutionFeedback", b =>
-                {
-                    b.Property<int>("FeedbackId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackId"), 1L, 1);
-
-                    b.Property<int>("FeedbackBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FeedbackDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("Rating")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Remarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SolutionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FeedbackId");
-
-                    b.HasIndex("FeedbackBy");
-
-                    b.HasIndex("SolutionId");
-
-                    b.ToTable("SolutionFeedback");
                 });
 
             modelBuilder.Entity("RequestTrackerModelLibery.Request", b =>
@@ -216,29 +183,8 @@ namespace RequestTrackerModelLibery.Migrations
                     b.Navigation("SolvedByEmployee");
                 });
 
-            modelBuilder.Entity("RequestTrackerModelLibery.SolutionFeedback", b =>
-                {
-                    b.HasOne("RequestTrackerModelLibery.Employee", "FeedbackByEmployee")
-                        .WithMany("FeedbacksGiven")
-                        .HasForeignKey("FeedbackBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RequestTrackerModelLibery.RequestSolution", "Solution")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("SolutionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FeedbackByEmployee");
-
-                    b.Navigation("Solution");
-                });
-
             modelBuilder.Entity("RequestTrackerModelLibery.Employee", b =>
                 {
-                    b.Navigation("FeedbacksGiven");
-
                     b.Navigation("RequestsClosed");
 
                     b.Navigation("RequestsRaised");
@@ -249,11 +195,6 @@ namespace RequestTrackerModelLibery.Migrations
             modelBuilder.Entity("RequestTrackerModelLibery.Request", b =>
                 {
                     b.Navigation("RequestSolutions");
-                });
-
-            modelBuilder.Entity("RequestTrackerModelLibery.RequestSolution", b =>
-                {
-                    b.Navigation("Feedbacks");
                 });
 #pragma warning restore 612, 618
         }

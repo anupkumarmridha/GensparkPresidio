@@ -13,7 +13,7 @@ namespace RequestTrackerBLLibrary
         private readonly IRepository<int, Employee> _repository;
         public EmployeeLoginBL()
         {
-            IRepository<int, Employee> repo = new EmployeeRepository(new RequestTrackerContext());
+            IRepository<int, Employee> repo = new EmployeeRequestRepository(new RequestTrackerContext());
             _repository = repo;
         }
 

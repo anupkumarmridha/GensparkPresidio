@@ -29,5 +29,6 @@ namespace RequestTrackerModelLibery
 
 
         public Employee RequestClosedByEmployee { get; set; }
+        public ICollection<RequestSolution> RequestSolutions { get; set; }
     }
 }

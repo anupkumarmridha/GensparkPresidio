@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RequestTrackerModelLibery;
 
@@ -11,9 +12,10 @@ using RequestTrackerModelLibery;
 namespace RequestTrackerModelLibery.Migrations
 {
     [DbContext(typeof(RequestTrackerContext))]
-    partial class RequestTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20240510053457_Feedbacks")]
+    partial class Feedbacks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
