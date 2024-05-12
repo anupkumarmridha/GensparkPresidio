@@ -81,7 +81,7 @@ namespace RequestTrackerModelLibery.Migrations
                     b.Property<DateTime?>("ClosedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RequestClosedBy")
+                    b.Property<int?>("RequestClosedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RequestDate")
@@ -183,8 +183,7 @@ namespace RequestTrackerModelLibery.Migrations
                     b.HasOne("RequestTrackerModelLibery.Employee", "RequestClosedByEmployee")
                         .WithMany("RequestsClosed")
                         .HasForeignKey("RequestClosedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RequestTrackerModelLibery.Employee", "RaisedByEmployee")
                         .WithMany("RequestsRaised")

@@ -1,4 +1,6 @@
-﻿using RequestTrackerModelLibery;
+﻿using Microsoft.EntityFrameworkCore;
+using RequestTrackerDALLibrary;
+using RequestTrackerModelLibery;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,39 +11,114 @@ namespace RequestTrackerBLLibrary
 {
     public class EmployeeRequestBL : IEmployeeRequestBL
     {
-        EmployeeRequestBL()
-        {
 
+        protected IRepository<int, Employee> _employeeRepository;
+        protected readonly IRepository<int, Request> _requestRepository;
+        protected readonly IRepository<int, RequestSolution> _requestSolutionRepository;
+        protected readonly IRepository<int, SolutionFeedback> _solutionFeedbackRepository;
+        
+        public EmployeeRequestBL(IRepository<int, Employee> employeeRepository, 
+            IRepository<int, Request> requestRepository, 
+            IRepository<int, RequestSolution> requestSolutionRepository, 
+            IRepository<int, SolutionFeedback> solutionFeedbackRepository)
+        {
+            _employeeRepository = employeeRepository;
+            _requestRepository = requestRepository;
+            _requestSolutionRepository = requestSolutionRepository;
+            _solutionFeedbackRepository = solutionFeedbackRepository;
         }
 
-        public Task<Request> AddRequest(int employeeId, string RequestMessage)
+        public async Task<Request> AddRequest(int employeeId, string RequestMessage)
         {
-            throw new NotImplementedException();
+           
+            Employee employee = await _employeeRepository.GetByKey(employeeId);
+            if (employee == null)
+            {
+                throw new Exception("Employee not found");
+            }
+            Request request = new Request(RequestMessage, employee.Id);
+
+            try
+            {
+                return await _requestRepository.Add(request);
+            }catch (Exception ex)
+            {
+                throw new Exception("Unable to add request", ex);
+            }
         }
 
-        public Task<List<Request>> GetAllRequestByEmployee(int employeeId)
+        public async Task<List<Request>> GetAllRequestByEmployee(int employeeId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var requests = await _requestRepository.GetAll();
+                return requests.Where(e => e.RequestRaisedBy == employeeId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to get all request", ex);
+            }
         }
 
-        public Task<List<RequestSolution>> GetAllRequestSolutionByEmployee(int requestId)
+        public async Task<IList<RequestSolution>> GetAllSolutionByRequestOfEmployee(int requestId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var request = await _requestRepository.GetByKey(requestId);
+                if (request == null)
+                {
+                    throw new Exception("Request not found");
+                }
+                return request.RequestSolutions.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to get all request solution", ex);
+            }
         }
 
-        public Task<Request> GetRequestByEmployee(int requestId)
+
+        public async Task<string> GetRequestStatus(int requestId)
         {
-            throw new NotImplementedException();
+               var request = await _requestRepository.GetByKey(requestId);
+            if (request == null)
+            {
+                throw new Exception("Request not found");
+            }
+            return await Task.FromResult(request.RequestStatus);
         }
 
-        public Task<string> GetRequestStatus(int requestId)
+        public async Task<RequestSolution> ResponseToSolution(int solutionId, string response)
         {
-            throw new NotImplementedException();
+            var solution = await _requestSolutionRepository.GetByKey(solutionId);
+            if (solution == null)
+            {
+                throw new Exception("Request Solution not found");
+            }
+            solution.RequestRaiserComment = response;
+            return await _requestSolutionRepository.Update(solution);
         }
 
-        public Task<RequestSolution> ResponseToSolution(int solutionId, string response)
+        public async Task<IList<Request>> GetAllRequestByStatus(int employeeId, string status)
         {
-            throw new NotImplementedException();
+            var requests = await _requestRepository.GetAll();
+            return requests.Where(e => e.RequestRaisedBy == employeeId && e.RequestStatus == status).ToList();
+        }
+
+        public async Task<RequestSolution> AcceptSolution(int solutionId)
+        {
+            var requestSolution = await _requestSolutionRepository.GetByKey(solutionId);
+            
+            if (requestSolution == null)
+            {
+                throw new Exception("Request Solution not found");
+            }
+            if (requestSolution.IsSolved)
+            {
+                throw new Exception("Request Solution already accepted");
+            }
+            requestSolution.IsSolved = true;
+            return await _requestSolutionRepository.Update(requestSolution);
         }
     }
 }

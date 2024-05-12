@@ -25,10 +25,21 @@ namespace RequestTrackerModelLibery
 
         public Employee RaisedByEmployee { get; set; }
 
-        public int RequestClosedBy { get; set; }
+        public int? RequestClosedBy { get; set; }
 
 
         public Employee RequestClosedByEmployee { get; set; }
         public ICollection<RequestSolution> RequestSolutions { get; set; }
+
+        public Request(string requestMessage, int requestRaisedBy)
+        {
+            RequestMessage = requestMessage;
+            RequestRaisedBy = requestRaisedBy;
+        }
+
+        public override string ToString()
+        {
+            return RequestNumber + " " + RequestMessage + " " + RequestDate + " " + RequestStatus;
+        }
     }
 }

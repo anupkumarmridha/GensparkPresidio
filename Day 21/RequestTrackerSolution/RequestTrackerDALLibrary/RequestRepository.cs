@@ -37,13 +37,19 @@ namespace RequestTrackerDALLibrary
 
         public async Task<Request> GetByKey(int key)
         {
-            var request = _context.Requests.SingleOrDefault(e => e.RequestNumber == key);
+            var request = await _context.Requests
+            .Include(r => r.RequestSolutions)
+            .FirstOrDefaultAsync(r => r.RequestNumber == key);
             return request;
         }
 
         public async Task<IList<Request>> GetAll()
         {
-            var requests = await _context.Requests.ToListAsync();
+            var requests = await _context.Requests
+                .Include(r => r.RaisedByEmployee)  // Eager loading of RaisedByEmployee
+                .Include(r => r.RequestSolutions)  // Eager loading of RequestSolutions
+                    .ThenInclude(rs => rs.SolvedByEmployee)  // Eager loading of SolvedByEmployee for each RequestSolution
+                .ToListAsync();
             return requests;
         }
 
@@ -57,5 +63,13 @@ namespace RequestTrackerDALLibrary
             }
             return entity;
         }
+
+        public async Task<IList<Request>> GetAllRequestByEmployeeId(int employeeId)
+        {
+            var requests = await _context.Requests.Where(e => e.RequestRaisedBy == employeeId).ToListAsync();
+            return requests;
+        }
+
+
     }
 }
