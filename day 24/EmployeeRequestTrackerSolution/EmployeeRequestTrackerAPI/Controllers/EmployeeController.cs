@@ -16,6 +16,9 @@ namespace EmployeeRequestTrackerAPI.Controllers
             _employeeService = employeeService;
         }
         [HttpGet]
+        [ProducesResponseType(typeof(IList<Employee>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        [ProducesErrorResponseType(typeof(ErrorModel))]
         public async Task<ActionResult<IList<Employee>>> Get()
         {
             try
@@ -24,7 +27,7 @@ namespace EmployeeRequestTrackerAPI.Controllers
                 return employees.ToList();
             }catch(Exception e)
             {
-                return NotFound(e.Message);
+                return NotFound(new ErrorModel(404, e.Message));
             }
         }
         [HttpPut]

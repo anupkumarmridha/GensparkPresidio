@@ -21,14 +21,22 @@ namespace EmployeeRequestTrackerAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            #region Database Configuration
             builder.Services.AddDbContext<RequestTrackerContext>(
             options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("defaultConnection"))
             );
+            #endregion Database Configuration
 
+            #region Repository Configuration
             builder.Services.AddScoped<IRepository<int, Employee>, EmployeeRepository>();
+            builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
+            #endregion Repository Configuration
 
+            #region Service Configuration
             builder.Services.AddScoped<IEmployeeService, EmployeeBasicService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            #endregion Service Configuration
 
             var app = builder.Build();
 
