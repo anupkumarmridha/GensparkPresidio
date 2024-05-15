@@ -1,0 +1,6 @@
+1) https://www.hackerrank.com/challenges/weather-observation-station-5/problem?isFullScreen=true
+2) https://www.hackerrank.com/challenges/harry-potter-and-wands/problem?isFullScreen=true
+3) Create an API that will allow user to login in a application that the user can order pizzas. 
+(Sample Dominos/PizzaHut)
+   Add an end-point that will list the pizza. List only those pizza's that are in stock.
+   Device the model and DTOs as well.
