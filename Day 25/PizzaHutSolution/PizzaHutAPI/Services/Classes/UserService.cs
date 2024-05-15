@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using PizzaHutAPI.Models.DB_Models;
 using PizzaHutAPI.Models.DTO_Models;
+using PizzaHutAPI.Repositories.Classes;
 using PizzaHutAPI.Repositories.Interfaces;
 using PizzaHutAPI.Services.Interfaces;
 using System.Security.Cryptography;
@@ -11,13 +12,18 @@ namespace PizzaHutAPI.Services.Classes
 {
     public class UserService : IUserService
     {
+        private readonly IUserRegisterRepository _userRegisterRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICustomerRepository _customerRepository;
 
-        public UserService(IUserRepository userRepository, ICustomerRepository customerRepository)
+        public UserService(IUserRepository userRepository, 
+            ICustomerRepository customerRepository,
+            IUserRegisterRepository userRegisterRepository
+            )
         {
-            _userRepository = userRepository;
             _customerRepository = customerRepository;
+            _userRepository = userRepository;
+            _userRegisterRepository = userRegisterRepository;
         }
 
         private byte[] EncryptPassword(string password, byte[] passwordSalt)
@@ -63,62 +69,18 @@ namespace PizzaHutAPI.Services.Classes
             }
         }
 
-        private User MapUserRegisterDTOToUser(Customer customer, string password)
+        private UserRegisterRepositoryDTO MapUserRegisterRepositoryDTO(UserRegisterDTO userRegisterDTO)
         {
-            User user = new User();
-            user.CustomerId = customer.Id;
+            UserRegisterRepositoryDTO userRegisterRepositoryDTO = new UserRegisterRepositoryDTO();
             HMACSHA512 hMACSHA = new HMACSHA512();
-            user.PasswordHashKey = hMACSHA.Key;
-            user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return user;
+            userRegisterRepositoryDTO.PasswordHashKey = hMACSHA.Key;
+            userRegisterRepositoryDTO.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(userRegisterDTO.Password));
+            userRegisterRepositoryDTO.Name = userRegisterDTO.Name;
+            userRegisterRepositoryDTO.Email = userRegisterDTO.Email;
+            return userRegisterRepositoryDTO;
         }
+       
 
-
-        private async Task<Customer> CreateCustomer(UserRegisterDTO userRegisterDTO)
-        {
-            try
-            {
-                var customer = new Customer
-                {
-                    Name = userRegisterDTO.Name,
-                    Email = userRegisterDTO.Email
-                };
-                var savedCustomer = await _customerRepository.Add(customer);
-                if (savedCustomer == null)
-                {
-                    throw new Exception("Customer not saved");
-                }
-                return savedCustomer;
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-        private async Task<Customer> AddCustomerAndUserInTransaction(UserRegisterDTO userRegisterDTO)
-        {
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-                try
-                {
-                    var customer = await CreateCustomer(userRegisterDTO);
-                    var user = MapUserRegisterDTOToUser(customer, userRegisterDTO.Password);
-                    var savedUser = await _userRepository.Add(user);
-                    if(savedUser == null)
-                    {
-                        throw new Exception("User not saved");
-                    }
-
-                    scope.Complete();
-                    return customer;
-                }
-                catch (Exception e)
-                {
-                    scope.Dispose();
-                    throw new Exception(e.Message);
-                }
-            }
-        }
         public async Task<Customer> Register(UserRegisterDTO userRegisterDTO)
         {
             try
@@ -132,10 +94,12 @@ namespace PizzaHutAPI.Services.Classes
                 {
                     throw new Exception("Password and Confirm Password do not match");
                 }
-                var customer = await AddCustomerAndUserInTransaction(userRegisterDTO);
-                if(customer == null)
+                UserRegisterRepositoryDTO userRegisterRepositoryDTO = MapUserRegisterRepositoryDTO(userRegisterDTO);
+                var (customer, user) = await _userRegisterRepository.AddUserWithTransaction(userRegisterRepositoryDTO);
+                
+                if (customer == null || user == null)
                 {
-                    throw new Exception("Customer not saved");
+                    throw new Exception("Error while adding user");
                 }
                 return customer;
             }
@@ -145,4 +109,6 @@ namespace PizzaHutAPI.Services.Classes
             }
         }
     }
+   
+
 }

@@ -21,6 +21,7 @@ namespace PizzaHutAPI
         {
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRegisterRepository, UserRegisterRepository>();
             services.AddScoped<IPizzaRepository, PizzaRepository>();
             services.AddScoped<IStockRepository, StockRepository>();
         }
