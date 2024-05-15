@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaHutAPI.Contexts;
 
@@ -11,9 +12,10 @@ using PizzaHutAPI.Contexts;
 namespace PizzaHutAPI.Migrations
 {
     [DbContext(typeof(PizzaHutDbContext))]
-    partial class PizzaHutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515174832_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,7 +180,12 @@ namespace PizzaHutAPI.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("StockPizzaId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StockPizzaId");
 
                     b.ToTable("Pizzas");
                 });
@@ -280,10 +287,21 @@ namespace PizzaHutAPI.Migrations
                     b.Navigation("Pizza");
                 });
 
+            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Pizza", b =>
+                {
+                    b.HasOne("PizzaHutAPI.Models.DB_Models.Stock", "Stock")
+                        .WithMany()
+                        .HasForeignKey("StockPizzaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stock");
+                });
+
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Stock", b =>
                 {
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", "Pizza")
-                        .WithOne("Stock")
+                        .WithOne()
                         .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -317,12 +335,6 @@ namespace PizzaHutAPI.Migrations
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Pizza", b =>
-                {
-                    b.Navigation("Stock")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

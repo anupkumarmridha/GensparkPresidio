@@ -32,7 +32,7 @@ namespace PizzaHutAPI.Contexts
 
             modelBuilder.Entity<Stock>()
                 .HasOne(s => s.Pizza)
-                .WithOne()
+                .WithOne(p => p.Stock)
                 .HasForeignKey<Stock>(s => s.PizzaId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();

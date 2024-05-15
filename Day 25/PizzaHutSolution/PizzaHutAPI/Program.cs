@@ -28,6 +28,7 @@ namespace PizzaHutAPI
         private static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPizzaService, PizzaService>();
         }
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)

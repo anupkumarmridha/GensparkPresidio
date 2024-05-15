@@ -12,8 +12,8 @@ using PizzaHutAPI.Contexts;
 namespace PizzaHutAPI.Migrations
 {
     [DbContext(typeof(PizzaHutDbContext))]
-    [Migration("20240515150552_init")]
-    partial class init
+    [Migration("20240515180719_updateddbcontext")]
+    partial class updateddbcontext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -187,32 +187,16 @@ namespace PizzaHutAPI.Migrations
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Stock", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("PizzaId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PizzaId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId")
-                        .IsUnique();
-
-                    b.HasIndex("PizzaId1")
-                        .IsUnique()
-                        .HasFilter("[PizzaId1] IS NOT NULL");
+                    b.HasKey("PizzaId");
 
                     b.ToTable("Stocks");
                 });
@@ -301,14 +285,10 @@ namespace PizzaHutAPI.Migrations
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Stock", b =>
                 {
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", "Pizza")
-                        .WithOne()
+                        .WithOne("Stock")
                         .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", null)
-                        .WithOne("Stock")
-                        .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaId1");
 
                     b.Navigation("Pizza");
                 });

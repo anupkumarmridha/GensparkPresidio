@@ -6,10 +6,6 @@ namespace PizzaHutAPI.Models.DB_Models
     public class Stock
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        
-        [Required]
         public int PizzaId { get; set; }
         
         [Required]

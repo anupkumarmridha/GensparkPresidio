@@ -24,22 +24,6 @@ namespace PizzaHutAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pizzas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pizzas", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Carts",
                 columns: table => new
                 {
@@ -104,33 +88,6 @@ namespace PizzaHutAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stocks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PizzaId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    LastUpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PizzaId1 = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stocks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stocks_Pizzas_PizzaId",
-                        column: x => x.PizzaId,
-                        principalTable: "Pizzas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Stocks_Pizzas_PizzaId1",
-                        column: x => x.PizzaId1,
-                        principalTable: "Pizzas",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CartItems",
                 columns: table => new
                 {
@@ -148,12 +105,6 @@ namespace PizzaHutAPI.Migrations
                         name: "FK_CartItems_Carts_CartId",
                         column: x => x.CartId,
                         principalTable: "Carts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CartItems_Pizzas_PizzaId",
-                        column: x => x.PizzaId,
-                        principalTable: "Pizzas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -178,8 +129,38 @@ namespace PizzaHutAPI.Migrations
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pizzas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StockPizzaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pizzas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stocks",
+                columns: table => new
+                {
+                    PizzaId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stocks", x => x.PizzaId);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Pizzas_PizzaId",
+                        name: "FK_Stocks_Pizzas_PizzaId",
                         column: x => x.PizzaId,
                         principalTable: "Pizzas",
                         principalColumn: "Id",
@@ -217,29 +198,46 @@ namespace PizzaHutAPI.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stocks_PizzaId",
-                table: "Stocks",
-                column: "PizzaId",
-                unique: true);
+                name: "IX_Pizzas_StockPizzaId",
+                table: "Pizzas",
+                column: "StockPizzaId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Stocks_PizzaId1",
-                table: "Stocks",
-                column: "PizzaId1",
-                unique: true,
-                filter: "[PizzaId1] IS NOT NULL");
+            migrationBuilder.AddForeignKey(
+                name: "FK_CartItems_Pizzas_PizzaId",
+                table: "CartItems",
+                column: "PizzaId",
+                principalTable: "Pizzas",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OrderDetails_Pizzas_PizzaId",
+                table: "OrderDetails",
+                column: "PizzaId",
+                principalTable: "Pizzas",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Pizzas_Stocks_StockPizzaId",
+                table: "Pizzas",
+                column: "StockPizzaId",
+                principalTable: "Stocks",
+                principalColumn: "PizzaId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Stocks_Pizzas_PizzaId",
+                table: "Stocks");
+
             migrationBuilder.DropTable(
                 name: "CartItems");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
-
-            migrationBuilder.DropTable(
-                name: "Stocks");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -251,10 +249,13 @@ namespace PizzaHutAPI.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
                 name: "Pizzas");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Stocks");
         }
     }
 }
