@@ -12,10 +12,12 @@ namespace PizzaHutAPI.Models.DB_Models
 
     public class Cart
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        public int UserID { get; set; }
+        public int CustomerId { get; set; }
 
         [Required]
         public DateTime CreationDate { get; set; }= DateTime.Now;
@@ -27,9 +29,9 @@ namespace PizzaHutAPI.Models.DB_Models
         public CartStatus Status { get; set; } = CartStatus.Active;
 
         // Navigation property
-        public virtual User? User { get; set; }
+        public virtual Customer Customer { get; set; }
 
         // Collection navigation property for items added to the cart
-        public virtual ICollection<CartItem>? Items { get; set; }
+        public virtual ICollection<CartItem> Items { get; set; }
     }
 }

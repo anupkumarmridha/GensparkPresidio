@@ -5,13 +5,15 @@ namespace PizzaHutAPI.Models.DB_Models
 {
     public class CartItem
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        public int CartID { get; set; }
+        public int CartId { get; set; }
 
         [Required]
-        public int PizzaID { get; set; }
+        public int PizzaId { get; set; }
 
         [Required]
         public int Quantity { get; set; }
@@ -20,7 +22,7 @@ namespace PizzaHutAPI.Models.DB_Models
         public decimal Price { get; set; }
 
         // Navigation properties
-        public virtual Cart? Cart { get; set; }
-        public virtual Pizza? Pizza { get; set; }
+        public virtual Cart Cart { get; set; }
+        public virtual Pizza Pizza { get; set; }
     }
 }

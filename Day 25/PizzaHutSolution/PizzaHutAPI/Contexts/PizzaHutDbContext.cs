@@ -9,6 +9,7 @@ namespace PizzaHutAPI.Contexts
         {
         }
 
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Pizza> Pizzas { get; set; }
@@ -21,61 +22,71 @@ namespace PizzaHutAPI.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Customer)
+                .WithOne()
+                .HasForeignKey<User>(u => u.CustomerId) // Foreign key is CustomerId
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
             modelBuilder.Entity<Stock>()
                 .HasOne(s => s.Pizza)
                 .WithOne()
-                .HasForeignKey<Stock>(s => s.PizzaID)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey<Stock>(s => s.PizzaId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             modelBuilder.Entity<OrderDetails>()
                 .HasOne(od => od.Order)
                 .WithMany(o => o.OrderDetails)
-                .HasForeignKey(od => od.OrderID)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(od => od.OrderId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             modelBuilder.Entity<OrderDetails>()
                 .HasOne(od => od.Pizza)
                 .WithMany()
-                .HasForeignKey(od => od.PizzaID)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(od => od.PizzaId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             modelBuilder.Entity<Cart>()
-                .HasOne(c => c.User)
+                .HasOne(c => c.Customer)
                 .WithMany(u => u.Carts)
-                .HasForeignKey(c => c.UserID)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(c => c.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Cart)
                 .WithMany(c => c.Items)
-                .HasForeignKey(ci => ci.CartID)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Pizza)
                 .WithMany()
-                .HasForeignKey(ci => ci.PizzaID)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(ci => ci.PizzaId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Customer>()
                 .HasMany(u => u.Orders)
-                .WithOne(o => o.User)
-                .HasForeignKey(o => o.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .WithOne(o => o.Customer)
+                .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.User)
+                .HasOne(o => o.Customer)
                 .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

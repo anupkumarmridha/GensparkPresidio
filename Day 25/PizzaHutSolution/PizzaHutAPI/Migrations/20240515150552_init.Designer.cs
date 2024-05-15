@@ -12,7 +12,7 @@ using PizzaHutAPI.Contexts;
 namespace PizzaHutAPI.Migrations
 {
     [DbContext(typeof(PizzaHutDbContext))]
-    [Migration("20240515102332_init")]
+    [Migration("20240515150552_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,18 +35,18 @@ namespace PizzaHutAPI.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Carts");
                 });
@@ -59,10 +59,10 @@ namespace PizzaHutAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CartID")
+                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PizzaID")
+                    b.Property<int>("PizzaId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -73,11 +73,32 @@ namespace PizzaHutAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartID");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("PizzaID");
+                    b.HasIndex("PizzaId");
 
                     b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Order", b =>
@@ -87,6 +108,9 @@ namespace PizzaHutAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DeliveryAddress")
                         .IsRequired()
@@ -98,12 +122,9 @@ namespace PizzaHutAPI.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -116,10 +137,10 @@ namespace PizzaHutAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("OrderID")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PizzaID")
+                    b.Property<int>("PizzaId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -130,9 +151,9 @@ namespace PizzaHutAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
-                    b.HasIndex("PizzaID");
+                    b.HasIndex("PizzaId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -175,7 +196,10 @@ namespace PizzaHutAPI.Migrations
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PizzaID")
+                    b.Property<int>("PizzaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PizzaId1")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -183,63 +207,60 @@ namespace PizzaHutAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PizzaID")
+                    b.HasIndex("PizzaId")
                         .IsUnique();
+
+                    b.HasIndex("PizzaId1")
+                        .IsUnique()
+                        .HasFilter("[PizzaId1] IS NOT NULL");
 
                     b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<byte[]>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHashKey")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Cart", b =>
                 {
-                    b.HasOne("PizzaHutAPI.Models.DB_Models.User", "User")
+                    b.HasOne("PizzaHutAPI.Models.DB_Models.Customer", "Customer")
                         .WithMany("Carts")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.CartItem", b =>
                 {
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Cart", "Cart")
                         .WithMany("Items")
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", "Pizza")
                         .WithMany()
-                        .HasForeignKey("PizzaID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("PizzaId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cart");
@@ -249,27 +270,27 @@ namespace PizzaHutAPI.Migrations
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Order", b =>
                 {
-                    b.HasOne("PizzaHutAPI.Models.DB_Models.User", "User")
+                    b.HasOne("PizzaHutAPI.Models.DB_Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.OrderDetails", b =>
                 {
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", "Pizza")
                         .WithMany()
-                        .HasForeignKey("PizzaID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("PizzaId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -281,11 +302,26 @@ namespace PizzaHutAPI.Migrations
                 {
                     b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", "Pizza")
                         .WithOne()
-                        .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", null)
+                        .WithOne("Stock")
+                        .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaId1");
+
                     b.Navigation("Pizza");
+                });
+
+            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.User", b =>
+                {
+                    b.HasOne("PizzaHutAPI.Models.DB_Models.Customer", "Customer")
+                        .WithOne()
+                        .HasForeignKey("PizzaHutAPI.Models.DB_Models.User", "CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Cart", b =>
@@ -293,16 +329,22 @@ namespace PizzaHutAPI.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Customer", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.User", b =>
+            modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Pizza", b =>
                 {
-                    b.Navigation("Carts");
-
-                    b.Navigation("Orders");
+                    b.Navigation("Stock")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

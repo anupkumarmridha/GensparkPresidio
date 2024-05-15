@@ -3,22 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PizzaHutAPI.Models.DB_Models
 {
-    public class Stock
+    public class Customer
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
         [Required]
-        public int PizzaId { get; set; }
-        
+        public string Name { get; set; }
         [Required]
-        public int Quantity { get; set; }
-        
-        [Required]
-        public DateTime LastUpdatedDate { get; set; }
+        public string Email { get; set; }
 
         // Navigation property
-        public virtual Pizza Pizza { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

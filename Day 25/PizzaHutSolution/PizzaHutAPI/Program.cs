@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PizzaHutAPI.Contexts;
+using PizzaHutAPI.Repositories.Classes;
+using PizzaHutAPI.Repositories.Interfaces;
+using PizzaHutAPI.Services.Classes;
+using PizzaHutAPI.Services.Interfaces;
 
 namespace PizzaHutAPI
 {
@@ -15,11 +19,14 @@ namespace PizzaHutAPI
 
         private static void RegisterRepositories(IServiceCollection services)
         {
-         
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPizzaRepository, PizzaRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
         }
         private static void RegisterServices(IServiceCollection services)
         {
-
+            services.AddScoped<IUserService, UserService>();
         }
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
