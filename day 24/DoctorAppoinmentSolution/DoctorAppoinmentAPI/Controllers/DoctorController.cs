@@ -25,6 +25,14 @@ namespace DoctorAppoinmentAPI.Controllers
             return Ok(doctors);
         }
 
+        // GET: api/Doctor/specialization
+        [HttpGet("{specialization}")]
+        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctorsBySpecialization(string specialization)
+        {
+            var doctors = await _doctorService.GetDoctorsBySpecialization(specialization);
+            return Ok(doctors);
+        }
+
         // GET: api/Doctor/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Doctor>> GetDoctor(int id)

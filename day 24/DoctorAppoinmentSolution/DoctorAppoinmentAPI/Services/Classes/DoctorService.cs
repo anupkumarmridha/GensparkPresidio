@@ -60,5 +60,12 @@ namespace DoctorAppoinmentAPI.Services.Classes
         {
             return await _doctorRepository.Delete(id);
         }
+
+        public async Task<IEnumerable<Doctor>> GetDoctorsBySpecialization(string specialization)
+        {
+            var doctors = await _doctorRepository.GetAll();
+            var filteredDoctors = doctors.Where(d => d.Specialization == specialization);
+            return filteredDoctors.ToList();
+        }
     }
 }
