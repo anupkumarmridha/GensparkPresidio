@@ -90,5 +90,17 @@ namespace PizzaHutAPI.Services.Classes
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<Pizza> GetPizzaByName(string name)
+        {
+            try
+            {
+                return await _pizzaRepository.GetPizzaByName(name);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

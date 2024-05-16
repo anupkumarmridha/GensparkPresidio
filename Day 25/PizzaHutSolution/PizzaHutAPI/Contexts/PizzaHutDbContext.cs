@@ -30,12 +30,6 @@ namespace PizzaHutAPI.Contexts
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
-            modelBuilder.Entity<Stock>()
-                .HasOne(s => s.Pizza)
-                .WithOne(p => p.Stock)
-                .HasForeignKey<Stock>(s => s.PizzaId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
 
             modelBuilder.Entity<OrderDetails>()
                 .HasOne(od => od.Order)

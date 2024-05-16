@@ -12,8 +12,8 @@ using PizzaHutAPI.Contexts;
 namespace PizzaHutAPI.Migrations
 {
     [DbContext(typeof(PizzaHutDbContext))]
-    [Migration("20240515180719_updateddbcontext")]
-    partial class updateddbcontext
+    [Migration("20240516095629_AddedEmailIndex")]
+    partial class AddedEmailIndex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,13 +90,16 @@ namespace PizzaHutAPI.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -175,12 +178,16 @@ namespace PizzaHutAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Pizzas");
                 });
@@ -284,13 +291,11 @@ namespace PizzaHutAPI.Migrations
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Stock", b =>
                 {
-                    b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", "Pizza")
+                    b.HasOne("PizzaHutAPI.Models.DB_Models.Pizza", null)
                         .WithOne("Stock")
                         .HasForeignKey("PizzaHutAPI.Models.DB_Models.Stock", "PizzaId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Pizza");
                 });
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.User", b =>
@@ -323,8 +328,7 @@ namespace PizzaHutAPI.Migrations
 
             modelBuilder.Entity("PizzaHutAPI.Models.DB_Models.Pizza", b =>
                 {
-                    b.Navigation("Stock")
-                        .IsRequired();
+                    b.Navigation("Stock");
                 });
 #pragma warning restore 612, 618
         }

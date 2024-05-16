@@ -17,9 +17,9 @@ namespace PizzaHutAPI.Controllers
         }
 
         [HttpPost("Login")]
-        [ProducesResponseType(typeof(Customer), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LoginReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Customer>> Login(UserLoginDTO userLoginDTO)
+        public async Task<ActionResult<LoginReturnDTO>> Login(UserLoginDTO userLoginDTO)
         {
             try
             {

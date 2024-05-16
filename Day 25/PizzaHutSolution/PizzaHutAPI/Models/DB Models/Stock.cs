@@ -6,6 +6,7 @@ namespace PizzaHutAPI.Models.DB_Models
     public class Stock
     {
         [Key]
+        [ForeignKey("Pizza")]
         public int PizzaId { get; set; }
         
         [Required]
@@ -13,8 +14,5 @@ namespace PizzaHutAPI.Models.DB_Models
         
         [Required]
         public DateTime LastUpdatedDate { get; set; }
-
-        // Navigation property
-        public virtual Pizza Pizza { get; set; }
     }
 }

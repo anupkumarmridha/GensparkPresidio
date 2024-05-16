@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PizzaHutAPI.Models.DB_Models;
 using PizzaHutAPI.Models.DTO_Models;
@@ -48,6 +49,7 @@ namespace PizzaHutAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(Stock), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
@@ -64,6 +66,7 @@ namespace PizzaHutAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Stock), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
@@ -80,6 +83,7 @@ namespace PizzaHutAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Stock), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

@@ -15,15 +15,18 @@ namespace PizzaHutAPI.Services.Classes
         private readonly IUserRegisterRepository _userRegisterRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly ITokenService _tokenService;
 
         public UserService(IUserRepository userRepository, 
             ICustomerRepository customerRepository,
-            IUserRegisterRepository userRegisterRepository
+            IUserRegisterRepository userRegisterRepository,
+            ITokenService tokenService
             )
         {
             _customerRepository = customerRepository;
             _userRepository = userRepository;
             _userRegisterRepository = userRegisterRepository;
+            _tokenService = tokenService;
         }
 
         private byte[] EncryptPassword(string password, byte[] passwordSalt)
@@ -44,8 +47,15 @@ namespace PizzaHutAPI.Services.Classes
             }
             return true;
         }
-
-        public async Task<Customer> Login(UserLoginDTO userLoginDTO)
+        private LoginReturnDTO MapCustomerToLoginReturn(User user)
+        {
+            LoginReturnDTO returnDTO = new LoginReturnDTO();
+            returnDTO.CustomerId =user.CustomerId;
+            returnDTO.Role = user.IsAdmin;
+            returnDTO.Token = _tokenService.GenerateToken(user.Customer);
+            return returnDTO;
+        }
+        public async Task<LoginReturnDTO> Login(UserLoginDTO userLoginDTO)
         {
             try
             {
@@ -58,8 +68,16 @@ namespace PizzaHutAPI.Services.Classes
                 bool isPasswordSame = ComparePassword(encryptedPassword, user.Password);
                 if (isPasswordSame)
                 {
-                    var customer = await _customerRepository.GetById(user.CustomerId);
-                    return customer;
+                    if (user.Customer == null)
+                    {
+                        throw new Exception("Invalid Email or Password");
+                    }
+                    LoginReturnDTO loginReturnDTO = MapCustomerToLoginReturn(user);
+                    if(loginReturnDTO == null)
+                    {
+                        throw new Exception("Error while generating token");
+                    }
+                    return loginReturnDTO;
                 }
                 throw new Exception("Invalid Email or Password");
             }

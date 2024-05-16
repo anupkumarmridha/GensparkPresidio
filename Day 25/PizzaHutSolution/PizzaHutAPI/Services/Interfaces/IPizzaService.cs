@@ -7,6 +7,7 @@ namespace PizzaHutAPI.Services.Interfaces
     {
         Task<IEnumerable<Pizza>> GetAllPizzas();
         Task<Pizza> GetPizzaById(int id);
+        Task<Pizza> GetPizzaByName(string name);
         Task<Pizza> AddPizza(PizzaDTO pizza);
         Task<Pizza> UpdatePizza(int id, PizzaDTO pizza);
         Task<Pizza> DeletePizza(int id);

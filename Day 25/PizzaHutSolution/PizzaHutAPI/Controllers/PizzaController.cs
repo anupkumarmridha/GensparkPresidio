@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PizzaHutAPI.Models.DB_Models;
 using PizzaHutAPI.Models.DTO_Models;
@@ -17,9 +18,10 @@ namespace PizzaHutAPI.Controllers
             _pizzaService = pizzaService;
         }
 
+
         [HttpGet]
-        [ProducesResponseType(typeof(List<Pizza>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Pizza>>> GetPizzas()
+        [ProducesResponseType(typeof(IList<Pizza>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IList<Pizza>>> GetPizzas()
         {
             try
             {
@@ -32,14 +34,29 @@ namespace PizzaHutAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+
+        [HttpGet("{idOrName}")]
         [ProducesResponseType(typeof(Pizza), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Pizza>> GetPizza(int id)
+        public async Task<ActionResult<Pizza>> GetPizza(string idOrName)
         {
             try
             {
-                var result = await _pizzaService.GetPizzaById(id);
+                Pizza result;
+                if (int.TryParse(idOrName, out int id))
+                {
+                    result = await _pizzaService.GetPizzaById(id);
+                }
+                else
+                {
+                    result = await _pizzaService.GetPizzaByName(idOrName);
+                }
+
+                if (result == null)
+                {
+                    return NotFound(new ErrorModel(404, "Pizza not found."));
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -48,6 +65,7 @@ namespace PizzaHutAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(Pizza), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
@@ -65,6 +83,7 @@ namespace PizzaHutAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Pizza), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]

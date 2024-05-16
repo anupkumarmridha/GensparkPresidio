@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PizzaHutAPI.Models.DB_Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Pizza
     {
         [Key]
@@ -10,6 +13,7 @@ namespace PizzaHutAPI.Models.DB_Models
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         [Required]

@@ -33,5 +33,17 @@ namespace PizzaHutAPI.Repositories.Classes
 
             return pizzas;
         }
+
+        public async Task<Pizza> GetPizzaByName(string name)
+        {
+            var pizza = await _context.Pizzas
+            .Include(p => p.Stock)
+            .FirstOrDefaultAsync(p => p.Name.ToUpper() == name.ToUpper());
+            if (pizza == null)
+            {
+                throw new InvalidOperationException($"{name} not found.");
+            }
+            return pizza;
+        }
     }
 }
