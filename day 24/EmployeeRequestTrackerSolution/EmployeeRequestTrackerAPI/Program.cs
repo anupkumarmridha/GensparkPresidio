@@ -4,7 +4,10 @@ using EmployeeRequestTrackerAPI.Repositories.Classes;
 using EmployeeRequestTrackerAPI.Repositories.Interfaces;
 using EmployeeRequestTrackerAPI.Services.Classes;
 using EmployeeRequestTrackerAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace EmployeeRequestTrackerAPI
 {
@@ -21,6 +24,19 @@ namespace EmployeeRequestTrackerAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //Debug.WriteLine(builder.Configuration["TokenKey:JWT"]);
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey:JWT"]))
+                    };
+
+                });
             #region Database Configuration
             builder.Services.AddDbContext<RequestTrackerContext>(
             options => options.UseSqlServer(
@@ -36,6 +52,7 @@ namespace EmployeeRequestTrackerAPI
             #region Service Configuration
             builder.Services.AddScoped<IEmployeeService, EmployeeBasicService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
             #endregion Service Configuration
 
             var app = builder.Build();
@@ -47,6 +64,7 @@ namespace EmployeeRequestTrackerAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

@@ -15,6 +15,5 @@ namespace EmployeeRequestTrackerAPI.Models
 
         public string Status { get; set; }
 
-
     }
 }

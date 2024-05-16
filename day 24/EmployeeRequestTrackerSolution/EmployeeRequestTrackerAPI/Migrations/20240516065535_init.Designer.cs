@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeRequestTrackerAPI.Migrations
 {
     [DbContext(typeof(RequestTrackerContext))]
-    [Migration("20240515045723_addedUserTable")]
-    partial class addedUserTable
+    [Migration("20240516065535_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,9 @@ namespace EmployeeRequestTrackerAPI.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

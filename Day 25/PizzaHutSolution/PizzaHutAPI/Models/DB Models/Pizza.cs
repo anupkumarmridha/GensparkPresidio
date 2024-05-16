@@ -20,7 +20,7 @@ namespace PizzaHutAPI.Models.DB_Models
         public string? ImageUrl { get; set; }
 
         //navigation property
-        public virtual Stock Stock { get; set; }
+        public virtual Stock? Stock { get; set; }
 
     }
 }
