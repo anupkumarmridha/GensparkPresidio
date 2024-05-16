@@ -33,9 +33,9 @@ namespace PizzaHutAPI.Controllers
         }
 
         [HttpPost("Register")]
-        [ProducesResponseType(typeof(Customer), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RegisterReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Customer>> Register(UserRegisterDTO userRegisterDTO)
+        public async Task<ActionResult<RegisterReturnDTO>> Register(UserRegisterDTO userRegisterDTO)
         {
             try
             {

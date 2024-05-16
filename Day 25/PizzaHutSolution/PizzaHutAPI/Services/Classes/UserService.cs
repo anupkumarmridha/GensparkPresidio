@@ -51,7 +51,7 @@ namespace PizzaHutAPI.Services.Classes
         {
             LoginReturnDTO returnDTO = new LoginReturnDTO();
             returnDTO.CustomerId =user.CustomerId;
-            returnDTO.Role = user.IsAdmin;
+            returnDTO.IsAdmin = user.IsAdmin;
             returnDTO.Token = _tokenService.GenerateToken(user.Customer);
             return returnDTO;
         }
@@ -87,6 +87,16 @@ namespace PizzaHutAPI.Services.Classes
             }
         }
 
+        private RegisterReturnDTO MapCustomerToRegisterReturn(User user, Customer customer)
+        {
+            RegisterReturnDTO returnDTO = new RegisterReturnDTO();
+            returnDTO.Name = customer.Name;
+            returnDTO.Email = customer.Email;
+            returnDTO.IsAdmin = user.IsAdmin;
+            returnDTO.Token = _tokenService.GenerateToken(user.Customer);
+            return returnDTO;
+        }
+
         private UserRegisterRepositoryDTO MapUserRegisterRepositoryDTO(UserRegisterDTO userRegisterDTO)
         {
             UserRegisterRepositoryDTO userRegisterRepositoryDTO = new UserRegisterRepositoryDTO();
@@ -99,7 +109,7 @@ namespace PizzaHutAPI.Services.Classes
         }
        
 
-        public async Task<Customer> Register(UserRegisterDTO userRegisterDTO)
+        public async Task<RegisterReturnDTO> Register(UserRegisterDTO userRegisterDTO)
         {
             try
             {
@@ -119,7 +129,8 @@ namespace PizzaHutAPI.Services.Classes
                 {
                     throw new Exception("Error while adding user");
                 }
-                return customer;
+                RegisterReturnDTO registerReturnDTO = MapCustomerToRegisterReturn(user, customer);
+                return registerReturnDTO;
             }
             catch (Exception e)
             {
