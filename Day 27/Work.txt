@@ -1,0 +1,11 @@
+PUT
+  Activate user	
+  Only Admin can access the method
+  Admin can activate User and other Admins as well.
+
+Please plan the DTOs accordingly
+If required add the mapper methods
+
+
+
+P.S - Enable one admin to be in active state in the database.
