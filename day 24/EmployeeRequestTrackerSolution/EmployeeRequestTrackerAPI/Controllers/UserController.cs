@@ -61,19 +61,19 @@ namespace EmployeeRequestTrackerAPI.Controllers
             }
             catch (UserAlreadyExistsException ex)
             {
-                return Conflict(new ErrorModel(409, ex.Message)); // 409 Conflict
+                return Conflict(new ErrorModel(409, ex.Message));
             }
             catch (PasswordMismatchException ex)
             {
-                return BadRequest(new ErrorModel(400, ex.Message)); // 400 Bad Request
+                return BadRequest(new ErrorModel(400, ex.Message));
             }
             catch (InvalidDataException ex)
             {
-                return BadRequest(new ErrorModel(400, ex.Message)); // 400 Bad Request
+                return BadRequest(new ErrorModel(400, ex.Message));
             }
             catch (UnableToRegisterException ex)
             {
-                return StatusCode(500, new ErrorModel(500, ex.Message)); // 500 Internal Server Error
+                return StatusCode(500, new ErrorModel(500, ex.Message));
             }
             catch (Exception ex)
             {

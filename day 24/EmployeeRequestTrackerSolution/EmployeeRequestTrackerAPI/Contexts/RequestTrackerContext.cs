@@ -11,6 +11,9 @@ namespace EmployeeRequestTrackerAPI.Contexts
         }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestSolution> RequestSolutions { get; set; }
+        public DbSet<SolutionFeedback> SolutionFeedbacks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Request>().HasKey(r => r.RequestNumber);
