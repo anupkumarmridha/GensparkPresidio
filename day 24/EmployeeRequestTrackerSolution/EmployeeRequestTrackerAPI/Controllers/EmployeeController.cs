@@ -1,4 +1,5 @@
-﻿using EmployeeRequestTrackerAPI.Models;
+﻿using EmployeeRequestTrackerAPI.Models.DBModels;
+using EmployeeRequestTrackerAPI.Models.DTOModels;
 using EmployeeRequestTrackerAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

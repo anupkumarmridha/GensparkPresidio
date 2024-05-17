@@ -1,4 +1,4 @@
-﻿namespace EmployeeRequestTrackerAPI.Models
+﻿namespace EmployeeRequestTrackerAPI.Models.DTOModels
 {
     public class LoginReturnDTO
     {

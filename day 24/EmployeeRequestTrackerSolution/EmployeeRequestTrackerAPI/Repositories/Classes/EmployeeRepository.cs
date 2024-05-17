@@ -1,59 +1,61 @@
 ﻿using EmployeeRequestTrackerAPI.Contexts;
-using EmployeeRequestTrackerAPI.Models;
+using EmployeeRequestTrackerAPI.Models.DBModels;
 using EmployeeRequestTrackerAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeRequestTrackerAPI.Repositories.Classes
 {
-    public class EmployeeRepository : IRepository<int, Employee>
+    public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly RequestTrackerContext _context;
+        protected readonly RequestTrackerContext _context;
+
         public EmployeeRepository(RequestTrackerContext context)
         {
             _context = context;
         }
-        public async Task<Employee> Add(Employee item)
+        public async Task<Employee> Add(Employee entity)
         {
-            _context.Add(item);
+            _context.Add(entity);
             await _context.SaveChangesAsync();
-            return item;
+            return entity;
         }
 
-        public async Task<Employee> Delete(int key)
+        public async Task<Employee> DeleteByKey(int key)
         {
-            var employee = await Get(key);
+            var employee = await GetByKey(key);
             if (employee != null)
             {
-                _context.Remove(employee);
-                await _context.SaveChangesAsync(true);
-                return employee;
+                _context.Employees.Remove(employee);
+                await _context.SaveChangesAsync();
             }
-            throw new Exception("No employee found with the given id");
-        }
-
-        public async Task<Employee> Get(int key)
-        {
-            var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == key);
             return employee;
         }
 
-        public async Task<IEnumerable<Employee>> Get()
+        public virtual async Task<Employee> GetByKey(int key)
         {
-            var employees = await _context.Employees.ToListAsync();
-            return employees;
-
+            var employee = _context.Employees.SingleOrDefault(e => e.Id == key);
+            return employee;
         }
 
-        public async Task<Employee> Update(Employee item)
+        public virtual async Task<IList<Employee>> GetAll()
         {
-            var employee = await Get(item.Id);
+            return await _context.Employees.ToListAsync();
+        }
+
+        public async Task<Employee> Update(Employee entity)
+        {
+            var employee = await GetByKey(entity.Id);
             if (employee != null)
             {
-                _context.Update(item);
-                _context.SaveChangesAsync(true);
-                return employee;
+                _context.Entry<Employee>(entity).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
             }
-            throw new Exception("No employee found with the given id");
+            return entity;
+        }
+
+        public async Task<Employee> GetEmployeeByEmail(string email)
+        {
+           return await _context.Employees.SingleOrDefaultAsync(e => e.Email == email);
         }
     }
 }

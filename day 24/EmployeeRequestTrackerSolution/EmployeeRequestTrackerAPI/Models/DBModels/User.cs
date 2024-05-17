@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EmployeeRequestTrackerAPI.Models
+namespace EmployeeRequestTrackerAPI.Models.DBModels
 {
     public class User
     {

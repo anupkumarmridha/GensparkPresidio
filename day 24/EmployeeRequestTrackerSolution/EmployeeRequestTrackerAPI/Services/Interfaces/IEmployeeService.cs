@@ -1,4 +1,4 @@
-﻿using EmployeeRequestTrackerAPI.Models;
+﻿using EmployeeRequestTrackerAPI.Models.DBModels;
 
 namespace EmployeeRequestTrackerAPI.Services.Interfaces
 {

@@ -1,5 +1,6 @@
 ﻿using EmployeeRequestTrackerAPI.Exceptions;
-using EmployeeRequestTrackerAPI.Models;
+using EmployeeRequestTrackerAPI.Models.DBModels;
+using EmployeeRequestTrackerAPI.Models.DTOModels;
 using EmployeeRequestTrackerAPI.Repositories.Interfaces;
 using EmployeeRequestTrackerAPI.Services.Interfaces;
 using System.Security.Cryptography;
@@ -9,11 +10,11 @@ namespace EmployeeRequestTrackerAPI.Services.Classes
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<int, User> _userRepo;
-        private readonly IRepository<int, Employee> _employeeRepo;
+        private readonly IUserRepository _userRepo;
+        private readonly IEmployeeRepository _employeeRepo;
         private readonly ITokenService _tokenService;
 
-        public UserService(IRepository<int, User> userRepo, IRepository<int, Employee> employeeRepo, ITokenService tokenService)
+        public UserService(IUserRepository userRepo, IEmployeeRepository employeeRepo, ITokenService tokenService)
         {
             _userRepo = userRepo;
             _employeeRepo = employeeRepo;
@@ -21,7 +22,7 @@ namespace EmployeeRequestTrackerAPI.Services.Classes
         }
         public async Task<LoginReturnDTO> Login(UserLoginDTO loginDTO)
         {
-            var userDB = await _userRepo.Get(loginDTO.UserId);
+            var userDB = await _userRepo.GetUserByEmail(loginDTO.Email);
             if (userDB == null)
             {
                 throw new UnauthorizedUserException("Invalid username or password");
@@ -31,16 +32,56 @@ namespace EmployeeRequestTrackerAPI.Services.Classes
             bool isPasswordSame = ComparePassword(encrypterPass, userDB.Password);
             if (isPasswordSame)
             {
-                var employee = await _employeeRepo.Get(loginDTO.UserId);
-                // if(userDB.Status =="Active")
-                //{
-                LoginReturnDTO loginReturnDTO = MapEmployeeToLoginReturn(employee);
-                return loginReturnDTO;
-                // }
+                if (userDB.Status == "Active" || userDB.Employee.Role=="Admin")
+                {
+                    LoginReturnDTO loginReturnDTO = MapEmployeeToLoginReturn(userDB.Employee);
+                    return loginReturnDTO;
+                }
 
                 throw new UserNotActiveException("Your account is not activated");
             }
             throw new UnauthorizedUserException("Invalid username or password");
+        }
+
+        public async Task<ReturnUserActivationDTO> UserActivation(UserActivationDTO userActivationDTO)
+        {
+            try
+            {
+                ReturnUserActivationDTO returnUserActivationDTO = null;
+                if(userActivationDTO == null) {
+                    throw new InvalidDataException("Invalid data");
+                }
+                User user = await _userRepo.GetUserByEmail(userActivationDTO.Email);
+                var employee = user.Employee;
+                if(user == null || employee == null){
+                    throw new UnableToActivateUserException("User not found");
+                }
+                if (userActivationDTO.IsAdmin){
+                    employee.Role = "Admin";
+                    employee = await _employeeRepo.Update(employee);
+                }     
+                if (userActivationDTO.Activation){
+
+                    user.Status = "Active";
+                    user = await _userRepo.Update(user);              
+                }
+                returnUserActivationDTO = new ReturnUserActivationDTO(){
+                    UserId = user.EmployeeId,
+                    Status =user.Status,
+                    Role = employee.Role
+                };
+
+                if (returnUserActivationDTO == null)
+                {
+                    throw new UnableToActivateUserException("Not able to activate user at this moment");
+                }
+                return returnUserActivationDTO;
+
+            }
+            catch(Exception e)
+            {
+                throw new UnableToActivateUserException("Not able to activate user at this moment", e.Message);
+            }
         }
 
         private bool ComparePassword(byte[] encrypterPass, byte[] password)
@@ -55,18 +96,54 @@ namespace EmployeeRequestTrackerAPI.Services.Classes
             return true;
         }
 
-        public async Task<Employee> Register(EmployeeUserDTO employeeDTO)
+        private Employee MapEmployeeRegisterDTOToEmployee(EmployeeRegisterDTO employeeRegisterDTO)
         {
-            Employee employee = null;
-            User user = null;
+            Employee employee = new Employee();
+            employee.DateOfBirth = employeeRegisterDTO.DateOfBirth;
+            employee.Name = employeeRegisterDTO.Name;
+            employee.Email = employeeRegisterDTO.Email;
+            employee.Phone = employeeRegisterDTO.Phone;
+            employee.Image = employeeRegisterDTO.Image;
+            return employee;
+        }
+
+        private bool ValidateEmployeeRegisterDTO(EmployeeRegisterDTO employeeRegisterDTO)
+        {
+            if (string.IsNullOrEmpty(employeeRegisterDTO.Name) || string.IsNullOrEmpty(employeeRegisterDTO.Email) || string.IsNullOrEmpty(employeeRegisterDTO.Phone) || string.IsNullOrEmpty(employeeRegisterDTO.Password) || string.IsNullOrEmpty(employeeRegisterDTO.ConfirmPassword))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<Employee> Register(EmployeeRegisterDTO employeeRegisterDTO)
+        {
+            if (!ValidateEmployeeRegisterDTO(employeeRegisterDTO))
+            {
+                throw new InvalidDataException("Invalid data");
+            }
+
+            User user = await _userRepo.GetUserByEmail(employeeRegisterDTO.Email);
+            Employee employee = user?.Employee;
+
+            if (user != null && employee!=null)
+            {
+                throw new UserAlreadyExistsException("User already exists");
+            }
+            
+            if(employeeRegisterDTO.Password != employeeRegisterDTO.ConfirmPassword)
+            {
+                throw new PasswordMismatchException("Password and Confirm Password does not match");
+            }
+
             try
             {
-                employee = employeeDTO;
-                user = MapEmployeeUserDTOToUser(employeeDTO);
+                employee = MapEmployeeRegisterDTOToEmployee(employeeRegisterDTO);
                 employee = await _employeeRepo.Add(employee);
+      
+                user = MapEmployeeUserDTOToUser(employee.Id, employeeRegisterDTO.Password);
                 user.EmployeeId = employee.Id;
                 user = await _userRepo.Add(user);
-                ((EmployeeUserDTO)employee).Password = string.Empty;
 
                 return employee;
             }
@@ -89,24 +166,26 @@ namespace EmployeeRequestTrackerAPI.Services.Classes
 
         private async Task RevertUserInsert(User user)
         {
-            await _userRepo.Delete(user.EmployeeId);
+            await _userRepo.DeleteByKey(user.EmployeeId);
         }
 
         private async Task RevertEmployeeInsert(Employee employee)
         {
 
-            await _employeeRepo.Delete(employee.Id);
+            await _employeeRepo.DeleteByKey(employee.Id);
         }
 
-        private User MapEmployeeUserDTOToUser(EmployeeUserDTO employeeDTO)
+        private User MapEmployeeUserDTOToUser(int id, string password)
         {
             User user = new User();
-            user.EmployeeId = employeeDTO.Id;
+            user.EmployeeId = id;
             user.Status = "Disabled";
             HMACSHA512 hMACSHA = new HMACSHA512();
             user.PasswordHashKey = hMACSHA.Key;
-            user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(employeeDTO.Password));
+            user.Password = hMACSHA.ComputeHash(Encoding.UTF8.GetBytes(password));
             return user;
         }
+
+        
     }
 }

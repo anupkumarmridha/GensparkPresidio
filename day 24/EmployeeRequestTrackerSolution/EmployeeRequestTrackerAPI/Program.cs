@@ -1,5 +1,5 @@
 using EmployeeRequestTrackerAPI.Contexts;
-using EmployeeRequestTrackerAPI.Models;
+using EmployeeRequestTrackerAPI.Models.DBModels;
 using EmployeeRequestTrackerAPI.Repositories.Classes;
 using EmployeeRequestTrackerAPI.Repositories.Interfaces;
 using EmployeeRequestTrackerAPI.Services.Classes;
@@ -72,8 +72,8 @@ namespace EmployeeRequestTrackerAPI
             #endregion Database Configuration
 
             #region Repository Configuration
-            builder.Services.AddScoped<IRepository<int, Employee>, EmployeeRepository>();
-            builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             #endregion Repository Configuration
 
             #region Service Configuration
