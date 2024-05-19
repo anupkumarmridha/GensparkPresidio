@@ -19,6 +19,14 @@ namespace EmployeeRequestTrackerAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+            });
+
+
+            // Add services to the container.
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -74,12 +82,19 @@ namespace EmployeeRequestTrackerAPI
             #region Repository Configuration
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRepository<int, Request>,RequestRepository>();
+            builder.Services.AddScoped<IRepository<int, RequestSolution>, RequestSolutionRepository>();
+            builder.Services.AddScoped<IRepository<int, Employee>, EmployeeRequestRepository>();
+            builder.Services.AddScoped<IRepository<int, SolutionFeedback>, SolutionFeedbackRepository>();
             #endregion Repository Configuration
 
             #region Service Configuration
             builder.Services.AddScoped<IEmployeeService, EmployeeBasicService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IEmployeeRequestService, EmployeeRequestService>();
+            builder.Services.AddScoped<IAdminRequestService, AdminRequestService>();
+
             #endregion Service Configuration
 
             var app = builder.Build();

@@ -5,39 +5,40 @@ namespace EmployeeRequestTrackerAPI.Contexts
 {
     public class RequestTrackerContext : DbContext
     {
-        public RequestTrackerContext(DbContextOptions options) : base(options)
+        public RequestTrackerContext(DbContextOptions<RequestTrackerContext> options) : base(options)
         {
-
         }
+
         public DbSet<Employee> Employees { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<RequestSolution> RequestSolutions { get; set; }
         public DbSet<SolutionFeedback> SolutionFeedbacks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Request>().HasKey(r => r.RequestNumber);
             modelBuilder.Entity<SolutionFeedback>().HasKey(r => r.FeedbackId);
 
             modelBuilder.Entity<Request>()
-               .HasOne(r => r.RaisedByEmployee)
-               .WithMany(e => e.RequestsRaised)
-               .HasForeignKey(r => r.RequestRaisedBy)
-               .OnDelete(DeleteBehavior.Restrict)
-               .IsRequired();
+                .HasOne(r => r.RaisedByEmployee)
+                .WithMany(e => e.RequestsRaised)
+                .HasForeignKey(r => r.RequestRaisedBy)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
 
             modelBuilder.Entity<Request>()
-               .HasOne(r => r.RequestClosedByEmployee)
-               .WithMany(e => e.RequestsClosed)
-               .HasForeignKey(r => r.RequestClosedBy)
-               .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(r => r.RequestClosedByEmployee)
+                .WithMany(e => e.RequestsClosed)
+                .HasForeignKey(r => r.RequestClosedBy)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RequestSolution>()
-            .HasOne(rs => rs.RequestRaised)
-            .WithMany(r => r.RequestSolutions)
-            .HasForeignKey(rs => rs.RequestId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
+                .HasOne(rs => rs.RequestRaised)
+                .WithMany(r => r.RequestSolutions)
+                .HasForeignKey(rs => rs.RequestId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
 
             modelBuilder.Entity<RequestSolution>()
                 .HasOne(rs => rs.SolvedByEmployee)
@@ -47,17 +48,18 @@ namespace EmployeeRequestTrackerAPI.Contexts
                 .IsRequired();
 
             modelBuilder.Entity<SolutionFeedback>()
-            .HasOne(sf => sf.Solution)
-            .WithMany(s => s.Feedbacks)
-            .HasForeignKey(sf => sf.SolutionId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
+                .HasOne(sf => sf.Solution)
+                .WithMany(s => s.Feedbacks)
+                .HasForeignKey(sf => sf.SolutionId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
             modelBuilder.Entity<SolutionFeedback>()
-              .HasOne(sf => sf.FeedbackByEmployee)
-              .WithMany(e => e.FeedbacksGiven)
-              .HasForeignKey(sf => sf.FeedbackBy)
-              .OnDelete(DeleteBehavior.Restrict)
-              .IsRequired();
+                .HasOne(sf => sf.FeedbackByEmployee)
+                .WithMany(e => e.FeedbacksGiven)
+                .HasForeignKey(sf => sf.FeedbackBy)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
         }
     }
 }

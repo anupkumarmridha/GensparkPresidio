@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace EmployeeRequestTrackerAPI.Models.DBModels
 {
@@ -14,9 +15,13 @@ namespace EmployeeRequestTrackerAPI.Models.DBModels
 
         public string Role { get; set; } = "User";
 
-        public virtual ICollection<Request>? RequestsRaised { get; set; }//No effect on the table
-        public virtual ICollection<Request>? RequestsClosed { get; set; }//No effect on the table
-        public virtual ICollection<RequestSolution>? SolutionsProvided { get; set; }
-        public virtual ICollection<SolutionFeedback>? FeedbacksGiven { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Request> RequestsRaised { get; set; }//No effect on the table
+        [JsonIgnore]
+        public virtual ICollection<Request> RequestsClosed { get; set; }//No effect on the table
+        [JsonIgnore]
+        public virtual ICollection<RequestSolution> SolutionsProvided { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<SolutionFeedback> FeedbacksGiven { get; set; }
     }
 }

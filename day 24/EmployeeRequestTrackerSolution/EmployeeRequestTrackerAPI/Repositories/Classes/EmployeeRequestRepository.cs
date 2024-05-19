@@ -15,7 +15,11 @@ namespace EmployeeRequestTrackerAPI.Repositories.Classes
         }
         public async override Task<Employee> GetByKey(int key)
         {
-            var employee = _context.Employees.Include(e => e.RequestsRaised).SingleOrDefault(e => e.Id == key);
+            var employee = await _context.Employees.Include(e => e.RequestsRaised).SingleOrDefaultAsync(e => e.Id == key);
+            if (employee == null)
+            {
+                throw new Exception("Employee not found");
+            }
             return employee;
         }
     }

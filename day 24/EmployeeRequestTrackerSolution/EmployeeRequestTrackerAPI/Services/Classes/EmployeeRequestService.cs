@@ -26,6 +26,8 @@ namespace EmployeeRequestTrackerAPI.Services.Classes
         {
 
             Employee employee = await _employeeRepository.GetByKey(employeeId);
+            await Console.Out.WriteLineAsync(employee.Name);
+
             if (employee == null)
             {
                 throw new Exception("Employee not found");
