@@ -1,0 +1,31 @@
+    public class Team {
+        public string teamName;
+        public int noOfPlayers;
+        public Team(){
+            
+        }
+        public Team(string teamname, int noofplayers){
+           teamName=teamname;
+           noOfPlayers=noofplayers;
+        }
+        public void AddPlayer(int count){
+            noOfPlayers +=count;
+        }
+        public bool RemovePlayer(int count){
+            noOfPlayers -=count;
+            if(noOfPlayers<0){
+                return false;
+            }
+            return true;
+        }
+    }
+
+    public class Subteam: Team {
+        public Subteam( string teamname, int noofplayers){
+            teamName=teamname;
+            noOfPlayers=noofplayers;
+        }
+        public void ChangeTeamName(string name){
+            teamName=name;
+        }
+    }

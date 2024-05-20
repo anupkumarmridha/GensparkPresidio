@@ -1,0 +1,36 @@
+public static Dictionary<string, int> AverageAgeForEachCompany(List<Employee> employees)
+        {
+            var result = new Dictionary<string, int>();
+            
+            //get a distinct names from the employee list
+            var companies=employees.Select(x=>x.Company).Distinct().OrderBy(x=>x);
+            foreach(var company in companies){
+                var companyEmployees = employees.Where(x=>x.Company==company);
+                var avgAge=(int)Math.Round(companyEmployees.Average(y=>y.Age), 0);
+                result.Add(company, avgAge); 
+            }
+            return result;
+        }
+        
+        public static Dictionary<string, int> CountOfEmployeesForEachCompany(List<Employee> employees)
+        {
+            var result = new Dictionary<string, int>();
+            var companies=employees.Select(x=>x.Company).Distinct().OrderBy(x=>x);
+            foreach(var company in companies){
+                var employeeCount = employees.Count(x=>x.Company==company);
+
+                result.Add(company, employeeCount); 
+            }
+            return result;
+        }
+        
+        public static Dictionary<string, Employee> OldestAgeForEachCompany(List<Employee> employees)
+        {
+             var result = new Dictionary<string, Employee>();
+            var companies=employees.Select(x=>x.Company).Distinct().OrderBy(x=>x);
+            foreach(var company in companies){
+                var oldestEmp=employees.Where(x=>x.Company == company).OrderByDescending(y=>y.Age).First();
+                result.Add(company, oldestEmp); 
+            }
+            return result;
+        }
