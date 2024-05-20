@@ -12,10 +12,13 @@ namespace EmployeeRequestTrackerAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly ILogger<UserController> _logger;
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
+
         [HttpPost("Login")]
         [ProducesResponseType(typeof(LoginReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status401Unauthorized)]
@@ -28,6 +31,7 @@ namespace EmployeeRequestTrackerAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while logging in");
                 return Unauthorized(new ErrorModel(401, ex.Message));
             }
         }
