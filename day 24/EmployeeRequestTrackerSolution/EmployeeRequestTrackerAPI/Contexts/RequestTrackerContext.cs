@@ -5,7 +5,7 @@ namespace EmployeeRequestTrackerAPI.Contexts
 {
     public class RequestTrackerContext : DbContext
     {
-        public RequestTrackerContext(DbContextOptions<RequestTrackerContext> options) : base(options)
+        public RequestTrackerContext(DbContextOptions options) : base(options)
         {
         }
 

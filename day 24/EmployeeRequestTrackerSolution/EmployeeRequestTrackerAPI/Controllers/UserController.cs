@@ -24,16 +24,20 @@ namespace EmployeeRequestTrackerAPI.Controllers
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<LoginReturnDTO>> Login(UserLoginDTO userLoginDTO)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var result = await _userService.Login(userLoginDTO);
-                return Ok(result);
+                try
+                {
+                    var result = await _userService.Login(userLoginDTO);
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occurred while logging in");
+                    return Unauthorized(new ErrorModel(401, ex.Message));
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while logging in");
-                return Unauthorized(new ErrorModel(401, ex.Message));
-            }
+            return BadRequest("All details are not provided. Please check teh object");
         }
 
         [Authorize(Roles="Admin")]
