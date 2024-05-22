@@ -19,6 +19,9 @@ namespace ApparelShoppingAppAPI.Models.DB_Models
         public DateTime PaymentDate { get; set; } = DateTime.Now;
 
         [Required]
+        public string Status { get; set; }
+
+        [Required]
         public double Amount { get; set; }
 
         // Navigation property

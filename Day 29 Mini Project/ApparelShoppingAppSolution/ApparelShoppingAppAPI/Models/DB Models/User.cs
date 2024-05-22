@@ -21,8 +21,6 @@ namespace ApparelShoppingAppAPI.Models.DB_Models
         public byte[] PasswordHashKey { get; set; }
 
         [Required]
-        public bool IsAdmin { get; set; }= false;
-        [Required]
         public Role Role { get; set; } = Role.Customer;
 
         //navigation property

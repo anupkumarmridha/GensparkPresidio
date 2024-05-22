@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ApparelShoppingAppAPI.Models.DB_Models;
 using ApparelShoppingAppAPI.Models.DTO_Models;
 using ApparelShoppingAppAPI.Services.Interfaces;
+using ApparelShoppingAppAPI.Exceptions;
 
 namespace ApparelShoppingAppAPI.Controllers
 {
@@ -26,9 +27,17 @@ namespace ApparelShoppingAppAPI.Controllers
                 var result = await _userService.Login(userLoginDTO);
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (UnauthorizedUserException ex)
             {
                 return Unauthorized(new ErrorModel(401, ex.Message));
+            }
+            catch (NotAbelToLoginException ex)
+            {
+                return Unauthorized(new ErrorModel(401, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ErrorModel(500, $"An unexpected error occurred. {ex.Message}"));
             }
         }
 
@@ -42,9 +51,21 @@ namespace ApparelShoppingAppAPI.Controllers
                 var result = await _userService.Register(userRegisterDTO);
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (UserAlreadyExistsException ex)
             {
                 return BadRequest(new ErrorModel(400, ex.Message));
+            }
+            catch (PasswordMismatchException ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+            catch (UnableToRegisterException ex)
+            {
+                return BadRequest(new ErrorModel(400, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ErrorModel(500, $"An unexpected error occurred. {ex.Message}"));
             }
         }
     }

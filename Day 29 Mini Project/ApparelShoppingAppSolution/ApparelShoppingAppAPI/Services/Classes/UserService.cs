@@ -1,12 +1,10 @@
-﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using ApparelShoppingAppAPI.Models.DB_Models;
+﻿using ApparelShoppingAppAPI.Models.DB_Models;
 using ApparelShoppingAppAPI.Models.DTO_Models;
-using ApparelShoppingAppAPI.Repositories.Classes;
 using ApparelShoppingAppAPI.Repositories.Interfaces;
 using ApparelShoppingAppAPI.Services.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
-using System.Transactions;
+using ApparelShoppingAppAPI.Exceptions;
 
 namespace ApparelShoppingAppAPI.Services.Classes
 {
@@ -51,7 +49,7 @@ namespace ApparelShoppingAppAPI.Services.Classes
         {
             LoginReturnDTO returnDTO = new LoginReturnDTO();
             returnDTO.CustomerId =user.CustomerId;
-            returnDTO.IsAdmin = user.IsAdmin;
+            returnDTO.Role = user.Role;
             returnDTO.Token = _tokenService.GenerateToken(user.Customer);
             return returnDTO;
         }
@@ -62,7 +60,7 @@ namespace ApparelShoppingAppAPI.Services.Classes
                 var user = await _userRepository.GetUserByEmail(userLoginDTO.Email);
                 if (user == null)
                 {
-                    throw new Exception("Invalid Email or Password");
+                    throw new UnauthorizedUserException("Invalid Email or Password");
                 }
                 var encryptedPassword = EncryptPassword(userLoginDTO.Password, user.PasswordHashKey);
                 bool isPasswordSame = ComparePassword(encryptedPassword, user.Password);
@@ -70,20 +68,20 @@ namespace ApparelShoppingAppAPI.Services.Classes
                 {
                     if (user.Customer == null)
                     {
-                        throw new Exception("Invalid Email or Password");
+                        throw new UnauthorizedUserException("Invalid Email or Password");
                     }
                     LoginReturnDTO loginReturnDTO = MapCustomerToLoginReturn(user);
                     if(loginReturnDTO == null)
                     {
-                        throw new Exception("Error while generating token");
+                        throw new NotAbelToLoginException("Error while generating token");
                     }
                     return loginReturnDTO;
                 }
-                throw new Exception("Invalid Email or Password");
+                throw new UnauthorizedUserException("Invalid Email or Password");
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new NotAbelToLoginException(e.Message);
             }
         }
 
@@ -92,7 +90,7 @@ namespace ApparelShoppingAppAPI.Services.Classes
             RegisterReturnDTO returnDTO = new RegisterReturnDTO();
             returnDTO.Name = customer.Name;
             returnDTO.Email = customer.Email;
-            returnDTO.IsAdmin = user.IsAdmin;
+            returnDTO.Role = user.Role;
             returnDTO.Token = _tokenService.GenerateToken(user.Customer);
             return returnDTO;
         }
@@ -116,25 +114,25 @@ namespace ApparelShoppingAppAPI.Services.Classes
                 var existingCustomer = await _customerRepository.GetCustomerByEmail(userRegisterDTO.Email);
                 if (existingCustomer != null)
                 {
-                    throw new Exception("Email already exists");
+                    throw new UserAlreadyExistsException("Email already exists");
                 }
                 if (userRegisterDTO.Password != userRegisterDTO.ConfirmPassword)
                 {
-                    throw new Exception("Password and Confirm Password do not match");
+                    throw new PasswordMismatchException("Password and Confirm Password do not match");
                 }
                 UserRegisterRepositoryDTO userRegisterRepositoryDTO = MapUserRegisterRepositoryDTO(userRegisterDTO);
                 var (customer, user) = await _userRegisterRepository.AddUserWithTransaction(userRegisterRepositoryDTO);
                 
                 if (customer == null || user == null)
                 {
-                    throw new Exception("Error while adding user");
+                    throw new UnableToRegisterException("Error while adding user");
                 }
                 RegisterReturnDTO registerReturnDTO = MapCustomerToRegisterReturn(user, customer);
                 return registerReturnDTO;
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new UnableToRegisterException(e.Message);
             }
         }
     }

@@ -7,6 +7,6 @@ namespace ApparelShoppingAppAPI.Models.DTO_Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
-        public bool IsAdmin { get; set; }
+        public Role Role { get; set; }
     }
 }
