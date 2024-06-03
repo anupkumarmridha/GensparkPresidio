@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grade Card</title>
+    <style>
+        .main {
+            border: black 3px solid;
+            padding: 10px;
+            width: 90%;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .logo img {
+            width: 100px;
+        }
+        .title {
+            text-align: center;
+            margin-left: 100px;
+        }
+        .photo img {
+            width: 100px;
+        }
+        .candidate-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .info {
+            text-align: left;
+        }
+        .grade-details {
+            padding: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .overall-grade {
+            padding: 10px 0;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <!-- Section For Header  -->
+      <div class="header">
+        <div class="logo">
+          <img src="logo.png" alt="logo" />
+        </div>
+        <div class="title">
+          <h1>National Institute of Technology, Tiruchirappalli</h1>
+          <h2>Tiruchirappalli - 620 015, TAMIL NADU, INDIA</h2>
+        </div>
+      </div>
+      <!-- Section for Personal Information -->
+      <div class="candidate-info">
+        <div class="info">
+          <h3>Name: Anup Kumar Mridha</h3>
+          <h3>Roll No: 205121025</h3>
+          <h3>Branch: Computer Applications</h3>
+          <h3>Degree: Master of Computer Applications</h3>
+          <h3>Batch: 2021-2024</h3>
+        </div>
+        <div class="photo">
+            <img src="photo.jpg" alt="photo" />
+          </div>
+      </div>
+      <!--Section for Semester wise grade details with subjects with the information total marks, marks obtained and grade. For each semester diffrent tables -->
+      <div class="grade-details">
+        <h2>Semester 1</h2>
+        <table>
+          <tr>
+            <th>Subject</th>
+            <th>Total Marks</th>
+            <th>Marks Obtained</th>
+            <th>Grade</th>
+          </tr>
+          <tr>
+            <td>Subject 1</td>
+            <td>100</td>
+            <td>90</td>
+            <td>A+</td>
+          </tr>
+          <tr>
+            <td>Subject 2</td>
+            <td>100</td>
+            <td>80</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>Subject 3</td>
+            <td>100</td>
+            <td>70</td>
+            <td>B+</td>
+          </tr>
+          <tr>
+            <td>Subject 4</td>
+            <td>100</td>
+            <td>60</td>
+            <td>B</td>
+          </tr>
+          <tr>
+            <td>Subject 5</td>
+            <td>100</td>
+            <td>50</td>
+            <td>C</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>500</td>
+            <td>450</td>
+            <td>A+</td>
+          </tr>
+        </table>
+        <h2>Semester 2</h2>
+        <table>
+          <tr>
+            <th>Subject</th>
+            <th>Total Marks</th>
+            <th>Marks Obtained</th>
+            <th>Grade</th>
+          </tr>
+          <tr>
+            <td>Subject 1</td>
+            <td>100</td>
+            <td>90</td>
+            <td>A+</td>
+          </tr>
+          <tr>
+            <td>Subject 2</td>
+            <td>100</td>
+            <td>80</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>Subject 3</td>
+            <td>100</td>
+            <td>70</td>
+            <td>B+</td>
+          </tr>
+          <tr>
+            <td>Subject 4</td>
+            <td>100</td>
+            <td>60</td>
+            <td>B</td>
+          </tr>
+          <tr>
+            <td>Subject 5</td>
+            <td>100</td>
+            <td>50</td>
+            <td>C</td>
+          </tr>
+            <tr>
+                <td>Total</td>
+                <td>500</td>
+                <td>450</td>
+                <td>A+</td>
+        </table>
+      </div>
+
+        <!-- Section for Overall Grade Details -->
+        <div class="overall-grade">
+            <h2>Overall Grade</h2>
+            <table>
+                <tr>
+                    <th>Total Marks</th>
+                    <th>Marks Obtained</th>
+                    <th>Grade</th>
+                </tr>
+                <tr>
+                    <td>500</td>
+                    <td>450</td>
+                    <td>A+</td>
+                </tr>
+            </table>
+        </div>
+        <!-- Section for Foote -->
+        <h3>For any queries, contact: </h3>
+        <div class="footer">
+            <h3>Dean (Academic)</h3>
+            <h3>Phone: 0431-2503011</h3>
+            <h3>Email:
+                <a href="mailto:dean@nitt.edu">Contact the Dean (Academic)</a>
+            </h3>
+        </div>
+    </div>
+  </body>
+</html>
