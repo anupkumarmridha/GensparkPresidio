@@ -1,0 +1,14 @@
+body{
+    background-color: aqua;
+}
+li{
+    color: brown;
+}
+.define{
+    font-style: italic;
+    color: blueviolet;
+    border-color: burlywood;
+    border-style: dotted solid double dashed;
+    border-width: 2PX;
+    /* border: 2px dotted burlywood; */
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details Form</title>
+    <link rel="stylesheet" href="CompanyStyle.css">
+</head>
+<body>
+    <div class="AddEmpForm">
+
+        <h2>Employee Details Form</h2>
+        <form action="/submit_employee_details" method="post" enctype="multipart/form-data">
+            <div class="inputDiv">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="inputDiv">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+        </div>
+        <div class="inputDiv">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div class="inputDiv">
+        <div class="inputDiv">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="inputDiv">
+            <label for="blood_group">Blood Group:</label>
+            <input type="text" id="blood_group" name="blood_group" required>
+        </div>
+        <div class="inputDiv">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+        <div class="inputDiv">
+            <label for="position">Position:</label>
+            <input type="text" id="position" name="position" required>
+        </div>
+        <div class="inputDiv">
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" required>
+        </div>
+        <div class="inputDiv">
+            <label for="date_of_joining">Date of Joining:</label>
+            <input type="date" id="date_of_joining" name="date_of_joining" required>
+        </div>
+        <div class="inputDiv">
+            <label for="emergency_contact">Emergency Contact:</label>
+            <input type="text" id="emergency_contact" name="emergency_contact" required>
+        </div>
+        <div class="inputDiv">
+            <label for="picture">Upload Picture:</label>
+            <input type="file" id="picture" name="picture" accept="image/*" required>
+        </div>
+        <div class="inputDiv">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+    
+</body>
+</html>

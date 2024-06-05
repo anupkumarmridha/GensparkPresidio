@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shopping Home</title>
+        <meta lang="en-us"> 
+        <link href="ShoppingMaster.css" rel="stylesheet"/>
+        <style>
+            body{
+                background-color: red;
+            }
+            .plabel{
+                background-color: beige;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body style="background-color: cornflowerblue;">
+        <header>
+            <h1>
+                <center>
+                    <em>Add a new Product</em>
+                </center>
+            </h1>
+        </header>
+        <form action="Product.html">
+            <table>
+                <tr>
+                    <td><label class="plabel">Name</label></td>
+                    <td><input style="font-style: italic;font-family: Monotype Corsiva, Times, Serif;" type="text" name="productName" required/></td>
+                </tr>
+                <tr>
+                    <td><label class="plabel">Price</label></td>
+                    <td><input type="number" name="productPrice" min="1" max="1000"/></td>
+                </tr>
+                <tr>
+                    <td><label class="plabel">Category</label></td>
+                    <td>
+                        <select>
+                            <option value="1">Dairy</option>
+                            <option value="2" selected>Sationary</option>
+                            <option value="3">Eatables</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label class="plabel">Availability</label></td>
+                    <td>
+                        <input type="radio" checked name="rbAvailabilty"/>Available
+                        <input type="radio" name="rbAvailabilty"/>Unavailable
+                    </td>
+                </tr>
+                <tr>
+                    <td><label class="plabel">Others</label></td>
+                    <td>
+                        <input type="checkbox">Gift Pack
+                        <input type="checkbox" checked>Wish Card
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit">
+                    </td>
+                    <td>
+                        <input type="reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    <footer>
+        <p>© Copyright, GFG</p>
+    </footer>
+    </body>
+</html>

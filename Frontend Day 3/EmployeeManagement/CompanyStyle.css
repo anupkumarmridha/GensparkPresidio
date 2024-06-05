@@ -1,0 +1,98 @@
+/* my view is extendet to right side I don't want to exced it */
+.body{
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.container{
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+}
+
+
+h1{
+    text-align: center;
+    color: #333;
+    background-color: pink;
+}
+
+.empcard{
+    position: relative;
+    float: left;
+    padding: 10px;
+    border: solid 2px wheat;
+    margin: 10px;
+
+}
+
+.empcard img{
+    padding: 20px;
+    object-fit: fill;
+    height: 200px;
+    width: 200px;
+}
+
+.empcard h2{
+    text-align: center;
+    text-shadow: 2px 2px 2px #333;
+    color: #333;
+    
+}
+.empcard p{
+    padding: px;
+}
+
+/* CSS for ADD Employee Form */
+
+.AddEmpForm{
+    margin: auto;
+    padding: 20px;
+    width: 50%;
+    background-color: #f4f4f4;
+    border: solid 2px #333;
+    border-radius: 10px;
+}
+
+.AddEmpForm h2{
+    text-align: center;
+    color: #333;
+    text-shadow: 2px 2px 2px #333;
+}
+
+.inputDiv{
+    margin: 10px;
+}
+
+.inputDiv label{
+    font-size: 20px;
+    color: #333;
+}
+
+.inputDiv input{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: solid 1px #333;
+}
+
+.inputDiv button{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: solid 1px #333;
+    background-color: #333;
+    color: #f4f4f4;
+    cursor: pointer;
+}
+
+/* CSS for Employee Details Page */
