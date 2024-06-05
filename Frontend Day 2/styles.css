@@ -33,36 +33,7 @@ body {
   background-color: #111;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-iframe {
-  width: 100%;
-  border: none;
-  /* height: 60px; Adjust height as needed */
-}
-
-section {
-  margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  width: 80%;
-}
-
-h1 {
-  font-size: 24px;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
 
 ul li ul {
   list-style-type: disc;
@@ -72,6 +43,57 @@ ul li ul {
 ul li ul li {
   list-style-type: circle;
 }
+
+/* Css for Index */
+iframe {
+  width: 100%;
+  border: none;
+  height: 60px; /* Adjust height to fit your navbar */
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 95%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.photo {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+.about {
+  flex: 2;
+  min-width: 200px;
+}
+.about p{
+    font-size: larger;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.highlight {
+  font-weight: bold;
+}
+/* End css for Index */
+
+
+/* CSS for Education */
+
+/* End  CSS for Education */
 
 /* Responsive navbar*/
 @media screen and (max-width: 600px) {
