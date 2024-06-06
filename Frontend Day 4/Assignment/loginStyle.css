@@ -1,0 +1,214 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #2148C0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard-login {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    height: 100%;
+    max-height: 720px;
+    background: #2148C0;
+}
+
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+}
+
+.ellipse1, .ellipse2, .ellipse3, .vector {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.ellipse1 {
+    width: 50%;
+    max-width: 724px;
+    height: 50%;
+    max-height: 724px;
+    left: -25%;
+    top: 50%;
+    background: #264ECA;
+    transform: translateY(-50%);
+}
+
+.ellipse2 {
+    width: 40%;
+    max-width: 572px;
+    height: 40%;
+    max-height: 572px;
+    left: -20%;
+    top: 60%;
+    background: #244BC5;
+    transform: translateY(-50%);
+}
+
+.ellipse3 {
+    width: 30%;
+    max-width: 438px;
+    height: 30%;
+    max-height: 438px;
+    left: -15%;
+    top: 70%;
+    background: #274FC7;
+    transform: translateY(-50%);
+}
+
+.vector {
+    width: 60%;
+    max-width: 864px;
+    height: 60%;
+    max-height: 721.5px;
+    left: 50%;
+    top: 0;
+    background: #264ECA;
+    transform: translateX(-50%);
+}
+
+.form-container {
+    position: absolute;
+    width: 90%;
+    max-width: 300px;
+    height: 398px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.logo {
+    position: absolute;
+    width: 119.39px;
+    height: 97.85px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+form {
+    position: absolute;
+    top: 160px;
+    width: 100%;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    margin-bottom: 20px;
+}
+
+.input-group .icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 12px;
+    top: 12px;
+}
+
+.input-group input {
+    width: 100%;
+    height: 100%;
+    padding-left: 45px;
+    box-sizing: border-box;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    background: none;
+    color: #FFFFFF;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.login-button {
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    left: 0;
+    top: 170px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #2148C0;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+}
+
+.forgot-password {
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    left: 0;
+    top: 230px;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .form-container {
+        width: 80%;
+        max-width: 280px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 82px;
+    }
+
+    .input-group input {
+        font-size: 12px;
+    }
+
+    .login-button {
+        top: 150px;
+    }
+
+    .forgot-password {
+        top: 210px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        width: 90%;
+        max-width: 260px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 66px;
+    }
+
+    .input-group input {
+        font-size: 10px;
+    }
+
+    .login-button {
+        top: 130px;
+    }
+
+    .forgot-password {
+        top: 190px;
+        font-size: 12px;
+    }
+}
