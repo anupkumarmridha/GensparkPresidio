@@ -1,0 +1,3 @@
+1) https://www.figma.com/design/RIETxxn8ypeoZdxaq7RAxB/Login-Page-design-(Community)?node-id=0-1&t=Bdo2RpAoUMyQV8Ss-0
+2) https://www.figma.com/design/RuNyXuiA9h9KNgaJGDambR/Gmail-UI-Mobile-Design-Template-2024!-(Community)?node-id=1-286&m=dev
+3) https://www.figma.com/proto/kfTMtMFCg1hiXWJdgVaXEx/Data-Table-(Community)?node-id=1376-6447&m=dev&scaling=min-zoom&page-id=73%3A0&starting-point-node-id=1376%3A6447
