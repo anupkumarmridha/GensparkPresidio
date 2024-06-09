@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .header, .container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  thead {
+    background-color: gray;
+    color: white;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #e9ecef;
+  }
+  
+  tbody tr td.description {
+    white-space: nowrap;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .header-content span {
+    float: left;
+  }
+  
+  .sort-icons {
+    display: flex;
+    flex-direction: column; /* Align icons vertically */
+  }
+  
+  .sort-icons i {
+    margin: -4px 5px;
+    font-size: 10px;
+    color: lightgray;
+  }
+  
+  /* For Nav Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff; /* Adjust as needed */
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-btn {
+    background: none;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    margin-left: 10px;
+    height: 38px;
+    width: 40px;
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px;
+    margin-left: 10px;
+  }
+  
+  .search-bar {
+    flex: 1;
+    border: none;
+    padding: 5px 10px;
+  }
+  
+  .search-bar:focus {
+    outline: none;
+  }
+  
+  .search-container i {
+    margin-left: 8px;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .add-customer-btn {
+    background-color: #0262c9; /* Dark blue button color */
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+
+    /* For Custom Checkbox */
+  
+  /* Increase the size of the checkbox */
+  .large-checkbox {
+    transform: scale(1.4); /* Adjust scale as needed */
+    margin-left: 10px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    background: white;
+  }

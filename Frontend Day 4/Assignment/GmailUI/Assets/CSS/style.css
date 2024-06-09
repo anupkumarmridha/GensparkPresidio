@@ -1,0 +1,99 @@
+body {
+    background: linear-gradient(to top left, #007bff 50%, white 50%);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 15px 30px;
+    width: 40%;
+    line-height: 1.1;
+  }
+
+  .device-list {
+    font-weight: bold;
+    margin: 30px;
+    line-height: 1.2;
+  }
+  .device-list:hover {
+    text-decoration: underline;
+    text-decoration-color: blue;
+    text-decoration-thickness: 2px;
+  }
+
+  .images-container img {
+    width: 180px;
+    height: 400px;
+    position: absolute;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adding box shadow */
+    transition: border-color 0.3s ease; /* For Smooth transition for border color */
+  }
+
+  /* Adding blue border on hover */
+  .images-container img:hover {
+    border: 2px solid blue;
+  }
+  #img-1 {
+    bottom: 30px;
+    right: 300px;
+    z-index: 1;
+  }
+
+  #img-2 {
+    bottom: 70px;
+    right: 270px;
+    transition: z-index 0.3s ease, transform 0.3s ease; /* Add transition for z-index and transform */
+  }
+
+  #img-2:hover {
+    z-index: 1;
+    transform: scale(1.1); /* Optional: Scale up the image slightly to emphasize focus */
+  }
+ 
+
+  #img-3 {
+    z-index: 1;
+    bottom: 30px;
+    right: 70px;
+  }
+
+  #img-4 {
+    bottom: 70px;
+    right: 40px;
+    transition: z-index 0.3s ease, transform 0.3s ease; /* Add transition for z-index and transform */
+  }
+
+    #img-4:hover {
+        z-index: 1;
+        transform: scale(1.1); /* Optional: Scale up the image slightly to emphasize focus */
+    }
+
+  span#h1 {
+    color: blue;
+    font-weight: bolder;
+  }
+  span#h2 {
+    color: black;
+  }
+  span#h3 {
+    font-weight: 600;
+    color: black;
+  }
+  .header:hover {
+    text-decoration: underline;
+    text-decoration-color: blue;
+    text-decoration-thickness: 2px;
+  }
+
+  ul {
+    margin: 0px 30px;
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: bolder;
+  }
