@@ -1,0 +1,77 @@
+div {
+  background-color: black;
+  color: white;
+  border: yellow 2px solid;
+}
+
+section.normal {
+  background-color: green;
+  color: white;
+  border: yellow 2px solid;
+}
+
+section.error {
+  background-color: green;
+  color: red;
+  border: yellow 2px solid;
+}
+
+.danger {
+  background-color: pink;
+  color: red;
+}
+
+.primary {
+  background-color: lightblue;
+  color: royalblue;
+}
+
+.success {
+  background-color: lightgreen;
+  color: green;
+}
+
+.d1 {
+  width: 100px;
+  position: absolute;
+  left: 100px;
+  top: 600px;
+  float: left;
+}
+
+.d2 {
+  width: 100px;
+  position: absolute;
+  left: 200px;
+  top: 600px;
+  float: left;
+}
+
+.d3 {
+  width: 100px;
+  position: absolute;
+  left: 300px;
+  top: 600px;
+  float: left;
+}
+
+.d4 {
+  width: 100px;
+  position: absolute;
+  left: 400px;
+  top: 600px;
+  float: left;
+}
+
+nav ul {
+  padding: 3px;
+}
+nav li {
+  padding: 10px;
+  display: inline-block;
+}
+nav a {
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=first.css.map */

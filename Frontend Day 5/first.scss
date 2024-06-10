@@ -1,0 +1,47 @@
+@import "colorvars";
+
+@mixin general-home($backclor,$frontcolor,$type){
+    background-color: $backclor;
+    color:if($type==error,red,$frontcolor);
+    border: $bcolor 2px solid;
+}
+
+div{
+   @include general-home($gcolor,$fcolor,normal);
+}
+
+section.normal{
+    @include general-home(green,white,normal);
+}
+section.error{
+    @include general-home(green,white,error);
+}
+
+@each $type,$bcolor,$fcolor in (danger,pink,red),(primary,lightblue,royalblue)
+,(success,lightgreen,green){
+    .#{$type}{
+        background-color:$bcolor;
+        color: $fcolor;
+    }
+}
+@for $i from 1 to 5{
+    .d#{$i}{
+        width: 100px;
+        position: absolute;
+        left: $i*100px;
+        top:600px;
+        float: left;
+    }
+}
+nav{
+    ul{
+        padding: 3px;
+    }
+    li{
+        padding: 10px;
+        display: inline-block;
+    }
+    a{
+        text-decoration: none;
+    }
+}
