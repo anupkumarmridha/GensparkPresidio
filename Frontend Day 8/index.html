@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form {
+            margin: 0 auto;
+            width: 20rem;
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+            padding: 10px 45px 25px 15px;
+        }
+        .form input {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+        }
+        .form label {
+            display: block;
+        }
+        .form span {
+            color: red;
+            font-size: 0.8em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form button {
+            padding: 10px;
+            background-color: yellowgreen;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: block;
+            margin:0 auto;
+            transition: transform 0.5s ease;
+        }
+        .form button:hover {
+            transform: scale(1.1);
+            background-color: green;
+            border: 2px solid yellowgreen;
+        }
+        /* Toast Styles */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: rgb(4, 100, 4);
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 30px;
+            bottom: 30px;
+            font-size: 17px;
+        }
+        
+        .toast.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        
+        .toast .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            color: rgb(186, 93, 93);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+        
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+        
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h1>Product List</h1>
+
+    <div class="form">
+        <form id="productForm">
+            <label for="productName">Product Name: <span id="nameError"></span></label>
+            <input type="text" id="productName" name="productName">
+            <br><br>
+            <label for="productCategory">Category: <span id="categoryError"></span></label>
+            <input type="text" id="productCategory" name="productCategory">
+            <br><br>
+            <label for="productPrice">Price: <span id="priceError"></span></label>
+            <input type="number" id="productPrice" name="productPrice">
+            <br><br>
+            <label for="productQuantity">Quantity: <span id="quantityError"></span></label>
+            <input type="number" id="productQuantity" name="productQuantity">
+            <br><br>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Product rows will be added here -->
+        </tbody>
+    </table>
+
+    <div id="toast" class="toast">
+        <span class="close">&times;</span>
+        Product added successfully!
+    </div>
+
+    <script>
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let valid = true;
+
+            // Clear previous error messages
+            document.getElementById('nameError').textContent = '';
+            document.getElementById('categoryError').textContent = '';
+            document.getElementById('priceError').textContent = '';
+            document.getElementById('quantityError').textContent = '';
+
+            // Get the form values
+            const productName = document.getElementById('productName').value;
+            const productCategory = document.getElementById('productCategory').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+
+            // Validate form values
+            if (!productName) {
+                valid = false;
+                document.getElementById('nameError').textContent = 'Product name is required';
+            }
+            if (!productCategory) {
+                valid = false;
+                document.getElementById('categoryError').textContent = 'Category is required';
+            }
+            if (!productPrice) {
+                valid = false;
+                document.getElementById('priceError').textContent = 'Price is required';
+            } else if (productPrice <= 0) {
+                valid = false;
+                document.getElementById('priceError').textContent = 'Price must be greater than 0';
+            }
+            if (!productQuantity) {
+                valid = false;
+                document.getElementById('quantityError').textContent = 'Quantity is required';
+            } else if (productQuantity <= 0) {
+                valid = false;
+                document.getElementById('quantityError').textContent = 'Quantity must be greater than 0';
+            }
+
+            if (!valid) {
+                return;
+            }
+
+            // Generate auto product id for the product start from 1
+            let productId = 1;
+            const productRows = document.querySelectorAll('#productTable tbody tr');
+            if (productRows.length) {
+                const lastProductId = productRows[productRows.length - 1].querySelector('td').textContent;
+                productId = parseInt(lastProductId) + 1;
+            }
+
+            // Create a new row for the table
+            const newRow = document.createElement('tr');
+
+            // Create cells for the new row
+            const idCell = document.createElement('td');
+            idCell.textContent = productId;
+            newRow.appendChild(idCell);
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = productName;
+            newRow.appendChild(nameCell);
+
+            const categoryCell = document.createElement('td');
+            categoryCell.textContent = productCategory;
+            newRow.appendChild(categoryCell);
+
+            const quantityCell = document.createElement('td');
+            quantityCell.textContent = productQuantity;
+            newRow.appendChild(quantityCell);
+
+            const priceCell = document.createElement('td');
+            priceCell.textContent = productPrice;
+            newRow.appendChild(priceCell);
+
+            // Append the new row to the table
+            document.querySelector('#productTable tbody').appendChild(newRow);
+
+            // Clear the form fields
+            document.getElementById('productForm').reset();
+
+            // Show toast message
+            showToast();
+        });
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "toast show";
+            setTimeout(function() {
+                toast.className = toast.className.replace("show", "");
+            }, 3000);
+
+
+            var closeButton = document.querySelector('.toast .close');
+            closeButton.onclick = function() {
+                var toast = this.parentElement;
+                toast.style.visibility = 'hidden';
+             };
+        }
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <script>
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the form from submitting the traditional way
+
+            // Collect form data
+            const formData = new FormData(e.target);
+            const formValues = [...formData.entries()].reduce((acc, [key, value]) => {
+                acc[key] = value;
+                return acc;
+            }, {});
+
+            // Destructure form values
+            const { productName, productCategory, productPrice } = formValues;
+
+            // Create a new row and cells using the spread operator
+            const newRow = document.createElement('tr');
+            const cells = [productName, productCategory, productPrice].map(value => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                return cell;
+            });
+
+            // Append all cells to the new row
+            newRow.append(...cells);
+
+            // Append the new row to the table
+            document.querySelector('#productTable tbody').appendChild(newRow);
+
+            // Clear the form fields
+            document.getElementById('productForm').reset();
+        });
+    </script> -->
+
+</body>
+</html>
