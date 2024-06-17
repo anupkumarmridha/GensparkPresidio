@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+    <script>
+        var sampleMethod =()=>{
+            return "Hello World";
+        }
+        const greetPromise = new Promise((resolve, reject) => {
+            resolve('Hello World');
+          
+        });
+        // const datePromise = new Promise((resolve, reject) => {
+        //     var date = new Date();
+        //     let day = date.getDay();
+        //     if(day == 0 || day == 6)
+        //         resolve('Weekend');
+        //     else
+        //         reject('Weekday');
+        // });
+        const numberPromise =(num)=>{
+            return new Promise((resolve, reject) => {
+                if(num%2 == 0)
+                    resolve('Even');
+                else
+                    reject('Odd');
+            });
+        }
+        const fileReadPromise = (fName)=>{
+            return new Promise((resolve, reject) => {
+               const fileReader = new FileReader();
+               //var file = new File( [],fileName=fName, {type: "text/plain"});
+                fileReader.onload = () => {
+                     resolve({fileName:fName.name,content:fileReader.result});
+                };
+                fileReader.onerror = () => {
+                    reject('Error in reading file');
+                };
+                fileReader.readAsText(fName);
+            });
+        }   
+        var clickButton =()=>{
+            //var data = sampleMethod();
+            // greetPromise.then((data) => {
+            //     alert(data);
+            // });
+            //alert(data);
+            // datePromise.then((data) => {
+            //     alert(data);
+            // }).catch((error) => {
+            //     alert("OOPS.. You are working today "+error);
+            // });
+            // numberPromise(10).then((data) => {
+
+            //     alert(data);
+            // }).catch((error) => {
+            //     alert("OOPS.. "+error);
+            // });
+            console.log("Before File Read");
+            const fileData = document.getElementById('fileInput').files[0];
+            fileReadPromise(fileData).then((data) => {
+                console.log(JSON.parse(data.content).product.name);
+                //alert(data.content);
+            }).catch((error) => {
+                console.log("error");
+                alert("OOPS.. "+error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Product Details</h1>
+    <input type="file" id="fileInput" name="fileInput">
+    <button onclick="clickButton()">Click Me</button>
+
+</body>
+</html>

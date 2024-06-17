@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    padding: 1rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.product-card h2 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.product-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0;
+}
+
+.product-card .details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 0.5rem;
+}
+
+.product-card .details div {
+    margin: 0.3rem 0;
+}
+
+.product-card .price {
+    font-size: 1.2rem;
+    color: #e91e63;
+    font-weight: bold;
+    margin-top: 1rem;
+    align-self: center;
+}
+
+.product-card .original-price {
+    font-size: 1rem;
+    color: #666;
+    text-decoration: line-through;
+    margin-top: 0.5rem;
+    align-self: center;
+}
+
+.product-card .discount-percentage {
+    font-size: 1rem;
+    color: #24d80c;
+    margin-top: 0.5rem;
+    align-self: center;
+}
+.product-card .rating {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    align-self: center;
+}
+
+.product-card .rating.high {
+    color: #4caf50; /* Green */
+}
+
+.product-card .rating.medium {
+    color: #ff9800; /* Orange */
+}
+
+.product-card .rating.low {
+    color: #f44336; /* Red */
+}
+
+.product-card .stock {
+    font-size: 1rem;
+    color: #ff9800;
+    margin: 0.5rem 0;
+    align-self: center;
+}
+
+.product-card .low-stock {
+    color: #f44336;
+}
+
+.product-card .reviews-summary {
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 1rem;
+    align-self: center;
+}
