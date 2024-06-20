@@ -1,0 +1,6 @@
+Please use the above URL.
+1) Icon for the page
+2) A proper home screen with intro to the project
+3) Nav bar with navigation to home and quotes
+4) In the Quotes page show only 5 quotes per page - Implement pagination
+5) Display of Quote is your creativity
