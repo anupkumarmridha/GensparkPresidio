@@ -1,0 +1,2 @@
+1.prototype based inheritance example
+2. apply all the oops concept on student class
