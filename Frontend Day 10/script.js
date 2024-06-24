@@ -1,121 +1,172 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const productList = document.getElementById('product-list');
+$(document).ready(function () {
+    const productList = $('#product-list');
+    const searchBar = $('#search-bar');
+    const categoryFilter = $('#category-filter');
+    const ratingFilter = $('#rating-filter');
 
-    // Fetch products from the API
-    fetch('https://dummyjson.com/products')
-        .then(response => response.json())
-        .then(data => {
-            const products = data.products;
-            products.forEach(product => {
-                // Create product card
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
+    let products = [];
 
-                // Product image
-                const img = document.createElement('img');
-                img.src = product.thumbnail || 'default.jpg';
-                productCard.appendChild(img);
+    const fetchProducts = (url, callback) => {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (data) {
+                products = data.products;
+                callback(products);
+            },
+            error: function (error) {
+                console.error('Error fetching products:', error);
+            }
+        });
+    };
 
-                // Product title
-                const title = document.createElement('h2');
-                title.textContent = product.title;
-                productCard.appendChild(title);
+    const fetchCategories = () => {
+        $.ajax({
+            url: 'https://dummyjson.com/products/categories',
+            method: 'GET',
+            success: function (data) {
+                populateCategories(data);
+            },
+            error: function (error) {
+                console.error('Error fetching categories:', error);
+            }
+        });
+    };
 
-                // Product description
-                const description = document.createElement('p');
-                description.textContent = product.description;
-                productCard.appendChild(description);
+    const populateCategories = (categories) => {
+        categories.forEach(category => {
+            const option = $(`<option value="${category}">${category}</option>`);
+            categoryFilter.append(option);
+        });
+    };
 
-                // Calculate original price
-                const originalPrice = (product.price / (1 - product.discountPercentage / 100)).toFixed(2);
+    const displayProducts = (productArray) => {
+        productList.empty();
+        productArray.forEach(product => {
+            const productCard = $(`
+                <div class="product-card">
+                    <img src="${product.thumbnail || 'default.jpg'}" alt="${product.title}">
+                    <h2>${product.title}</h2>
+                    <p>${product.description}</p>
+                    <div class="details">
+                        <div>Brand: ${product.brand}</div>
+                        <div>SKU: ${product.sku}</div>
+                        <div>Weight: ${product.weight}g</div>
+                        <div>Dimensions: ${product.dimensions.width}x${product.dimensions.height}x${product.dimensions.depth} cm</div>
+                        <div>Warranty: ${product.warrantyInformation}</div>
+                        <div>Shipping: ${product.shippingInformation}</div>
+                    </div>
+                    <div class="original-price">Original Price: $${calculateOriginalPrice(product.price, product.discountPercentage)}</div>
+                    <div class="price">Discounted Price: $${product.price.toFixed(2)}</div>
+                    <div class="discount-percentage">Discount: ${product.discountPercentage}%</div>
+                    <div class="rating ${getRatingClass(product.rating)}">Rating: ${product.rating}</div>
+                    <div class="stock ${product.availabilityStatus === 'Low Stock' ? 'low-stock' : ''}">${product.availabilityStatus}</div>
+                    <div class="reviews-summary">Reviews: ${product.reviews.length} (Avg. Rating: ${calculateAverageRating(product.reviews)})</div>
+                    <div class="btn" data-product-id="${product.id}">Add to Cart</div>
+                    <div class="btn" data-product-id="${product.id}">Buy Now</div>
+                </div>
+            `);
+            productList.append(productCard);
+        });
 
-                // Product original price
-                const originalPriceElem = document.createElement('div');
-                originalPriceElem.className = 'original-price';
-                originalPriceElem.textContent = `Original Price: $${originalPrice}`;
-                productCard.appendChild(originalPriceElem);
+        $('.btn').on('click', function () {
+            const productId = $(this).data('product-id');
+            addToCart(productId, 1); // Assuming quantity is 1 for now
+        });
+    };
 
-                // Product price
-                const price = document.createElement('div');
-                price.className = 'price';
-                price.textContent = `Discounted Price: $${product.price.toFixed(2)}`;
-                productCard.appendChild(price);
+    const calculateOriginalPrice = (price, discountPercentage) => {
+        return (price / (1 - discountPercentage / 100)).toFixed(2);
+    };
 
-                // Product discount percentage
-                const discount = document.createElement('div');
-                discount.className = 'discount-percentage';
-                discount.textContent = `Discount: ${product.discountPercentage}%`;
-                productCard.appendChild(discount);
- 
-                  // Product rating
-                  const rating = document.createElement('div');
-                  rating.className = 'rating';
-                  rating.textContent = `Rating: ${product.rating}`;
-                  if (product.rating >= 4.5) {
-                      rating.classList.add('high');
-                  } else if (product.rating >= 3.5) {
-                      rating.classList.add('medium');
-                  } else {
-                      rating.classList.add('low');
-                  }
-                  productCard.appendChild(rating);
- 
-                 // Product stock status
-                 const stock = document.createElement('div');
-                 stock.className = 'stock';
-                 stock.textContent = `${product.availabilityStatus} - ${product.stock}`;
-                 if (product.availabilityStatus === 'Low Stock') {
-                     stock.classList.add('low-stock');
-                 }
-                 productCard.appendChild(stock);
+    const getRatingClass = (rating) => {
+        if (rating >= 4.5) return 'high';
+        if (rating >= 3.5) return 'medium';
+        return 'low';
+    };
 
-                // Product reviews summary
-                const reviewsSummary = document.createElement('div');
-                reviewsSummary.className = 'reviews-summary';
-                // const averageRating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
-                // reviewsSummary.textContent = `Reviews: ${product.reviews.length} (Avg. Rating: ${averageRating.toFixed(2)})`;
-                reviewsSummary.textContent = `Reviews: ${product.reviews.length}`;
-                productCard.appendChild(reviewsSummary);
+    const calculateAverageRating = (reviews) => {
+        const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+        return (totalRating / reviews.length).toFixed(2);
+    };
 
+    const filterProducts = () => {
+        const searchQuery = searchBar.val().toLowerCase();
+        const selectedCategory = categoryFilter.val();
+        const selectedRating = ratingFilter.val();
 
-                // Product details
-                const details = document.createElement('div');
-                details.className = 'details';
-                productCard.appendChild(details);
+        if (selectedCategory === 'all') {
+            fetchProducts('https://dummyjson.com/products', () => applyFiltersAndSort(searchQuery, selectedRating));
+        } else {
+            fetchProducts(`https://dummyjson.com/products/category/${selectedCategory}`, () => applyFiltersAndSort(searchQuery, selectedRating));
+        }
+    };
 
-                // Product brand
-                const brand = document.createElement('div');
-                brand.textContent = `Brand: ${product.brand}`;
-                details.appendChild(brand);
+    const applyFiltersAndSort = (searchQuery, selectedRating) => {
+        let filteredProducts = products.filter(product => {
+            const matchesSearch = product.title.toLowerCase().includes(searchQuery) || product.description.toLowerCase().includes(searchQuery);
+            let matchesRating = true;
+            if (selectedRating === 'high') {
+                matchesRating = product.rating >= 4.5;
+            } else if (selectedRating === 'medium') {
+                matchesRating = product.rating >= 3.5 && product.rating < 4.5;
+            } else if (selectedRating === 'low') {
+                matchesRating = product.rating < 3.5;
+            }
 
-                // Product SKU
-                const sku = document.createElement('div');
-                sku.textContent = `SKU: ${product.sku}`;
-                details.appendChild(sku);
+            return matchesSearch && matchesRating;
+        });
 
-                // Product weight
-                const weight = document.createElement('div');
-                weight.textContent = `Weight: ${product.weight}g`;
-                details.appendChild(weight);
+        // Sort products by rating in descending order
+        filteredProducts.sort((a, b) => b.rating - a.rating);
 
-                // Product dimensions
-                const dimensions = document.createElement('div');
-                dimensions.textContent = `Dimensions: ${product.dimensions.width}x${product.dimensions.height}x${product.dimensions.depth} cm`;
-                details.appendChild(dimensions);
+        displayProducts(filteredProducts);
+    };
+    const showToast = (message) => {
+        const toast = document.getElementById("toast");
+        toast.className = "toast show";
+        toast.innerHTML = `<span class="close">&times;</span> ${message}`;
 
-                // Product warranty
-                const warranty = document.createElement('div');
-                warranty.textContent = `Warranty: ${product.warrantyInformation}`;
-                details.appendChild(warranty);
+        setTimeout(function () {
+            toast.className = toast.className.replace("show", "");
+        }, 3000);
 
-                // Product shipping information
-                const shipping = document.createElement('div');
-                shipping.textContent = `Shipping: ${product.shippingInformation}`;
-                details.appendChild(shipping);
-
-                // Append product card to product list
-                productList.appendChild(productCard);
-            });
+        const closeButton = document.querySelector('.toast .close');
+        closeButton.onclick = function () {
+            toast.style.visibility = 'hidden';
+        };
+    };
+    const addToCart = (productId, quantity) => {
+        fetch('https://dummyjson.com/carts/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: 1,
+                products: [
+                    {
+                        id: productId,
+                        quantity: quantity,
+                    }
+                ]
+            })
         })
-        .catch(error => console.error('Error fetching products:', error));
+        .then(res => res.json())
+        .then(data => {
+            console.log('Product added to cart:', data);
+            showToast("Product added to cart");
+        })
+        .catch(error => {
+            console.error('Error adding to cart:', error);
+            alert('Failed to add product to cart');
+        });
+    };
+
+    
+    searchBar.on('input', filterProducts);
+    categoryFilter.on('change', filterProducts);
+    ratingFilter.on('change', filterProducts);
+
+    fetchProducts('https://dummyjson.com/products', displayProducts);
+    fetchCategories();
 });
+
