@@ -45,26 +45,35 @@ $(document).ready(function () {
         productArray.forEach(product => {
             const productCard = $(`
                 <div class="product-card">
-                    <img src="${product.thumbnail || 'default.jpg'}" alt="${product.title}">
-                    <h2>${product.title}</h2>
-                    <p>${product.description}</p>
-                    <div class="details">
-                        <div>Brand: ${product.brand}</div>
-                        <div>SKU: ${product.sku}</div>
-                        <div>Weight: ${product.weight}g</div>
-                        <div>Dimensions: ${product.dimensions.width}x${product.dimensions.height}x${product.dimensions.depth} cm</div>
-                        <div>Warranty: ${product.warrantyInformation}</div>
-                        <div>Shipping: ${product.shippingInformation}</div>
-                    </div>
-                    <div class="original-price">Original Price: $${calculateOriginalPrice(product.price, product.discountPercentage)}</div>
-                    <div class="price">Discounted Price: $${product.price.toFixed(2)}</div>
-                    <div class="discount-percentage">Discount: ${product.discountPercentage}%</div>
-                    <div class="rating ${getRatingClass(product.rating)}">Rating: ${product.rating}</div>
-                    <div class="stock ${product.availabilityStatus === 'Low Stock' ? 'low-stock' : ''}">${product.availabilityStatus}</div>
-                    <div class="reviews-summary">Reviews: ${product.reviews.length} (Avg. Rating: ${calculateAverageRating(product.reviews)})</div>
-                    <div class="btn" data-product-id="${product.id}">Add to Cart</div>
-                    <div class="btn" data-product-id="${product.id}">Buy Now</div>
+                <img src="${product.thumbnail || 'default.jpg'}" alt="${product.title}">
+                <h2>${product.title}</h2>
+                <p>${product.description}</p>
+                <div class="details">
+                    <div>Brand: ${product.brand}</div>
+                    <div>SKU: ${product.sku}</div>
+                    <div>Weight: ${product.weight}g</div>
+                    <div>Dimensions: ${product.dimensions.width}x${product.dimensions.height}x${product.dimensions.depth} cm</div>
+                    <div>Warranty: ${product.warrantyInformation}</div>
+                    <div>Shipping: ${product.shippingInformation}</div>
                 </div>
+                <div class="price">Discounted Price: $${product.price.toFixed(2)}</div>
+                <div class="discount-percentage">Discount: ${product.discountPercentage}%</div>
+                <div class="rating ${getRatingClass(product.rating)}">Rating: ${product.rating}</div>
+                <div class="stock ${product.availabilityStatus === 'Low Stock' ? 'low-stock' : ''}">${product.availabilityStatus}</div>
+                <div class="reviews-summary">Reviews: ${product.reviews.length} (Avg. Rating: ${calculateAverageRating(product.reviews)})</div>
+                
+                <!-- Quantity Selector -->
+                <div class="quantity-selector">
+                    <label for="quantity-${product.id}">Quantity:</label>
+                    <input type="number" id="quantity-${product.id}" name="quantity" min="1" value="1">
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn add-to-cart-btn" data-product-id="${product.id}">Add to Cart</button>
+                    <button class="btn buy-now-btn" data-product-id="${product.id}">Buy Now</button>
+                </div>
+            </div>
             `);
             productList.append(productCard);
         });
