@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .background-home{
+            top: 10;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            background: rgba(0, 66, 128, 0.797);
+            /* background-image: url(bg.jpg); */
+        }
+        .home-text{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            flex-direction: column;
+        }
+        .home-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .home-text p {
+            font-size: 20px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a class="navbar-brand mr-5" style="color:#e0c040" href="Home.html">Qu</a>     
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>   
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active mr-3">
+              <a class="nav-link" href="Home.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Quotes.html">Quotes</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="background-home"> 
+
+        <div class="home-text">
+
+            <div class="position-relative text-center" id="quote-container" style="width: 80%;">
+                <h1>Dive into the Depths of Wisdom </h1>
+                <p >Welcome to Infinite Quotes, your ultimate destination for timeless wisdom and inspiration. Here, you can explore a vast collection of profound quotes from some of the greatest minds in history. </p>
+                <a href="Quotes.html" class="btn btn-danger" >View Quotes</a>
+            </div>
+        </div>
+    </div>
+
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<script>
+    var quote;
+    var author;
+    function getQuotes() {
+        fetch('https://dummyjson.com/quotes/1')
+        .then(response => response.json())
+        .then(data => {
+            quote=data.quote;
+            author=data.author;
+
+            displayQuote();
+        })
+        .catch(error => {
+            document.querySelector('.msg').innerHTML = 'No Quotes Found';
+            console.error(error);
+        });
+    }
+
+
+    //display single quote under qoute-container
+    function displayQuote(){
+        const quoteContainer = document.getElementById('quote-container');
+//        quoteContainer.innerHTML = '';
+        quoteContainer.innerHTML = `
+            <h1>${quote}</h1>
+            <p>${author}</p>
+            <a href="Quotes.html" class="btn btn-danger" >View Quotes</a>
+        `;
+        console.log(quoteContainer.innerHTML);
+
+    }
+    getQuotes();
+    displayQuote();
+
+</script>
+
+</html>

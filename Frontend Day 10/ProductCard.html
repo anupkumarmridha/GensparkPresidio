@@ -1,0 +1,30 @@
+<div class="product-card">
+    <img src="{thumbnail}" alt="{title}">
+    <h2>{title}</h2>
+    <p>{description}</p>
+    <div class="details">
+        <div>Brand: {brand}</div>
+        <div>SKU: {sku}</div>
+        <div>Weight: {weight}g</div>
+        <div>Dimensions: {dimensions}</div>
+        <div>Warranty: {warrantyInformation}</div>
+        <div>Shipping: {shippingInformation}</div>
+    </div>
+    <div class="price">Discounted Price: ${price}</div>
+    <div class="discount-percentage">Discount: {discountPercentage}%</div>
+    <div class="rating {ratingClass}">Rating: {rating}</div>
+    <div class="stock {stockClass}">{availabilityStatus}</div>
+    <div class="reviews-summary">Reviews: {reviewsCount} (Avg. Rating: {averageRating})</div>
+
+    <!-- Quantity Selector -->
+    <div class="quantity-selector">
+        <label for="quantity-{id}">Quantity:</label>
+        <input type="number" id="quantity-{id}" name="quantity" min="1" value="1">
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button class="btn add-to-cart-btn" data-product-id="{id}">Add to Cart</button>
+        <button class="btn buy-now-btn" data-product-id="{id}">Buy Now</button>
+    </div>
+</div>

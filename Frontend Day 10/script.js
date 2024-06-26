@@ -6,6 +6,17 @@ $(document).ready(function () {
 
     let products = [];
 
+    
+    const fetchTemplate = async (url) => {
+        try {
+            const response = await fetch(url);
+            return await response.text();
+        } catch (error) {
+            console.error('Error fetching template:', error);
+            return '';
+        }
+    };
+    
     const fetchProducts = (url, callback) => {
         $.ajax({
             url: url,
@@ -40,41 +51,30 @@ $(document).ready(function () {
         });
     };
 
-    const displayProducts = (productArray) => {
+     const displayProducts = async (productArray) => {
+        const template = await fetchTemplate('ProductCard.html');
         productList.empty();
         productArray.forEach(product => {
-            const productCard = $(`
-                <div class="product-card">
-                <img src="${product.thumbnail || 'default.jpg'}" alt="${product.title}">
-                <h2>${product.title}</h2>
-                <p>${product.description}</p>
-                <div class="details">
-                    <div>Brand: ${product.brand}</div>
-                    <div>SKU: ${product.sku}</div>
-                    <div>Weight: ${product.weight}g</div>
-                    <div>Dimensions: ${product.dimensions.width}x${product.dimensions.height}x${product.dimensions.depth} cm</div>
-                    <div>Warranty: ${product.warrantyInformation}</div>
-                    <div>Shipping: ${product.shippingInformation}</div>
-                </div>
-                <div class="price">Discounted Price: $${product.price.toFixed(2)}</div>
-                <div class="discount-percentage">Discount: ${product.discountPercentage}%</div>
-                <div class="rating ${getRatingClass(product.rating)}">Rating: ${product.rating}</div>
-                <div class="stock ${product.availabilityStatus === 'Low Stock' ? 'low-stock' : ''}">${product.availabilityStatus}</div>
-                <div class="reviews-summary">Reviews: ${product.reviews.length} (Avg. Rating: ${calculateAverageRating(product.reviews)})</div>
-                
-                <!-- Quantity Selector -->
-                <div class="quantity-selector">
-                    <label for="quantity-${product.id}">Quantity:</label>
-                    <input type="number" id="quantity-${product.id}" name="quantity" min="1" value="1">
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn add-to-cart-btn" data-product-id="${product.id}">Add to Cart</button>
-                    <button class="btn buy-now-btn" data-product-id="${product.id}">Buy Now</button>
-                </div>
-            </div>
-            `);
+            const productCard = template
+                .replace(/{thumbnail}/g, product.thumbnail || 'default.jpg')
+                .replace(/{title}/g, product.title)
+                .replace(/{description}/g, product.description)
+                .replace(/{brand}/g, product.brand)
+                .replace(/{sku}/g, product.sku)
+                .replace(/{weight}/g, product.weight)
+                .replace(/{dimensions}/g, `${product.dimensions.width}x${product.dimensions.height}x${product.dimensions.depth} cm`)
+                .replace(/{warrantyInformation}/g, product.warrantyInformation)
+                .replace(/{shippingInformation}/g, product.shippingInformation)
+                .replace(/{price}/g, product.price.toFixed(2))
+                .replace(/{discountPercentage}/g, product.discountPercentage)
+                .replace(/{ratingClass}/g, getRatingClass(product.rating))
+                .replace(/{rating}/g, product.rating)
+                .replace(/{stockClass}/g, product.availabilityStatus === 'Low Stock' ? 'low-stock' : '')
+                .replace(/{availabilityStatus}/g, product.availabilityStatus)
+                .replace(/{reviewsCount}/g, product.reviews.length)
+                .replace(/{averageRating}/g, calculateAverageRating(product.reviews))
+                .replace(/{id}/g, product.id);
+
             productList.append(productCard);
         });
 

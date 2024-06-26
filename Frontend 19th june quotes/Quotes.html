@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .quote-card {
+            margin: 15px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .quote-text {
+            font-size: 1.2em;
+            font-style:normal;
+            color: #333;
+        }
+        .quote-author {
+            margin-top: 10px;
+            text-align: right;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body style="background:rgba(0, 66, 128, 0.797);">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a class="navbar-brand mr-5" style="color:#e0c040" href="Home.html">Qu</a>   
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>   
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active mr-3">
+              <a class="nav-link" href="Home.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Quotes.html">Quotes</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      
+      <div class="container">
+        <div class="d-flex flex-direction-row mt-3 justify-content-center">
+        <form class="d-flex">
+            <input class="form-control me-2 " id="inp" style="width: 70%;" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary" id="search" type="submit">Search</button>
+        </form>
+        <select class="form-select" style="width:30%" aria-label="Default select example">
+            <option value="0" selected>sort</option>
+            <option value="1">a-z</option>
+            <option value="2">z-a</option>
+          </select>
+        </div>
+        <div class="msg text-center mt-3"></div>
+        <div id="quotes-container" class="d-flex flex-wrap justify-content-between">
+
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous" id="prev-page">
+                        <span aria-hidden="true">Prev</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous" id="curr-page">
+                        <span aria-hidden="true"></span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next" id="next-page">
+                        <span aria-hidden="true">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
+        let quotes = [];
+        let currentPage = 1;
+        const quotesPerPage = 5;
+        let quotesMain = [];
+         function getQuotes() {
+            fetch('https://dummyjson.com/quotes')
+            .then(response => response.json())
+            .then(data => {
+                quotes = data.quotes;
+                quotesMain =data.quotes;
+                displayQuotes();
+            })
+            .catch(error => {
+                document.querySelector('.msg').innerHTML = 'No Quotes Found';
+                console.error(error);
+            });
+        }
+      function displayQuotes() {
+            const quotesContainer = document.getElementById('quotes-container');
+            quotesContainer.innerHTML = '';
+            document.getElementById('curr-page').innerHTML = currentPage;
+            document.querySelector('.msg').innerHTML = '';
+            if (quotes.length === 0) {
+                document.querySelector('.msg').innerHTML = 'No Quotes Found';
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * quotesPerPage;
+            const endIndex = startIndex + quotesPerPage;
+            const currentQuotes = quotes.slice(startIndex, endIndex);
+
+            currentQuotes.forEach(quote => {
+                const quoteCard = document.createElement('div');
+                quoteCard.classList.add('quote-card', 'col-md-5');
+                quoteCard.innerHTML = `
+                    <div class="quote-text">"${quote.quote}"</div>
+                    <div class="quote-author">- ${quote.author}</div>
+                `;
+                quotesContainer.appendChild(quoteCard);
+            });
+        }
+
+
+        function changePage(page) {
+            if (page < 1 || page > Math.ceil(quotes.length / quotesPerPage)) {
+                return;
+            }
+
+            currentPage = page;
+            displayQuotes();
+        }
+
+        document.getElementById('prev-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            changePage(currentPage - 1);
+        });
+
+        document.getElementById('next-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            changePage(currentPage + 1);
+        });
+
+         getQuotes();
+
+        document.getElementById('search').addEventListener('click',async(e) => {
+            e.preventDefault();
+            const search = document.querySelector('input').value;
+            const searchResults = quotesMain.filter(quote => quote.author.toLowerCase().includes(search.toLowerCase()));
+            quotes = searchResults;
+            currentPage = 1;
+            displayQuotes();
+        });
+        document.getElementById('inp').addEventListener('change',async(e) => {
+            const search = document.querySelector('input').value;
+            console.log(search);    
+            if(search === '') {
+                quotes = quotesMain;
+                currentPage = 1;
+                displayQuotes();
+            }
+        });
+        document.querySelector('select').addEventListener('change', (e) => {
+            const sortOption = e.target.value;
+            quotes = [...quotesMain];
+            if (sortOption === '1') {
+                quotes.sort((a, b) => a.author.localeCompare(b.author));
+            } else if (sortOption === '2') {
+                quotes.sort((a, b) => b.author.localeCompare(a.author));
+            }
+            currentPage = 1;
+            displayQuotes();
+        });
+    </script>
+</body>
+</html>
