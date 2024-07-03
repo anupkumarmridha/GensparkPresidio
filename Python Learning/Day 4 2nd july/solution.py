@@ -233,4 +233,14 @@ if __name__ == '__main__':
         return oldrow[0]
     
 # 68. Text Justification
-
+def fullJustify(self, words: list[str], maxWidth: int) -> list[str]:
+    result, current, num_of_letters = [], [], 0
+    for word in words:
+        if num_of_letters + len(word) + len(current) > maxWidth:
+            for i in range(maxWidth - num_of_letters):
+                current[i % (len(current) - 1 or 1)] += ' '
+            result.append(''.join(current))
+            current, num_of_letters = [], 0
+        current += [word]
+        num_of_letters += len(word)
+    return result + [' '.join(current).ljust(maxWidth)]
