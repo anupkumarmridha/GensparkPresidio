@@ -1,0 +1,21 @@
+docker pull ubuntu
+docker run -it --name ubuntu_a ubuntu
+whoami
+ls
+ls -a
+ls -l
+mkdir
+cd <dir>
+touch <filename>
+apt update
+apt install nano
+nano <filename>
+cat <filename>
+rm <filename>
+rmdir <dir>
+exit
+
+
+docker start ubuntu_a
+docker start -ai <container_id>
+docker system prune -a
