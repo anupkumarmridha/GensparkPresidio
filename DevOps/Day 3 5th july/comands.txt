@@ -1,0 +1,13 @@
+docker run --name sampleapp_c_3 -v D:\GenSpark\Presidio\Participants\Day61
+\feapp:/app -v /app/node_modules -p 3232:3232 sampleapp
+
+
+docker pull mcr.microsoft.com/mssql/server
+
+
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Password!123" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+
+Server=localhost,1433;Database=BusBooking;User Id=sa;Password=Password!123;TrustServerCertificate=True;MultipleActiveResultSets=true
+
+
