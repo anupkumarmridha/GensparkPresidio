@@ -1,0 +1,87 @@
+
+
+
+
+##### Repository Layer
+
+**BaseRepository<T, ID>**
+- **Methods**:
+  - `save(entity: T): T`: Saves an entity to the database.
+  - `findById(id: ID): Optional<T>`: Finds an entity by its ID.
+  - `findAll(): List<T>`: Retrieves all entities.
+  - `update(entity: T): T`: Updates an existing entity.
+  - `deleteById(id: ID): void`: Deletes an entity by its ID.
+
+**UserRepository (Extends BaseRepository<User, String>)**
+- **Methods**:
+  - Inherits all methods from `BaseRepository<User, String>`
+  - Additional methods specific to `User` can be defined here.
+
+**PasswordRepository (Extends BaseRepository<Password, String>)**
+- **Methods**:
+  - Inherits all methods from `BaseRepository<Password, String>`
+  - Additional methods specific to `Password` can be defined here.
+
+### Endpoints with DTOs
+
+**DTOs (Data Transfer Objects)**
+
+1. **UserDTO**
+   - **Attributes**:
+     - `userId: String`: Unique identifier for the user.
+     - `username: String`: Username for the user.
+     - `role: String`: Role of the user (Admin, BankEmployee, Customer).
+
+2. **PasswordDTO**
+   - **Attributes**:
+     - `userId: String`: Primary Key (Foreign key to the User.)
+     - `passwordHash: String`: Hashed password.
+
+3. **CredentialsDTO**
+   - **Attributes**:
+     - `username: String`: Username for the user.
+     - `password: String`: Password for the user.
+
+4. **AccountDTO**
+   - **Attributes**:
+     - `accountId: String`: Unique identifier for the account.
+     - `balance: double`: Current balance of the account.
+     - `accountHolder: String`: Name of the account holder.
+     - `typeOfAccount: String`: Type of the account (e.g., Savings, Checking).
+
+**Endpoints and Corresponding DTOs**
+
+1. **Register User Endpoint**
+   - **URL**: `POST /auth/register`
+   - **Request Body**: `UserDTO`, `PasswordDTO`
+   - **Response Body**: `UserDTO`
+
+2. **Login Endpoint**
+   - **URL**: `POST /auth/login`
+   - **Request Body**: `CredentialsDTO`
+   - **Response Body**: `UserDTO`
+
+3. **Change Password Endpoint**
+   - **URL**: `PUT /auth/change-password`
+   - **Request Body**: `PasswordDTO`
+   - **Response Body**: `UserDTO`
+
+4. **Create User Endpoint (Admin)**
+   - **URL**: `POST /admin/users`
+   - **Request Body**: `UserDTO`
+   - **Response Body**: `UserDTO`
+
+5. **Update User Endpoint (Admin)**
+   - **URL**: `PUT /admin/users/{userId}`
+   - **Request Body**: `UserDTO`
+   - **Response Body**: `UserDTO`
+
+6. **Delete User Endpoint (Admin)**
+   - **URL**: `DELETE /admin/users/{userId}`
+   - **Response Body**: `void`
+
+7. **Get User Endpoint (Admin)**
+   - **URL**: `GET /admin/users/{userId}`
+   - **Response Body**: `UserDTO`
+
+8. **Get All Users Endpoint
