@@ -1,0 +1,27 @@
+LAN - PEer to peer
+Server - Client - AD
+Passport - Identity
+AAD - > Tenant(AAD)<- Employee
+
+IaaS, PaaS, SaaS
+
+---------------------------------------------
+Private cloud
+Public cloud
+Hybrid cloud
+
+VNET
+Firewall
+VM 
+Inbound  - https://learn.microsoft.com/en-us/azure/firewall/tutorial-firewall-dnat
+Load balancer - https://learn.microsoft.com/en-us/azure/load-balancer/tutorial-load-balancer-port-forwarding-portal
+
+App deploy - https://learn.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=net80&pivots=development-environment-vs
+
+App service config - https://learn.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=net80&pivots=development-environment-vs
+
+----------------------------------------------------------------------------
+https://www.nytimes.com/games/wordle/index.html
+
+deploy a similar app using HTML,CSS,JS into Azure App service
+
