@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureKeyVault", "AzureKeyVault\AzureKeyVault.csproj", "{EF70DE47-9593-4E6F-948F-A70BD8A51ADE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF70DE47-9593-4E6F-948F-A70BD8A51ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF70DE47-9593-4E6F-948F-A70BD8A51ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF70DE47-9593-4E6F-948F-A70BD8A51ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF70DE47-9593-4E6F-948F-A70BD8A51ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E1670B8-D6DB-4EA0-8AAD-1DE915E3ED7C}
+	EndGlobalSection
+EndGlobal
