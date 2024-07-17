@@ -1,0 +1,6 @@
+Create an Web API which connects to SQL instance in the Virtual machine connect to the server from your web API
+Just display's product details(Name, price and pic)
+The pic images are coming from azure blob.
+The connection string should be stored in Azure vault
+
+Only GET method.
