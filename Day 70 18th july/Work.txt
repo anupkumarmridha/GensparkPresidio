@@ -1,0 +1,7 @@
+1) Create ARM Template for creating a SQL server
+ 
+ 
+2) Create an ARM Template for creating a Azure vault and add the connection string of SQL in the secret
+
+
+https://learn.microsoft.com/en-us/azure/azure-sql/database/single-database-create-arm-template-quickstart?view=azuresql&toc=%2Fazure%2Fazure-resource-manager%2Ftemplates%2Ftoc.json
